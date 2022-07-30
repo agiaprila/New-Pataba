@@ -1,0 +1,22 @@
+TASK DONE:
+- FITUR LOGIN
+- PEMBAGIAN ROLE
+  1) USER (PENGUNJUNG DARI LUAR)
+    Bisa mengakses data di seluruh kecamatannya.
+  2) SUPER (BAPPEDA PALU)
+    - Sama dengan USER
+    - Bisa menambah dan menghapus data di seluruh tabel.
+  3) DINAS
+    - Sama dengan USER
+    - Bisa menambah dan menghapus data di dinas kotanya saja, tidak pada kecamatan yang berbeda. 
+  4) KECAMATAN (HILANG)
+    - Sama dengan USER
+    - Bisa menambah dan mengakses data di kecamatannya saja, di dinas manapun.
+- DOWNLOAD TABEL MENGGUNAKAN EXCEL
+
+TASK UNDONE:
+- TAMPILAN (UI). (> 50% SELESAI)
+- WEB BARU MEMUAT 2 DINAS (BELUM LENGKAP).
+  Note:
+  1 dinas setidaknya membutuhkan 3 persiapan, yaitu tabel untuk memuat data (di database dan di tampilan) serta edit tabel.
+- DOMAIN DAN HOSTING.

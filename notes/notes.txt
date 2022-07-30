@@ -1,0 +1,25 @@
+Kecamatan
+Palu: 1
+Palu Barat: 2
+Palu Selatan: 3
+Tatanga: 4
+Ulujadi: 5
+Mantikulore: 6
+Palu Timur: 7
+Palu Utara: 8
+Tawaili: 9
+
+d = Districts(name="Palu Barat")
+d2 = Districts(name="Palu Selatan")
+d3 = Districts(name="Tatanga")
+d4 = Districts(name="Ulujadi")
+d5 = Districts(name="Mantikulore")
+d6 = Districts(name="Palu Timur")
+d7 = Districts(name="Palu Utara")
+d8 = Districts(name="Tawaili")
+db.session.add_all([d, d2, d3, d4, d5, d6, d7, d8])
+db.session.commit()
+
+dprd1 = DPRD(tahun=2016, tersedia_alat_kelengkapan=1, tersusun_terintegrasi=1, terintegrasi=1, j_fraksi_dprd=1, j_keputusan_dprd=1, peraturan_daerah=1, keputusan_dprd=1, nota=1, keputusan_pimpinan_dewan=1, musyawarah=1, memorandum=1, panitia_anggaran=1, komposisi_dprd=1, golkar_lk=1, golkar_pr=1, demokrat_lk=1, demokrat_pr=1, pks_lk=1, pks_pr=1, gerindra_lk=1, gerindra_pr=1, hanura_lk=1, hanura_pr=1, nasdem_lk=1, nasdem_pr=1, dip_lk=1, dip_pr=1, pkb_lk=1, pkb_pr=1, ai_lk=1, ai_pr=1, pemerintahan_lk=1, pemerintahan_pr=1, ekonomi_lk=1, ekonomi_pr=1, pembangunan_lk=1, pembangunan_pr=1, musyawarah_lk=1, musyawarah_pr=1, anggaran_lk=1, anggaran_pr=1, kehormatan_lk=1, kehormatan_pr=1, legislasi_lk=1, legislasi_pr=1, district_id=1)
+
+dprd2 = DPRD(tahun=2016, tersedia_alat_kelengkapan=1, tersusun_terintegrasi=1, terintegrasi=1, j_fraksi_dprd=2, j_keputusan_dprd=2, peraturan_daerah=1, keputusan_dprd=1, nota=1, keputusan_pimpinan_dewan=1, musyawarah=1, memorandum=2, panitia_anggaran=1, komposisi_dprd=1, golkar_lk=1, golkar_pr=1, demokrat_lk=1, demokrat_pr=2, pks_lk=1, pks_pr=1, gerindra_lk=1, gerindra_pr=1, hanura_lk=1, hanura_pr=1, nasdem_lk=2, nasdem_pr=1, dip_lk=1, dip_pr=1, pkb_lk=1, pkb_pr=1, ai_lk=1, ai_pr=1, pemerintahan_lk=2, pemerintahan_pr=1, ekonomi_lk=1, ekonomi_pr=1, pembangunan_lk=1, pembangunan_pr=1, musyawarah_lk=2, musyawarah_pr=1, anggaran_lk=1, anggaran_pr=1, kehormatan_lk=1, kehormatan_pr=1, legislasi_lk=1, legislasi_pr=1, district_id=2)

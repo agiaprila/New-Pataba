@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+.big-container{
+    /* border: 1px solid red; */
+    /* height: 85vh; */
+    height: 85%;
+    display: grid;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    font-family: "Montserrat", sans-serif;
+}
+
+.card-login{
+    padding: 40px;
+    background-color: #0c97a1;
+    justify-content: center;
+    height: auto;
+    border-radius: 15px;
+    /* margin-top: 140px;
+    margin-bottom: 30px; */
+}
+
+.tombol-submit{
+    font-family: "Montserrat", sans-serif;
+    background-color: #ff5f00;
+    border-radius: 10px;
+    height: 35px;
+    width: 70px;
+    color: white;
+    text-align: center;
+
+
+}
+
+.form-control {
+    height: 25px;
+}
+
+.card-text{
+    height: 150px ;
+    padding: 15px;
+}
+
+.card-body h1{
+    font-family: "Montserrat", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+
+form .mb-3{
+    padding: 5px;
+    display: grid;
+    height: 100%;
+}
+
+.form-label{
+    color: #ffffff;
+}
+
+

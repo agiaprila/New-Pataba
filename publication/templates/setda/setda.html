@@ -1,0 +1,2269 @@
+{% extends 'base.html' %}
+{% block title %}
+  Sekretariat Daerah
+{% endblock %}
+
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('setda') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('setda_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('setda_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('setda_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('setda_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('setda_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('setda_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('setda_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('setda_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Setda Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('setdaTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="setdaTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col" class="my-auto">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th  rowspan="2" scope="col">Satuan</th>
+            <th  colspan="{{ data|length + 1 }}" scope="col" style="text-align: center;">Tahun</th>
+          </tr>
+  
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 1 %}
+                  <span><a href="{{ url_for('setda_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 1 %}
+              <th><a href="{{ url_for('setda_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              <td></td>
+              <th>I. Bagian Pemerintahan</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Cakupan sarana prasarana perkantoran pemerintahan desa yang baik</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Luas Daerah</td>
+            <td>KM2</td>
+            {% for d in data %}
+              <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td>3</td>
+              <td>Jumlah Pulau</td>
+              <td>Pulau</td>
+              {% for d in data %}
+                <td>{{ d.u3 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+              <td>4</td>
+              <td>Tinggi Wilayah</td>
+              <td>Meter</td>
+              {% for d in data %}
+                <td>{{ d.u4 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>5</td>
+              <td>Jarak Ibu Kota</td>
+              <td>Meter</td>
+              {% for d in data %}
+                <td>{{ d.u5 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>6</td>
+              <td>Jumlah Revitalisasi Bumdes Berkembang</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u6 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>7</td>
+              <td>Jumlah Revitalisasi Bumdes Maju</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u7 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>8</td>
+              <td>Jumlah Revitalisasi Bumdes Bersama Berkembang</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u8 }}</td>
+              {% endfor %}      </tr>
+          <tr>
+              <td>9</td>
+              <td>Jumlah Revitalisasi Bumdes Bersama Maju</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u9 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>10</td>
+              <td>Rata-rata nilai indeks perkembangan 62 Kawasan Perdesaaan Prioritas Nasional (KPPN)</td>
+              <td>Index</td>
+              {% for d in data %}
+                <td>{{ d.u10 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>11</td>
+              <td>Jumlah Desa Berkembang</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u11 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>12</td>
+              <td>Jumlah Aparatur Pemerintahan Desa dan Pengurus Lembaga Kemasyarakatan Desa Lingkup Regional yang Terlatih</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u12 }}</td>
+              {% endfor %}      
+          </tr>
+          <tr>
+              <td>13</td>
+              <td>Jumlah Desa yang desanya tertib administrasi pengelolaan aset desa</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u13 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>14</td>
+              <td>Jumlah Desa yang Telah memiliki batas wilayah Administrasi desa sesuai ketentuan Permendagri Nomor 45 Tahun 2016 tentang Pedoman Penetapan dan Penegasan Batas Desa yang Ditetapkan dalam Peraturan Bupati/Walikota</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u14 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>15</td>
+              <td>Penguatan Pemerintahan dan Pembangunan Desa</td>
+              <td>Kabupaten</td>
+              {% for d in data %}
+                <td>{{ d.u15 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>16</td>
+              <td>Jumlah Desa Tertinggal</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u16 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>17</td>
+              <td>Persentase (%) Organisasi Perangkat Daerah (OPD) yang terhubung dengan akses internet yang disediakan oleh Dinas Kominfo</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u17 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>18</td>
+              <td>Rata-rata nilai Indeks perkembangan 50 Kawasan Perdesaan Prioritas Kementerian</td>
+              <td>index</td>
+              {% for d in data %}
+                <td>{{ d.u18 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>19</td>
+              <td>Jumlah Desa yang dibangun sarana dan Prasarananya untuk mendukung destinasi wisata</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u19 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>20</td>
+              <td>Jumlah Desa yang memperoleh bantuan pendampingan melalui program TEKAD</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u20 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>21</td>
+              <td>Jumlah Desa yang mengembangkan BUMDes untuk mendukung produk unggulan desa</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u21 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>22</td>
+              <td>Jumlah desa yang mengembangkan usaha ekonomi desa yang terintegrasi dengan BUMDes</td>
+              <td>Kabupaten</td>
+              {% for d in data %}
+                <td>{{ d.u22 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>23</td>
+              <td>Jumlah Pendamping desa yang melakukan pendampingan pada 74.957 desa</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u23 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>24</td>
+              <td>Jumlah Kecamatan yang melakukan pengendalian penggunaan Dana Kelurahan</td>
+              <td>Kecamatan</td>
+              {% for d in data %}
+                <td>{{ d.u24 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>25</td>
+              <td>Jumlah Kabupaten yang melakukan konvergensi pencegahan stunting di desa</td>
+              <td>Kabupaten</td>
+              {% for d in data %}
+                <td>{{ d.u25 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>26</td>
+              <td>Jumlah BUMDes bersama yang ditingkatkan kapasitas dan pemasaraannya</td>
+              <td>BUMDES Bersama</td>
+              {% for d in data %}
+                <td>{{ d.u26 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>27</td>
+              <td>Jumlah kawasan yang dibangun, dikembangkan, dan direhabilitasi sarana prasarana ekonomi di kawasan perdesaannya</td>
+              <td>Kawasan Pedesaan</td>
+              {% for d in data %}
+                <td>{{ d.u27 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>28</td>
+              <td>Jumlah Desa Mandiri</td>
+              <td>Desa</td>
+              {% for d in data %}
+                <td>{{ d.u28 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>29</td>
+              <td>PKK Aktif</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u29 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <th>30</th>
+            <td>Cakupan sarana prasarana perkantoran pemerintahan desa yang baik</td>
+            <td>%</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah kantor pemerintahan desa yang baik</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u30 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah seluruh pemerintahan desa</td>
+              <td>OPD</td>
+              {% for d in data %}
+                <td>{{ d.u31 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>31</td>
+              <td>Rata-rata jumlah kelompok binaan lembaga pemberdayaan masyarakat (LPM)</td>
+              <td>Kelompok</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah kelompok binaan LPM</td>
+              <td>Kelompok</td>
+              {% for d in data %}
+                <td>{{ d.u32 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah LPM</td>
+              <td>LPM</td>
+              {% for d in data %}
+                <td>{{ d.u33 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>32</td>
+              <td>Persentase LSM aktif</td>
+              <td>%</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah LSM Aktif</td>
+              <td>LSM</td>
+              {% for d in data %}
+                <td>{{ d.u34 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah LSM</td>
+              <td>LSM</td>
+              {% for d in data %}
+                <td>{{ d.u35 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>33</td>
+              <td>Rata-rata jumlah kelompok binaan PKK</td>
+              <td>Kelompok</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah kelompok binaan PKK</td>
+              <td>kelompok</td>
+              {% for d in data %}
+                <td>{{ d.u36 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PKK</td>
+              <td>PKK</td>
+              {% for d in data %}
+                <td>{{ d.u37 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>34</td>
+              <td>LPM Berprestasi</td>
+              <td>LPM</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah LPM Aktif</td>
+              <td>LPM</td>
+              {% for d in data %}
+                <td>{{ d.u38 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah LPM</td>
+              <td>LPM</td>
+              {% for d in data %}
+                <td>{{ d.u39 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>35</td>
+              <td>Swadaya Masyarakat terhadap Program pemberdayaan masyarakat</td>
+              <td>%</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Swadaya masyarakat mendukung Program Pemberdayaan Masyarakat</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u40 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Total Program Pemberdayaan Masyarakat x</td>
+              <td>PKK</td>
+              {% for d in data %}
+                <td>{{ d.u41 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>36</td>
+              <td>Pemeliharaan Pasca Program pemberdayaan masyarakat</td>
+              <td>%</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Program pemberdayaan masyarakat yang dikembangkan dan dipelihara masyarakat</td>
+              <td>Program</td>
+              {% for d in data %}
+                <td>{{ d.u42 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Total pasca program pemberdayaan masyarakat</td>
+              <td>Program</td>
+              {% for d in data %}
+                <td>{{ d.u43 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>37</td>
+              <td>Jumlah Laporan Keterangan Pertanggungjawaban Walikota (LKPJ)</td>
+              <td>Laporan</td>
+              {% for d in data %}
+                <td>{{ d.u44 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>38</td>
+              <td>Jumlah Executive Summery</td>
+              <td>ES</td>
+              {% for d in data %}
+                <td>{{ d.u45 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>39</td>
+              <td>Jumlah Laporan Penyelenggara Pemerintah Daerah (LPPD)</td>
+              <td>Laporan</td>
+              {% for d in data %}
+                <td>{{ d.u46 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>40</td>
+              <td>Jumlah Evaluasi Kinerja Penyelenggara Pemerintah Daerah (EKKPD)</td>
+              <td>EV</td>
+              {% for d in data %}
+                <td>{{ d.u47 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>41</td>
+              <td>Jumlah Berita acara penetapan dan penegasan batas</td>
+              <td>BA</td>
+              {% for d in data %}
+                <td>{{ d.u48 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>42</td>
+              <td>Jumlah Pemasangan Tugu Tapal batas Kelurahan dan Kecamatan Menurut Kecamatan</td>
+              <td>Tugu</td>
+              {% for d in data %}
+                <td>{{ d.u49 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>43</td>
+              <td>Jumlah Pemantauan Lingkungan dan Evaluasi Kinerja Kecamatan dan Kelurahan Menurut Kecamatan</td>
+              <td>Pemantauan</td>
+              {% for d in data %}
+                <td>{{ d.u50 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>44</td>
+              <td>Jumlah Pambakuan Rupabumi (Toponimi)  Menurut Kecamatan</td>
+              <td>Pembakuan</td>
+              {% for d in data %}
+                <td>{{ d.u51 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <th>II. Bagian Hukum</th>
+          </tr>
+          <tr>
+              <td>45</td>
+              <td>Jumlah penanganan pengaduan pelanggaran Hak Asasi Manusia (HAM)</td>
+              <td>Penanganan</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>Penanganan</td>
+              {% for d in data %}
+                <td>{{ d.u52 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>Penanganan</td>
+              {% for d in data %}
+                <td>{{ d.u53 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>Penanganan</td>
+              {% for d in data %}
+                <td>{{ d.u54 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>Penanganan</td>
+              {% for d in data %}
+                <td>{{ d.u55 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Bantuan Hukum Bagi Masyarakat Miskin</td>
+              <td>Penanganan</td>
+              {% for d in data %}
+                <td>{{ d.u56 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>46</td>
+              <td>Jumlah penanganan pengaduan pelanggaran Hak Asasi Manusia (HAM) perempuan terutama kekerasan terhadap perempuan</td>
+              <td>Penanganan</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>Penanganan</td>
+              {% for d in data %}
+                <td>{{ d.u57 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>Penanganan</td>
+              {% for d in data %}
+                <td>{{ d.u58 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>Penanganan</td>
+              {% for d in data %}
+                <td>{{ d.u59 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>Penanganan</td>
+              {% for d in data %}
+                <td>{{ d.u60 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>47</td>
+              <td>Jumlah Data JDIH</td>
+              <td>Data</td>
+              {% for d in data %}
+                <td>{{ d.u61 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>48</td>
+              <td>Jumlah Peraturan Daerah</td>
+              <td>Perda</td>
+              {% for d in data %}
+                <td>{{ d.u62 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>49</td>
+              <td>Jumlah Perwali</td>
+              <td>Perwali</td>
+              {% for d in data %}
+                <td>{{ d.u63 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>50</td>
+              <td>Jumlah Surat Keputusan</td>
+              <td>SK</td>
+              {% for d in data %}
+                <td>{{ d.u64 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>51</td>
+              <td>Jumlah MOU/PKS</td>
+              <td>MOU & PKS</td>
+              {% for d in data %}
+                <td>{{ d.u65 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <th>III. Bagian Perekonomian</th>
+          </tr>
+              <td>52</td>
+              <td>Pertumbuhan PDRB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u66 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>53</td>
+              <td>Laju Inflasi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u67 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>54</td>
+              <td>PDRB Perkapita</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u68 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>55</td>
+              <td>indeks gini</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Ketimpangan Rendah</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u69 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Ketimpangan Sedang</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u70 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Ketimpangan Tinggi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u71 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>56</td>
+              <td>Pemerataan pendapatan versi Bank Dunia</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. 40% Penduduk Berpenghasilan Rendah</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u72 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td> b. 40% Penduduk Berpenghasilan Menengah</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u73 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. 20% Penduduk Berpenghasilan Tinggi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u74 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>57</td>
+              <td>Indeks Ketimpangan Williamson (Indeks Ketimpangan Regional)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u75 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>58</td>
+              <td>Persentase Penduduk di Atas Garis Kemiskinan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u76 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>59</td>
+              <td>Rasio kesenjangan kemiskinan</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Garis kemiskinan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u77 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah penduduk miskin</td>
+              <td>jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u78 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Pendapatan individu penduduk miskin</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u79 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Jumlah pendudukn</td>
+              <td>jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u80 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>60</td>
+              <td>Proporsi penduduk dengan pendapatan kurang dari USD 1,00 (PPP) per kapita per hari</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah pddk miskin dengan pendapatan di bawah $ 1 PPP</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u81 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah Penduduk</td>
+              <td>jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u82 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>61</td>
+              <td>Indeks Pembangunan Manusia (IPM)</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Indeks Harapan Hidup </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u83 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. index Harapan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u84 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. index Standar Layak</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u85 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>62</td>
+              <td>Pencapaian skor Pola Pangan Harapan (PPH)</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Angka Kecukupan Gizi (AKG) %</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u86 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Bobot masing-masing kelompok pangan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u87 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>63</td>
+              <td>Penguatan Cadangan Pangan</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah cadangan pangan kabupaten/kota</td>
+              <td>Ton</td>
+              {% for d in data %}
+                <td>{{ d.u88 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>64</td>
+              <td>Penanganan daerah rawan pangan </td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Pertanian : Ketersediaan pangan</td>
+              <td>Kali</td>
+              {% for d in data %}
+                <td>{{ d.u89 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Kesehatan : Preferensi Energi</td>
+              <td>Kali</td>
+              {% for d in data %}
+                <td>{{ d.u90 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Sosial Budaya : Kemiskinan </td>
+              <td>Kali</td>
+              {% for d in data %}
+                <td>{{ d.u91 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>65</td>
+              <td>Kontribusi sektor pertanian/perkebunan terhadap PDRB</td>
+              <td>%</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah kontribusi PDRB dari sektor pertanian/ perkebunan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u92 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u93 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>66</td>
+              <td>Kontribusi sektor pertanian (Palawijaya) terhadap PDRB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Kontribusi sektor pertanian (palawijaya)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u94 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB sektor pertanian / perkebunan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u95 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>67</td>
+              <td>Produksi sektor pertanian </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u96 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>68</td>
+              <td>Kontribusi Sektor perkebunan (tanaman keras) terhadap PDRB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Kontribusi Perkebunan (tanaman keras)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u97 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB sektor pertanian / perkebunan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u98 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <th>Produksi sektor perkebunan</th>
+          </tr>
+          <tr>
+              <td>69</td>
+              <td>Kontribusi Produksi kelompok petani terhadap PDRB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Produksi padi/bahan pangan utama lokal hasil kelompok petani (ton) Tahun </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u99 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah produksi padi/ bahan pangan utama di daerah (ton) Tahun </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u100 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>70</td>
+              <td>Kontribusi sektor kehutanan terhadap PDRB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Kontribusi PDRB dari sektor kehutanan </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u101 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u102 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>71</td>
+              <td>Kontribusi sektor pertambangan terhadap PDRB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Kontribusi PDRB dari sektor pertambangan </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u103 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u104 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>72</td>
+              <td>Kontribusi sektor pariwisata terhadap PDRB (%) ADHB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Kontribusi PDRB dari sektor pariwisata </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u105 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u106 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>73</td>
+              <td>Kontribusi sektor Kelautan dan perikanan terhadap PDRB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah kontribusi PDRB dari sektor kelautan dan perikanan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u107 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u108 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>74</td>
+              <td>Kontribusi sektor Perdagangan terhadap PDRB (%) ADHB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Kontribusi PDRB dari sektor perdagangan </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u109 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u110 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>75</td>
+              <td>Kontribusi sektor Industri terhadap PDRB (%) ADHB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Kontribusi PDRB dari sektor Industri</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u111 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u112 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>76</td>
+              <td>Kontribusi Industri Rumah tengga terhadap PDRB sektor Industri</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah kontribusi PDRB jasa industri rumah tangga</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u113 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB sektor Industri </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u114 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>77</td>
+              <td>Pertumbuhan Industri</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Industri Tahun n- Jumlah Industri Tahun (n-1)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u115 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah Industri s/d Tahun n </td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u116 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>78</td>
+              <td>Kontribusi transmigrasi terhadap PDRB</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Kontribusi PDRB dari transmigrasi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u117 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PDRB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u118 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>79</td>
+              <td>Pengeluaran konsumsi rumah tangga per kapita</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Total Pengeluaran RT</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u119 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah RT</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u120 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>80</td>
+              <td>Nilai tukar petani</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Indeks yang diterima petani (lt)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u121 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Indeks yang dibayar petani (lb)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u122 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>81</td>
+              <td>Persentase pengeluaran konsumsi non pangan perkapita</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Total Pengeluaran RT Non Pangan)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u123 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Total Pengeluaran</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u124 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>82</td>
+              <td>Produktivitas total daerah</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Nilai Tambah Sektor ke-i)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u125 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah Angkatan Kerja</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u126 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>83</td>
+              <td>Desa berstatus swasembada terhadap total desa</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah desa atau kelurahan berswasembada)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u127 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah desa atau kelurahan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u128 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>84</td>
+              <td>Rasio Ekspor + Impor terhadap PDB (indikator keterbukaan ekonomi)</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah ekspor dan impor barang dan jasa</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u129 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. PDB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u130 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>85</td>
+            <td>Kegiatan BUMD Badan Usaha Milik Negara</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. PDAM () Perusahaan Daerah Air Minum)</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Adminitrasi</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u131 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Aset</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u132 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Laporan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u133 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>-Realisasi Laporan Masuk</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u134 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. PERUSDA  (Perusahaan Daerah)</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Adminitrasi</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u135 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Aset</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u136 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Laporan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u137 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>-Pembinaan Laporan Masuk</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u138 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. PT. BPST (Bangun Palu Sulawesi Tengah)</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Adminitrasi</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u139 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Aset</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u140 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Laporan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u141 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>-Pembinaan Laporan Masuk</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u142 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. PT. CNE (Citra Nuansa Elok)</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Adminitrasi</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u143 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Aset</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u144 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pembinaan Laporan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u145 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>-Realisasi Laporan Masuk</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u146 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>86</td>
+              <td>Kegiatan Sumber Daya Alam - LPG3 Kg - Pertamina</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. LPG3 Kg </td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pertamina </td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u147 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td> - agen</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u148 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td> - pangkalan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u149 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td> - Realisasi pangkalan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u150 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td> - Realisasi LPG 3 kilo</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u151 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td> - Satgas LPG</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u152 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. BBM (Bahan Bakar Minyak)</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>-Pertamina</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u153 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Depot</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u154 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- SPBU</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u155 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Satgas BBM</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u156 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>87</td>
+              <td>- Kegiatan TPID</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. perkembangan inflasi</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u157 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. perkembangan harga dan bahan pokok</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u158 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c.  perkembangan ketersedian pangan strategi</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u159 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. laporan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u160 }}</td>
+              {% endfor %}
+          </tr>
+              <tr>
+              <td></td>
+              <td>- Pengawasan Beras ASN pemda kota palu </td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Realisasi OPD </td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u161 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Realisasi beras</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u162 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td> - pengawasan ekonomi mikro kecil menengah</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. yang terdata</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u163 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. pembinaan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u164 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. laporan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u165 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>88</td>
+              <td>Penyusunan Dokumen Perencanaan Perangkat Daerah</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u166 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>89</td>
+              <td>koordinasi dan penyusunan dokumen RKA - DPA</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u167 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>90</td>
+              <td>Koordinasi dan Penyususnan Laporan Capaian kinerja dan iktisar realisasi kinerja SKPD</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u168 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>91</td>
+              <td>Koordinasi dan Penyusunan Dokumen Perubahan RKA-SKPD</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u169 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>92</td>
+              <td>Fasilitasi Penyusunan Program Pembangunan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u170 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>93</td>
+              <td> Monitoring dan evaluasi program pembangunan</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u171 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>94</td>
+              <td>Pengendalian dan Evaluasi Pelaksanaan Program</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u172 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>95</td>
+              <td>Jumlah daerah provinsi dengan indeks RB ≥ baik</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u173 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>96</td>
+              <td>Jumlah Daerah yang membentuk portal e-Legislasi</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u174 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>97</td>
+              <td>Jumlah daerah yang ditata dan diselesaikan permasalahan kelembagaan dan kepegawaian perangkat daerah</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u175 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>98</td>
+              <td>Jumlah daerah yang memiliki PTSP Prima berbasis elektronik</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u176 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>99</td>
+              <td>Jumlah perizinan dengan kewenangan sudah didelegasikan ke PTSP Prima berbasis elektroni</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u177 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>100</td>
+              <td>Jumlah pelaksanaan Perjanjian Kerja Sama dalam penyelesaian permasalahan pelayanan publik di 10 kota metropolitan (terutama permasalahan transportasi, banjir, air minum, serta sampah dan limbah)</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u178 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>101</td>
+              <td>Program Bina Sosial</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u179 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>102</td>
+              <td>Pembinaan Qori dan Qoriah</td>
+              <td></td>
+              {% for d in data %}
+                <td>{{ d.u180 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>103</td>
+            <td>Nikah Massal</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- itsbat Nikah</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u181 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Nikah Massal</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u182 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>104</td>
+            <td>- Kemah Pemuda Lintas Agama</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u183 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Kegiatan Lembaga Seni Qasidah (LASQI) Kota Palu</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u184 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Indeks Kerukunan Umat Beragama</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u185 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>105</td>
+            <td>Program Bina Kelembagaan</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u186 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>106</td>
+            <td>Silaturahim Ramadhan</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Safari Ramadhan Pemerintah Kota Palu</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u187 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>107</td>
+            <td>Keikutsertaan Kafilah Kota Palu pada MTQ/STQ di Propinsi/Kota /Kabupaten </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Keberangkatan Kafilah Kota Palu pada STQ/MTQ Tingkat Provinsi Sul-teng  </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u188 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>108</td>
+            <td>Kegiatan Lembaga Pengembangan PESPARAWI Daerah (LPPD) </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- TOT </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u189 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- PESPARAWI</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u190 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Festival Paduan Suara</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u191 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>109</td>
+            <td>Pemberangkatan TPHD Kota Palu </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Pemberangkatan TPHD </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u192 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Domestik Transfortasi Jamaah Haji (Palu Balik Papan (PP)) </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u193 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>110</td>
+            <td>Festifal RAODHA Sis Aljufri </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Festifal RAODHA Sis Aljufri </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u194 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>111</td>
+            <td>Pelaksanaan STQ/MTQ Kota Palu</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Pelaksanaan STQ/MTQ Tingkat Kota Palu</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u195 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>112</td>
+            <td>peringatan hari-hari besar keagamaan</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>112</td>
+            <td> isra mi'raj</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u196 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td> nyepi</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u197 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td> wafat isa almasih</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u198 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td> paskah</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u199 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td> waisak</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u200 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td> kenaikan yesus kristus</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u201 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td> idul adha</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u202 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>  
+            <td> tahun baru hijriah</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u203 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td> mulid nabi muhammad </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u204 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- natal</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u205 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>113</td>
+            <td> <strong> Program Bina Kemasyarakatan </strong></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Pelatihan Pegawai Syara dan Majelis Ta'lim</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>-  Pelatihan Pegawai Syara</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u206 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>-  PORSENI Majelis Ta'lim  </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u207 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Pelatihan PKD RISMA </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u208 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- zikir dan shalawatan</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u209 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- safari jumat</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u210 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>114</td>
+            <td>Daftar Pelaksanaan Tender</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- perdagangan barang</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u211 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- konstruksi</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u212 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- konsultan</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u213 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- jasa lainnya</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u214 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>115</td>
+            <td> <strong> Perencanaan, penganggaran dan evaluasi kinerja perangkat </strong> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>evaluasi kinerja perangkat daerah</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u215 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>116</td>
+            <td> <strong> 1. Administrasi keuangan perangkat</strong> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Penyediaan gaji dan tunjangan ASN </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u216 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- koordinasi dan penyusunan laporan keuangan akhir tahun SAPD</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u217 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- koordinasi dan penyusunan laporan keuangan bulanan/triwulan/semesteran SKPD</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u218 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>117</td>
+            <td> <strong> 2. Administrasi barang milik daerah pada perangkat daerah - pengamanan barang milik daerah SKPD </strong> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- pengamanan barang milik daerah SKPD </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u219 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>118</td>
+            <td> <strong> 3. Administrasi umum perangkat daerah </strong> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- penyediaan komponen instalasi listrik/penerangan bangunan kantor </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u220 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- penyediaan bahan logistik kantor</td>
+            <td></td>
+            {% for d in data %}
+
+    <!-- akhir tabel -->
+
+              <td>{{ d.u221 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- penyediaan bahan cetakan dan pengadaan </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u222 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- fasilitas kunjungan tamu</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u223 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>119</td>
+            <td> <strong> 4. penyediaan jasa penunjang urusan pemerintah </strong> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- penyediaan surat menyurat </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u224 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>-  Penyediaan Jasa Komunikasi,Sumber Daya Air dan Listrik </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u225 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- penyediaan jasa peralatan dan penyediaan kantor</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u226 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- penyediaan jasa pelayanan umum kantor</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u227 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>120</td>
+            <td> <strong> 5. Pemeliharaan barang milik daerah penunjang urusan pemerintahan  </strong> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>-  Penyediaan Jasa Pemeliharaan,Biaya Pemeliharaan,dan Pajak Kendaraan Perorangan Dinas atau Kendaraan Dinas Jabatan </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u228 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Pemeliharaan Peralatan dan Mesin Lainnya </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u229 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Pemeliharaan/ Rehabilitasi Gedung Kantor dan Bangunan Lainnya  </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u230 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Pemeliharaan/ Rehabilitasi Gedung Kantor dan Bangunan Lainnya  </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u231 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>121</td>
+            <td> <strong> 6. Administrasi keuangan dan operasional kepala daerah </strong> </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u232 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Penyediaan Gaji dan Tunjangan Kepala Daerah dan Wakil Kepala Daerah </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u233 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Penyediaan Pakaian Dinas ddan Atribut Kelengkapan KDH dan WKD </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u234 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>122</td>
+            <td> <strong> 7. fasilitas kerumah tanggaan sekertariat </strong> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Penyediaan Kebutuhan Rumah Tangga Kepala Daerah  </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u235 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td> - Penyediaan Kebutuhan Rumah Tangga Sekretariat Daerah </td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u236 }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- Content end -->
+
+{% endblock %}

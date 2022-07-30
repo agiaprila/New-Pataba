@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block title %} Login {% endblock %} {% block content %}
+
+<!-- Content -->
+<div class="container" style="background-color: #ffffff">
+  <div class="box">
+    <div class="row contentForm">
+      <div class="col-sm-12 col-md-6 col-lg-6">
+        <img src="{{ url_for('static', filename='img/33172-01-finishig-studies.gif') }}" alt="image" class="img-fluid" />
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6">
+        <form method="POST" class="formLogin" style="padding-top: 10%">
+          <h3 class="text-center">Menu Login</h3>
+          {{ form.hidden_tag() }}
+
+          <div class="mb-3">{{ form.email.label(class="form-label") }} {{ form.email(class="form-control my-2", placeholder="Email", autocomplete="off")}}</div>
+
+          <div class="mb-3">{{ form.password.label(class="form-label") }} {{ form.password(class="form-control", placeholder="Password", autocomplete="off")}}</div>
+
+          <br />
+
+          {{ form.submit(class="btn btn-warning btn-large btn-block")}}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Content end -->
+
+{% endblock %}

@@ -1,0 +1,4 @@
+1. tambah models
+2. tambah form
+3. tambah template
+4. tambah routes

@@ -1,0 +1,46 @@
+/* Footer */
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(46, 46, 46);
+  height: auto;
+  width: auto;
+  padding: 20px;
+  font-size: 12px;
+  color: white;
+  font-weight: 600;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.footer-bottom {
+  font-size: 14px;
+  word-spacing: 2px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.footer-content h6 {
+  font-size: 1.8rem;
+  font-weight: 100;
+  text-transform: capitalize;
+  line-height: 3rem;
+}
+
+.footer-content p {
+  font-size: 14px;
+}
+
+.footer-bottom span {
+  text-transform: uppercase;
+  opacity: 0.6;
+  font-weight: 400;
+}

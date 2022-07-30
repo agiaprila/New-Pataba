@@ -1,0 +1,8 @@
+body {
+  background-color: white;
+  color: navy;
+}
+
+nav .my-navbar {
+  background-color: navy !important;
+}

@@ -1,0 +1,5 @@
+u1 = Users(email="super@gmail.com", password="112233", name="Super Admin", role="admin")
+u2 = Users(email="dinas_a@gmail.com", password="112233", name="Dinas A", role="agency only", officer_of_agency=1)
+u3 = Users(email="dinas_b@gmail.com", password="112233", name="Dinas B", role="agency only", officer_of_agency=2)
+u4 = Users(email="palu_barat@gmail.com", password="112233", name="Kec Palu Barat", role="district only", officer_of_district=1)
+u5 = Users(email="palu_timur@gmail.com", password="112233", name="Kec Palu Timur", role="district only", officer_of_district=2)

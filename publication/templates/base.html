@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/bapeda_favico.ico') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <!-- CSS biasa sedikit -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_agi.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+
+  </head>
+  <body>
+
+    <!-- Navbar  -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-warning my-navbar">
+      <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="" height="39px" class="d-inline-block align-text-top">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link fw-bold" href="{{ url_for('home_page') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('publikasi_page') }}">Publikasi</a>
+            </li>
+          </ul>
+          {% if current_user.is_authenticated %}
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                  <a class="nav-link">Welcome, {{ current_user.name }}</a>
+              </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{ url_for('logout_page') }}">Logout</a>
+              </li>
+            </ul>
+          {% else %}
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{ url_for('login_page') }}">Login</a>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <!-- end navbar -->
+
+    <!-- Flash Message -->
+    <div class="container mt-3">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, msg in messages %}
+            <div class="alert alert-{{ category }} text-center">
+              <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              {% if msg is not string %}
+                {{ msg[0] }}
+              {% else %}
+                {{ msg }}
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- Content -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-bottom">
+            Copyright &copy;2022 PATABA
+      </div>
+    </footer>
+    <!-- Footer end -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+     <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+   
+
+
+  </body>
+</html>
