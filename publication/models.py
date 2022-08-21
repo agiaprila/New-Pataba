@@ -334,6 +334,7 @@ class Dprd(db.Model):
   # ---
   district_id = db.Column(db.Integer(), nullable=True)
 
+# testing database
 class Inspektorat(db.Model):
   id = db.Column(db.Integer(), primary_key=True)
   tahun = db.Column(db.String(length=4), nullable=False)
