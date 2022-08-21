@@ -333,3 +333,24 @@ class Dprd(db.Model):
   u45 = db.Column(db.Integer())
   # ---
   district_id = db.Column(db.Integer(), nullable=True)
+
+class Inspektorat(db.Model):
+  id = db.Column(db.Integer(), primary_key=True)
+  tahun = db.Column(db.String(length=4), nullable=False)
+  # ---
+  u1 = db.Column(db.Integer())
+  u2 = db.Column(db.Integer())
+  u3 = db.Column(db.Integer())
+  u4 = db.Column(db.Integer())
+  u5 = db.Column(db.Integer())
+  u6 = db.Column(db.Integer())
+  u7 = db.Column(db.Integer())
+  u8 = db.Column(db.Integer())
+  u9 = db.Column(db.Integer())
+  u10 = db.Column(db.Integer())
+  u11 = db.Column(db.Integer())
+  u12 = db.Column(db.Integer())
+  u13 = db.Column(db.Integer())
+  u14 = db.Column(db.Integer())
+  # ---
+  district_id = db.Column(db.Integer(), nullable=True)
