@@ -1,0 +1,580 @@
+{% extends 'base.html' %}
+{% block title %}
+  Perdagangan
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('perdagangan') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('perdagangan_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('perdagangan_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('perdagangan_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('perdagangan_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('perdagangan_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('perdagangan_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('perdagangan_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('perdagangan_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Perdagangan dan Perindustrian Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('perdaganganTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="perdaganganTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 14 %}
+                  <span><a href="{{ url_for('perdagangan_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 14 %}
+              <th><a href="{{ url_for('perdagangan_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td></td>
+            <td>Perdagangan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Ekspor Bersih Perdagangan</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Cakupan bina kelompok pedagang/usaha informal</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah kelompok pedagang/usaha informal yang mendapatkan bantuan binaan pemda Tahun n</td>
+            <td>Kelompok</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah kelompok pedagang/usaha informal</td>
+            <td>Kelompok</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Pertumbuhan ekspor non migas</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Inflasi Pangan Bergejolak</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Cakupan bina kelompok pedagang informal</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Cakupan bina kelompok usaha informal</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perindustrian</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Cakupan bina kelompok pengrajin</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah kelompok pengrajin yang mendapatkan bantuan binaan pemda Tahun n</td>
+            <td>Kelompok</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah kelompok pengrajin</td>
+            <td>Kelompok</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Sentra Industri Kecil dan Menengah (IKM)  yang Beroperasi</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Kawasan Industri (KI) Prioritas di luar Jawa yang Beroperasi dan Meningkatkan Investasi</td>
+            <td>Kawasan</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Kawasan Industri (KI) yang dikembangkan	</td>
+            <td>Kawasan</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Kawasan Industri (KI) dengan zona tematik yang beroperasi</td>
+            <td>Kawasan</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Persentase Tenaga Kerja di Sektor Industri Terhadap Total Pekerja</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Tingkat Komponen Dalam Negeri (TKDN) (Rerata Tertimbang)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Persentase SNI bidang Industri yang diterapkan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Perusahaan Industri Menengah Besar Yang Tersertifikasi Standar Industri Hijau (SIH) Berdasarkan SIH yang ditetapkan</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Jumlah Produk Tersertifikasi TKDN > 25% yang masih berlaku</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Pertumbuhan industri pengolahan non migas</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Proporsi nilai tambah IKM terhadap total nilai tambah industri pengolahan non migas</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Tenaga Kerja di Sektor Industri Non Migas (juta orang)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Nilai Investasi Sektor Industri Pengolahan Non Migas (Rp. Triliun)</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Nilai Ekspor Produk Industri Pengolahan (USD Miliar)</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Jumlah perusahaan yang menerapkan sertifikasi SNI ISO 14001</td>
+            <td>perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Target Nasional</td>
+            <td>perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Capaian Nasional</td>
+            <td>perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Target Kota</td>
+            <td>perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Capaian Kota</td>
+            <td>perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Luas kawasan industri</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Cakupan bina kelompok pengrajin</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Jumlah perusahaan industri menurut klasifikasi industri</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sandang</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Pangan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Barang Dari Kayu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Aneka</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u37 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Kerajinan</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u38 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Kimia</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Logam</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Furnitur</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u41 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Elektronika</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u42 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Alat Angkut</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Mesin</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td>26</td>
+              <td>Jumlah pusat perbelanjaan menurut kecamatan</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u45 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Mall</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u46 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Hypermart</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Super Market</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Mini Market</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u49 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Toko</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u50 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Kios</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Alfamidi</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td>27</td>
+              <td>Jumlah Perusahaan dagang di Kota Palu</td>
+              {% for d in data %}
+              <td>{{ d.u53 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Dealer Motor</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u54 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Dealer Mobil</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Showroom Mobil Bekas</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Kelompok Pertokoan</td>
+              {% for d in data %}
+              <td>{{ d.u57 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Pasar Bangunan Permanen</td>
+              {% for d in data %}
+              <td>{{ d.u58 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Pasar Bangunan Semi Permanen</td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Jumlah Perusahaan Jasa di Kota Palu</td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Bengkel Mobil</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u61 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>- Bengkel Motor</td>
+              <td>Unit</td>
+              {% for d in data %}
+              <td>{{ d.u62 }}</td>
+              {% endfor %}
+            </tr>
+
+    
+            <!-- l -->
+            
+            
+            
+            
+    
+    
+    
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}

@@ -1,0 +1,440 @@
+{% extends 'base.html' %}
+{% block title %}
+  Satpol
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('satpol') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('satpol_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('satpol_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('satpol_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('satpol_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('satpol_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('satpol_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('satpol_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('satpol_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Satuan Polisi Pamong Praja Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('satpolTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="satpolTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 10 %}
+                  <span><a href="{{ url_for('satpol_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 10 %}
+              <th><a href="{{ url_for('satpol_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Indikator SPM Bidang Keamanan, Ketertiban Umum dan Perlindungan Masyarakat</td>
+            <td>indikator</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Pelayanan ketentraman dan ketertiban Umum Kota Palu</td>
+            <td>Layanan</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Jumlah Warga Negara yang memperoleh layanan akibat dari penegakan hukum perda dan perkada di Kota Palu</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Pelayanan ketentraman dan ketertiban Umum</td>
+            <td>Layanan</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Warga Negara yang memperoleh layanan akibat dari penegakan hukum Perda dan perkada</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Cakupan Petugas Perlindungan Masyarakat ( Linmas)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. 100 orang petugas Linmas di Kabupaten/Kota daerah pemekaran baru</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. 1 Wilayah kerja kabupaten/kota</td>
+            <td>Wilayah</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Tingkat penyelesaian pelanggaran K3 (ketertiban, ketentraman, keindahan)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pelanggaran K3 yang terselesaikan</td>
+            <td>Pelanggaran</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah pelanggaran K3 yang dilaporkan masyarakat dan terindentifikasi oleh SATPOL PP</td>
+            <td>Pelanggaran</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Cakupan pelayanan bencana kebakaran kabupaten/kota</td>
+            <td>%</td>
+            {% endfor %}{% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jangkuan luas wilayah manajemen kebakaran</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Luas wilayah kabupaten/kota</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Tingkat waktu tanggap (response time rate) daerah layanan Wilayah Manajemen Kebakaran (WMK)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah kasus kebakaran di WMK yang tertangani dalam waktu maksimal 15 menit</td>
+            <td>kasus</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah kasus kebakaran dalam jangkuan WMK</td>
+            <td>kasus</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Penegakkan PERDA</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Penyelesaian Penegakkan PERDA</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Pelanggaran PERDA</td>
+            <td>Pelanggaran</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Jumlah Binmas pada SATPOL PP Kota Palu</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Sosialisasi Peraturan Daerah Kota Palu</td>
+            <td>Perda</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Membantu Melaksanakan Penertiban PKL, PSK, Anak Gepeng, Miras, Penertiban Ijin IMB, Usaha</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Penjagaan Perbatasan Pencegahan Penyebaran Covid 19 di Kota Palu</td>
+            <td>Penjagaan</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Melaksanakan Operasi Yustisi ( Razia Masker)</td>
+            <td>Operasi</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Jumlah Timbum pada SATPOL PP Kota Palu</td>
+            <td>Timbun</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Demonstrasi Masalah Huntap</td>
+            <td>Demonstrasi</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Laporan Masyarakat Anak Gelandangan Yang Menggangu Arus lalu Lintas</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Demonstrasi Masyarakat Pasar Inpres</td>
+            <td>Demonstrasi</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat Peternak Ayam yang mengganggu Kenyamanan Masyarakat</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat Anak Gepeng yang mengganggu Arus lalu Lintas</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat tentang Material/Sisa bangunan</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat tentang Penanggung Jawab Lapak/Kios</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat tentang PKL yang berjual di bahu Jalan</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat tentang Material yang ada di Bahu Jalan</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat tentang Taman anak sekolah SMP 3,SMP 14,Madrasa di luar jam belajar</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat tentang penjual Ikan yang mengganggu Kenyamanan Penduduk Sekitar</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat tentang Anak gelandangan dan pengemis</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat tentang Anak gelandangan yang Menggangu Arus Lalu Lintas</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Jumlah PPUD pada SATPOL PP Kota Palu</td>
+            <td>PPUD</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laporan Masyarakat tentang Prostitusi</td>
+            <td>Laporan</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Pemusnahan Barang Bukti hasil Razia</td>
+            <td>BB</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mengembalikan Barang Bukti</td>
+            <td>BB</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sosialisasi Peraturan Daerah Kota Palu</td>
+            <td>Perda</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Melaksanakan Penertiban </td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Pemenuhan PPNS di Satpol PP sesuai Rasio</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+    
+    
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}

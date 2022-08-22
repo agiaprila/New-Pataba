@@ -1,0 +1,552 @@
+{% extends 'base.html' %}
+{% block title %}
+  Kominfo
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('kominfo') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('kominfo_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('kominfo_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('kominfo_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('kominfo_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('kominfo_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('kominfo_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('kominfo_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('kominfo_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Komunikasi dan Informatika Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('kominfoTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="kominfoTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 25 %}
+                  <span><a href="{{ url_for('kominfo_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 25 %}
+              <th><a href="{{ url_for('kominfo_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td></td>
+            <td>I. Aplikasi dan Informatika</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Cakupan Layanan Telekomunikasi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Perangkat Daerah yang mengimplementasikan/mereplikasi inovasi yang mendukung smart city sesuai dengan masterplan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Perangkat daerah yang saling terkoneksi di Jaringan Intra Pemerintah Daerah</td>
+            <td>OPD</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Layanan publik dan layanan administrasi yang Memanfaatkan sertifikat elektronik</td>
+            <td>OPD</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Layanan publik dan layanan administrasi yang terdaftar di Kementerian Kominfo</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Informasi Publik yang disediakan dan diumumkan oleh Provinsi dan kab/kota sesuai amanat UU No 14 Tahun 2008 tentang keterbukan Informasi Publik</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Perangkat Daerah yang menggunakan layanan pusat data pemerintah daerah dan/atau pemerintah pusat</td>
+            <td>OPD</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Jumlah lulusan peningkatan kompetensi SDM pengelola keamanan siber untuk K/L/D</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Jumlah instansi pemerintah yang terbentuk CSIRT K/L/D</td>
+            <td>Instansi</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Jumlah Lulusan sertifikasi yang mengikuti peningkatan kompetensi SDM pengelola keamanan SPBE dan CSIRT</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Cakupan Layanan Telekomunikasi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Luas Wilayah Yang Tercoverage</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Luas Wilayah Keseluruhan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Jumlah Staf IT yang terlatih</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Jumlah OPD yang terintegrasi dalam sistem informasi (Website)</td>
+            <td>OPD</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Jumlah Menara Telekomunikasi</td>
+            <td>Kecamatan</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Jumlah Menara yang sudah Memiliki Izin</td>
+            <td>Kecamatan</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Jumlah sistem / aplikasi Organisasi Perangkat Daerah di Pemerintah Kota</td>
+            <td>Sistem</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>II. Komunikasi dan Informatika</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Cakupan pengembangan dan pemberdayaan Kelompok Informasi Masyarakat di Tingkat Kecamatan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah KIM</td>
+            <td>KIM</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah kecamatan yang ada dalam kab/kota</td>
+            <td>Kecamatan</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Penduduk yang menggunakan HP/telepon</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penduduk menggunakan HP</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk menggunakan Telepon</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Rumah tangga dengan akses internet</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah rumah tangga yang memiliki akses internet</td>
+            <td>RT</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah rumah tangga</td>
+            <td>RT</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Rumah tangga yang memiliki komputer pribadi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah rumah tangga yang memiliki komputer pribadi</td>
+            <td>RT</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Jumlah rumah tangga</td>
+            <td>RT</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Jumlah sarana pengaduan dan pelayanan informasi masyarakat (Media)</td>
+            <td>Media</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Jumlah terlaksananya diseminasi informasi kegiatan pemerintah kota</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Konten informasi terkait program dan kebijakan pemerintah, counter narasi negatif, hoax, dan informasi missleading terhadap pemerintah daerah yang didiseminasikan sesuai dengan strategi komunikasi</td>
+            <td>Konten</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- FB Diskominfo</td>
+            <td>Konten</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- FB Palu NomoniNewsCenter</td>
+            <td>Konten</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Website</td>
+            <td>Konten</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Instagram</td>
+            <td>Konten</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Youtube</td>
+            <td>Konten</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Twitter</td>
+            <td>Konten</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Layanan publik dan layanan administrasi yang Terintegrasi dengan sistem penghubung layanan pemerintah daerah</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Tingkat kepuasan masyarakat terhadap akses dan kualitas konten informasi publik</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Jumlah Publikasi Informasi Melalui Media Online perbulan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>III. Persandian</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Jumlah Sandiman yang tersedia</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Perangkat daerah yang telah menggunakan sandi dalam komunkasi Perangkat Daerah</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah perangkat daerah yang telah mengunakan sandi dalam komunikasi antar Perangkat Daerah</td>
+            <td>OPD</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah total perangkat daerah</td>
+            <td>OPD</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Perlatan Persandian</td>
+            <td>Persandian</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Alat Pendukung Utama (APU)</td>
+            <td>Apu</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Repeater</td>
+            <td>Repeater</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Peralatan Komunikasi</td>
+            <td>Alat</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- HT</td>
+            <td>Buah</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Radio RIG</td>
+            <td>Buah</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>IV. Statistik</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Tersedianya sistem data dan statistik yang terintegrasi</td>
+            <td>Sistem</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Buku ”Kota Palu dalam angka”</td>
+            <td>Buku</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Buku ”PDRB”</td>
+            <td>Buku</td>
+            {% for d in data %}
+            <td>{{ d.u49 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Jumlah Metadata Statistik Sektoral yang di himpun</td>
+            <td>Metadata</td>
+            {% for d in data %}
+            <td>{{ d.u50 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Jumlah dinas yang mendapatkan rekomendasi statistik</td>
+            <td>dinas</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Jumlah dinas yang menindaklanjuti rekomendasi</td>
+            <td>dinas</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>OPD yang menggunakan data statistik dalam menyusun perencanaan pembangunan daerah</td>
+            <td>OPD</td>
+            {% for d in data %}
+            <td>{{ d.u53 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>OPD yang menggunakan data statistik dalam melakukan monitoring dan evaluasi pembangunan daerah</td>
+            <td>OPD</td>
+            {% for d in data %}
+            <td>{{ d.u54 }}</td>
+            {% endfor %}
+          </tr>
+            <!-- l -->
+
+    
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}

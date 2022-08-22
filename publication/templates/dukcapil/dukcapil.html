@@ -1,0 +1,1907 @@
+{% extends 'base.html' %}
+{% block title %}
+  Dukcapil
+{% endblock %}
+
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('dukcapil') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('dukcapil_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('dukcapil_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('dukcapil_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('dukcapil_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('dukcapil_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('dukcapil_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('dukcapil_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('dukcapil_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Kependudukan dan Catatan Sipil Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('dukcapilTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="dukcapilTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col" class="my-auto">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th  rowspan="2" scope="col">Satuan</th>
+            <th  colspan="{{ data|length + 1 }}" scope="col" style="text-align: center;">Tahun</th>
+          </tr>
+  
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 15 %}
+                  <span><a href="{{ url_for('dukcapil_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 15 %}
+              <th><a href="{{ url_for('dukcapil_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Luas wilayah</td>
+            <td>km2</td>
+            {% for d in data %}
+              <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jumlah Penduduk</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td>3</td>
+              <td>Kepadatan Penduduk</td>
+              <td>Jiwa/km2</td>
+              {% for d in data %}
+                <td>{{ d.u3 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+              <td>4</td>
+              <td>Jumlah Penduduk Menurut Jenis Kelamin</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u4 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u5 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u6 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>5</td>
+              <td>Jumlah Penduduk Berdasarkan Status Perkawinan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u7 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Kawin</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u8 }}</td>
+              {% endfor %}     
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Belum Kawin</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u9 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Cerai Hidup</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u10 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Cerai Mati</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u11 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>6</td>
+              <td>Jumlah penduduk berdasarkan kelompok umur dan jenis kelamin</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u12 }}</td>
+              {% endfor %}      
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. 0 - 4</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u13 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u14 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u15 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. 5 - 9</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u16 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u17 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u18 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. 10 - 14</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u19 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u20 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u21 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. 15 - 19</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u22 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u23 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u24 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. 20 - 24</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u25 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u26 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u27 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. 25 - 29</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u28 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u29 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u30 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. 30 - 34</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u31 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u32 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u33 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>h. 35 - 39</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u34 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u35 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u36 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>i. 40 - 44</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u37 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u38 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u39 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>j. 44 - 49</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u40 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u41 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u42 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>k. 50 - 54</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u43 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u44 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u45 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>l. 55 - 59</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u46 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u47 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u48 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>m. 60 - 64</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u49 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u50 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u51 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>n. 65 - 69</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u52 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u53 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u54 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>o. 70 - 74</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u55 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u56 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u57 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>p. > 75	Jiwa</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u58 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u59 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u60 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>7</td>
+              <td>Jumlah penduduk berdasarkan Kecamatan dan kelompok umur</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u61 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 0 - 4</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u62 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 5 - 9</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u63 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 10 - 14</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u64 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 15 - 19</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u65 }}</td>
+              {% endfor %}
+          </tr>
+          </tr>
+              <td></td>
+              <td>- 20 - 24</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u66 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 25 - 29</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u67 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 30 - 34</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u68 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 35 - 39</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u69 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 40 - 44</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u70 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 44 - 49</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u71 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 50 - 54</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u72 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 55 - 59</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u73 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 60 - 64</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u74 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 65 - 69</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u75 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 70 - 74</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u76 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- > 75</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u77 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Jumlah Penduduk Berdasarkan Tingkat Pendidikan yang Ditamatkan</td>
+          <tr>
+              <td></td>
+              <td>a. Paud</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u78 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. TK</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u79 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. SD</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u80 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. SMP</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u81 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. SMA</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u82 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. D1/D2</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u83 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. D3</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u84 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>h. D4</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u85 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>i. S1/D4</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u86 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>j. S2</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u87 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>k. S3</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u88 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>9</td>
+              <td>Jumlah Penduduk Berdasarkan Penduduk Menurut Agama</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Islam</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u89 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Kristen Protestan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u90 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Kristen Katolik</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u91 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Hindu</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u92 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Budha</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u93 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Konhucu</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u94 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. Lainnya</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u95 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Jumlah Penduduk Berdasarkan Kepemilikan KTP Elektronik</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Memiliki KTP EL </td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u96 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Belum Memiliki KTP EL</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u97 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Jumlah Penduduk Berdasarkan Kepemilikan Kartu Keluarga</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Jumlah Keluarga</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u98 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Memiliki Kartu Keluarga</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u99 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Belum Memiliki Kartu Keluarga</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u100 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>12</td>
+              <td>Jumlah Penduduk Berdasarkan Status Hubungan dengan Kepala Keluarga</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Kepala Keluarga</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u101 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Suami</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u102 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Istri</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u103 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Anak</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u104 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Menantu</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u105 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Cucu</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u106 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. Orangtua</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u107 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>h. Mertua</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u108 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>i. Famili Lain</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u109 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>j. Pembantu</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u110 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>k. Lainnya</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u111 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>13</td>
+              <td>Kepemilikan Akte Kelahiran</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u112 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>14</td>
+              <td>Kepemilikan Akte Kematian</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u113 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>15</td>
+              <td>Kepemilikan Akte Perkawinan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u114 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>16</td>
+              <td>Kepemilikan Akte Perceraian</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Ada</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u115 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Tidak Ada</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u116 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>17</td>
+              <td>Jumlah Keluarga</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u117 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>18</td>
+              <td>Jumlah Kelahiran</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u118 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>19</td>
+              <td>Jumlah Kematian</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u119 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>20</td>
+              <td>Jumlah Nikah</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u120 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>21</td>
+              <td>Jumlah Talak</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u121 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>22</td>
+              <td>Jumlah Cerai</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u122 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>23</td>
+              <td>Jumlah Rujuk</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u123 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>24</td>
+              <td>Jumlah Migrasi Dalam Kota</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u124 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Pindah Masuk</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u125 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Pindah Keluar</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u126 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>25</td>
+              <td>Distribusi Penduduk Umur 10 Tahun ke Atas Menurut Tingkat Pendidikan Tertinggi yang Ditamatkan</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Tidak/Belum Sekolah</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u127 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Belum Tamat SD</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u128 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+              <td></td>
+              <td>c. Tamat SD</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u129 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. SMP</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u130 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+              <td></td>
+              <td>e. SMA/SMK</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u131 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. D1/D2</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u132 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. D3</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u133 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>h. S1</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u134 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>i. S2</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u135 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>j. S3</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u136 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Distribusi Penduduk Umur 10 Tahun ke Atas Menurut Status Perkawinan</td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Kawin</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u137 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Belum Kawin</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u138 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Cerai Hidup</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u139 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Cerai Mati</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u140 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>27</td>
+              <td>Persentase Kepemilikan Kartu Keluarga SIAK</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u141 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Keluarga</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u142 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+              <td></td>
+              <td>b. KK SIAK Tercetak</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u143 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Belum Vetak KK/Belum SIAK</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u144 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>28</td>
+              <td>Jumlah Penduduk Menurut Jenis Kecacatan</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u145 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Fisik</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u146 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Netra</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u147 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Rungu</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u148 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Mental</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u149 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Fisik dan Mental</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u150 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Lainnya</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u151 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>29</td>
+              <td>Laju Pertumbuhan penduduk (LPP)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u152 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>30</td>
+              <td>Persentase penduduk umur 0-17 tahun dengan kepemilikan akta kelahiran</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u153 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>30</td>
+              <td>Persentase penduduk umur 0-17 tahun dengan kepemilikan akta kelahiran</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u154 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u155 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u156 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u157 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u158 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>31</td>
+              <td>Persentase Penduduk Usia 0-17 Tahun Dengan Kepemilikan Akta Lahir (40% Terbawah), Menurut Provinsi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u159 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u160 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u161 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u162 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u163 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>32</td>
+              <td>Angka kelahiran pada perempuan umur 15-19 tahun (Age Specific Fertility Rate/ASFR)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u164 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u165 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u166 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u167 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u168 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>33</td>
+              <td>Angka Kelahiran Pada Perempuan Umur 15-19 Tahun Menurut Provinsi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u169 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u170 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u171 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u172 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u173 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>34</td>
+              <td>Proporsi anak umur di bawah 5 tahun yang kelahirannya dicatat oleh lembaga pencatatan sipil, menurut umur</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u174 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u175 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u176 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u177 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u178 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>35</td>
+              <td>Proporsi anak umur di bawah 5 tahun yang kelahirannya dicatat oleh lembaga pencatatan sipil Menurut Provinsi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u179 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u180 }}</td>
+              {% endfor %}
+          </tr>
+        <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u181 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u182 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u183 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>36</td>
+            <td>Persentase anak yang memiliki akta kelahiran</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u184 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u185 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u186 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u187 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u188 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>37</td>
+            <td>Persentase anak yang memiliki akta kelahiran Menurut Provinsi</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u189 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u190 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u191 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u192 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u193 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>38</td>
+            <td>Peningkatan cakupan Akta Kematian yang diterbitkan</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u194 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>39</td>
+            <td>Peningkatan cakupan kepemilikan buku nikah/akta perkawinan pada semua pasangan yang perkawinan tercatat</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u195 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>40</td>
+            <td>Peningkatan cakupan kepemilikan akta perceraian dari semua individu yang perceraiannya tercatat</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u196 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>41</td>
+            <td>Persentase anak (Usia 0 s.d 17 Tahun) yang memiliki akta kelahiran</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u197 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>42</td>
+            <td>Rasio ketergantungan</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u198 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>a. Penduduk usia <15 th+usia>64</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u199 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>b. Penduduk usia 15-64</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u200 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>43</td>
+            <td>Rasio penduduk ber-KTP el per satuan penduduk</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u201 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>a. Jumlah penduduk usia > 17 yang ber KTP</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u202 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>  
+            <td>b. Jumlah penduduk usia > 17 atau telah menikah</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u203 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>44</td>
+            <td>Rasio bayi berakte kelahiran</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u204 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>a. Jumlah bayi berakte kelahiran</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u205 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>b. Jumlah bayi</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u206 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>45</td>
+            <td>Rasio anak (0-17 tahun) beraktekelahiran</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u207 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>46</td>
+            <td>Rasio pasangan berakte nikah</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u208 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>a. Jumlah pasangan nikah berakte nikah</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u209 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>b. Jumlah keseluruhan pasangan nikah</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+              <td>{{ d.u210 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>47</td>
+            <td>Ketersediaan database kependudukan skala provinsi</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u211 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>48</td>
+            <td>Ketersediaan database kependudukan skala kota</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u212 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>49</td>
+            <td>Penerapan KTP Nasional berbasis NIK</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u213 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>50</td>
+            <td>Cakupan penerbitan Kartu Tanda Penduduk (KTP)</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u214 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>a. Jumlah KTP ber-NIK yang diterbitkan</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u215 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>b. Jumlah penduduk wajib KTP</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u216 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>51</td>
+            <td>Cakupan penerbitan akta kelahiran</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u217 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>a. Jumlah penduduk lahir dan memperoleh akta kelahiran di tahun bersangkutan</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u218 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>b. Jumlah kelahiran di tahun bersangkutan</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u219 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>52</td>
+            <td>Rasio Perempuan dan Anak (Child Woman Ratio)</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u220 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Perempuan (15 - 49 Tahun)</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u221 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- Anak (0 - 4 Tahun)</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u222 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>53</td>
+            <td>Persentase Kepemilikan KTP</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u223 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- KTP-El</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u224 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>- e-KTP</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+              <td>{{ d.u225 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>54</td>
+            <td>Persentase Kepemilikan Akte Kelahiran</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u226 }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- Content end -->
+
+{% endblock %}

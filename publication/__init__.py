@@ -18,3 +18,4 @@ login_manager.login_message_category = 'warning'
 from publication import routes
 from publication.setda import routes_setda
 from publication.dprd import routes_dprd
+from publication.inspektorat import routes_inspektorat

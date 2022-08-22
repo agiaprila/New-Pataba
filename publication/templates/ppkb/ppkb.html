@@ -1,0 +1,2651 @@
+{% extends 'base.html' %}
+{% block title %}
+  PPKB
+{% endblock %}
+
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('ppkb') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('ppkb_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('ppkb_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('ppkb_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('ppkb_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('ppkb_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('ppkb_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('ppkb_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('ppkb_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Pengendalian Penduduk dan Keluarga Berencana Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('ppkbTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="ppkbTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col" class="my-auto">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th  rowspan="2" scope="col">Satuan</th>
+            <th  colspan="{{ data|length + 1 }}" scope="col" style="text-align: center;">Tahun</th>
+          </tr>
+  
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 20 %}
+                  <span><a href="{{ url_for('ppkb_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 20 %}
+              <th><a href="{{ url_for('ppkb_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Total Fertility Rate (TFR)</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Persentase Perangkat Daerah (Dinas) yang berperan aktif dalam pembangunan Daerah melalui Kampung KB</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td>3</td>
+              <td>Persentase Perangkat Daerah (Badan) yang berperan aktif dalam pembangunan Daerah melalui Kampung KB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u3 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+              <td>4</td>
+              <td>Persentase Perangkat Daerah (Dinas) yang menyusun dan memanfaatkan Rancangan Induk Pengendalian Penduduk</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u4 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>5</td>
+              <td>Persentase Perangkat Daerah (Badan) yang menyusun dan memanfaatkan Rancangan Induk Pengendalian Penduduk</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u5 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>6</td>
+              <td>Jumlah kebijakan (Peraturan Daerah) yang mengatur tentang pengendalian kuantitas dan kualitas penduduk</td>
+              <td>Perda/Perkada</td>
+              {% for d in data %}
+                <td>{{ d.u6 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>7</td>
+              <td>Jumlah kebijakan (Peraturan Kepala Daerah) yang mengatur tentang pengendalian kuantitas dan kualitas penduduk</td>
+              <td>Perda/Perkada</td>
+              {% for d in data %}
+                <td>{{ d.u7 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>8</td>
+              <td>Jumlah sektor yang menyepakati dan memanfaatkan data profil (parameter dan proyeksi penduduk) untuk perencanaan dan pelaksanaan program pembangunan</td>
+              <td>L/I/PD</td>
+              {% for d in data %}
+                <td>{{ d.u8 }}</td>
+              {% endfor %}      </tr>
+          <tr>
+              <td>9</td>
+              <td>Jumlah kerjasama penyelenggaraan pendidikan formal, non formal, dan informal yang melakukan pendidikan kependudukan</td>
+              <td>Bh</td>
+              {% for d in data %}
+                <td>{{ d.u9 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>10</td>
+              <td>Rata-rata jumlah anak per keluarga</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u10 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>11</td>
+              <td>Angka pemakaian kontrasepsi bagi perempuan menikah usia 15 - 49</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u11 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>12</td>
+              <td>Angka pemakaian CPR bagi perempuan menikah usia 15 - 49</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u12 }}</td>
+              {% endfor %}      
+          </tr>
+          <tr>
+              <td>13</td>
+              <td>Angka kelahiran remaja (perempuan usia 15–19) per 1.000 perempuan usia 15–19 tahun (ASFR 15–19)</td>
+              <td>Jiwa</td>
+              {% for d in data %}
+                <td>{{ d.u13 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>14</td>
+              <td>Cakupan Pasangan Usia Subur (PUS) yang istrinya dibawah 20 tahun</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u14 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>15</td>
+              <td>Cakupan PUS yang ingin ber-KB tidak terpenuhi (unmet need)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u15 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>16</td>
+              <td>Persentase Penggunaan Kontrasepsi Jangka Panjang (MKJP)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u16 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>17</td>
+              <td>Persentase tingkat keberlangsungan pemakaian kontrasepsi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u17 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>18</td>
+              <td>Cakupan anggota Bina Keluarga Balita (BKB) ber-KB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u18 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>19</td>
+              <td>Cakupan anggota Bina Keluarga Remaja (BKR) ber-KB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u19 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>20</td>
+              <td>Cakupan anggota Bina Keluarga Lansia (BKL) ber-KB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u20 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>21</td>
+              <td>Pusat Pelayanan Keluarga Sejahtera (PPKS) di setiap Kecamatan</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u21 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>22</td>
+              <td>Cakupan Remaja dalam Pusat Informasi Dan Konseling Remaja/Mahasiswa</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u22 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>23</td>
+              <td>Cakupan PKB/PLKB yang didayagunakan Perangkat Daerah KB untuk perencanaan dan pelaksanaan pembangunan daerah di bidang pengendalian penduduk</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u23 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>24</td>
+              <td>Cakupan PUS peserta KB anggota Usaha Peningkatan Pendapatan Keluarga Sejahtera (UPPKS) yang ber-KB mandiri</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u24 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>25</td>
+              <td>Jumlah Petugas Pembantu Pembina KB Desa (PPKBD)</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u25 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>26</td>
+              <td>Jumlah Sub Petugas Pembantu Pembina KB Desa (Sub PPKBD)</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u26 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>27</td>
+              <td>Rasio petugas Pembantu Pembina KB Desa (PPKBD) setiap desa</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u27 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>28</td>
+              <td>Rasio petugas Pembantu Pembina KB Desa (PPKBD) setiap kelurahan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u28 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>29</td>
+              <td>Cakupan ketersediaan dan distribusi alat dan obat kontrasepsi untuk memenuhi permintaan masyarakat</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u29 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>30</td>
+              <td>Persentase Faskes dan jejaringnya (diseluruh tingkatan wilayah) yang bekerjasama dengan BPJS dan memberikan pelayanan KBKR sesuai dengan standarisasi pelayanan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u30 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>31</td>
+              <td>Cakupan penyediaan Informasi Data Mikro Keluarga di setiap desa</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u31 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>32</td>
+              <td>Persentase remaja yang terkena Infeksi Menular Seksual (IMS)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u32 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>33</td>
+              <td>Cakupan kelompok kegiatan yang melakukan pembinaan keluarga melalui 8 fungsi keluarga</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u33 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>34</td>
+              <td>Cakupan keluarga yang mempunyai balita dan anak yang memahami dan melaksanakan pengasuhan dan pembinaan tumbuh kembang anak</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u34 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>35</td>
+              <td>Rata-rata usia kawin pertama wanita</td>
+              <td>Tahun</td>
+              {% for d in data %}
+                <td>{{ d.u35 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>36</td>
+              <td>Persentase Pembiayaan Program Kependudukan, Keluarga Bencana dan Pembangunan Keluarga melalui APBD dan APBDes</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u36 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>37</td>
+              <td>Proporsi Perempuan Usia Reproduksi (15-49 tahun) atau Pasangannya yang Memiliki Kebutuhan Keluarga Berencana dan Menggunakan Alat Kontrasepsi Metode Modern</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u37 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u38 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u39 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u40 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u41 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>38</td>
+              <td>Angka Prevalensi Penggunaan Metode Kontrasepsi (CPR) Semua Cara Pada Pasangan Usia Subur (PUS) Usia 15-49 Tahun Yang Berstatus Kawin</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u42 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u43 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u44 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u45 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u46 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>39</td>
+              <td>Angka Penggunaan Metode Kontrasepsi Jangka Panjang (MKJP) Cara Modern</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u47 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u48 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u49 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u50 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u51 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>40</td>
+              <td>Angka kelahiran pada perempuan umur 15-19 tahun (Age Specific Fertility Rate/ASFR)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u52 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u53 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u54 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u55 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u56 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>41</td>
+              <td>Angka Kelahiran Pada Perempuan Umur 15-19 Tahun Menurut Provinsi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u57 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u58 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u59 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u60 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u61 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>42</td>
+              <td>Persentase Pengetahuan Dan Pemahaman Pasangan Usia Subur (PUS) Tentang Metode Kontrasepsi Modern Menurut Provinsi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u62 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u63 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u64 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u65 }}</td>
+              {% endfor %}
+          </tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u66 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>43</td>
+              <td>Unmet need KB (Kebutuhan Keluarga Berencana/KB yang tidak terpenuhi)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u67 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u68 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u69 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u70 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u71 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>44</td>
+              <td>Persentase Unmet Need KB (Kebutuhan Keluarga Berencana/KB Yang Tidak Terpenuhi) Menurut Provinsi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u72 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u73 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u74 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u75 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u76 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>45</td>
+              <td>Pengetahuan dan pemahaman Pasangan Usia Subur (PUS) tentang metode kontrasepsi modern</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u77 }}</td>
+              {% endfor %}
+          </tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u78 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u79 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u80 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u81 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>46</td>
+              <td>Persentase Pengetahuan Dan Pemahaman Pasangan Usia Subur (PUS) Tentang Metode Kontrasepsi Modern Menurut Provinsi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u82 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u83 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u84 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u85 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u86 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>47</td>
+              <td>Angka Kelahiran Total (Total Fertility Rate/TFR) per WUS usia 15-49 Tahun</td>
+              <td>Rata-rata Anak per Wanita</td>
+              {% for d in data %}
+                <td>{{ d.u87 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>48</td>
+              <td>Persentase Kebutuhan Ber-KB yang Tidak Terpenuhi (Unmet Need) (%)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u88 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>49</td>
+              <td>Angka prevalensi kontrasepsi modern/modern Contraceptive Prevelance Rate (mCPR)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u89 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>50</td>
+              <td>Persentase Rumah Data Kependudukan Paripurna yang terbentuk di Kampung Keluarga Berencana (KB)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u90 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>51</td>
+              <td>Persentase Pemerintah Daerah yang mempergunakan Grand Design Pembangunan Kependudukan (GDPK) sebagai salah satu dasar perencanaan pembangunan daerah (Provinsi)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u91 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>52</td>
+              <td>Jumlah Kelompok BKL Yang Melaksanakan 7 (Tujuh) Dimensi Lansia Tangguh dan Pendampingan Perawatan Jangka Panjang Bagi Lansia</td>
+              <td>Kelompok</td>
+              {% for d in data %}
+                <td>{{ d.u92 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>53</td>
+              <td>Persentase Kelompok Kerja KKBPK (Pokja Advokasi Program KKBPK) Tk. Provinsi dan Kab/Kota yang efektif</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u93 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>54</td>
+              <td>Jumlah keluarga yang memiliki baduta yang terpapar promosi 1000 HPK</td>
+              <td>Keluarga</td>
+              {% for d in data %}
+                <td>{{ d.u94 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>55</td>
+              <td>Jumlah PIK remaja dan BKR yang mendapatkan pembinaan genre</td>
+              <td>Kelompok</td>
+              {% for d in data %}
+                <td>{{ d.u95 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>56</td>
+              <td>Persentase keluarga yang melaksanakan pengasuhan dan pendampingan pembentukan karakter</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u96 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>57</td>
+              <td>Persentase Pemerintah Daerah yang mempergunakan Grand Design Pembangunan Kependudukan (GDPK) sebagai salah satu dasar perencanaan pembangunan daerah (Kabupaten/Kota)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u97 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>58</td>
+              <td>Laju Pertumbuhan Penduduk (LPP)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u98 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>59</td>
+              <td>Persentase Perangkat Daerah (Dinas/Badan) yang berperan aktif dalam pembangunan Daerah melalui Kampung KB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u99 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah perangkat daerah yang berperan aktif di kampung KB</td>
+              <td>OPD</td>
+              {% for d in data %}
+                <td>{{ d.u100 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah semua perangkat daerah</td>
+              <td>OPD</td>
+              {% for d in data %}
+                <td>{{ d.u101 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>60</td>
+              <td>Persentase Perangkat Daerah (Dinas/Badan) yang menyusun dan memanfaatkan Rancangan Induk Pengendalian Penduduk</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u102 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah perangkat daerah yang menyusun & memanfaatkan Rancangan Induk pengendalian penduduk</td>
+              <td>OPD</td>
+              {% for d in data %}
+                <td>{{ d.u103 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah semua perangkat daerah</td>
+              <td>OPD</td>
+              {% for d in data %}
+                <td>{{ d.u104 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>61</td>
+              <td>Jumlah kebijakan (Peraturan Daerah/Peraturan Kepala Daerah) yang mengatur tentang pengendalian kuantitas dan kualitas penduduk</td>
+              <td>Perda/Perkada</td>
+              {% for d in data %}
+                <td>{{ d.u105 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>62</td>
+              <td>Jumlah kerja sama penyelenggaraan pendidikan formal, non formal, dan informal yang melakukan pendidikan kependudukan</td>
+              <td>SK</td>
+              {% for d in data %}
+                <td>{{ d.u106 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>63</td>
+              <td>Rata-rata jumlah anak per keluarga</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u107 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u108 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah semua anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u109 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>64</td>
+              <td>Ratio Akseptor KB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u110 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Akseptor KB</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u111 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah pasangan usia subur</td>
+              <td>Pasangan</td>
+              {% for d in data %}
+                <td>{{ d.u112 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>65</td>
+              <td>Angka pemakaian kontrasepsi/CPR bagi perempuan menikah usia 15 - 49</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u113 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah peserta KB aktif</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u114 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah pasangan usia subur</td>
+              <td>Pasangan</td>
+              {% for d in data %}
+                <td>{{ d.u115 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>66</td>
+              <td>Angka kelahiran remaja (perempuan usia 15–19) per 1.000 perempuan usia 15–19 tahun (ASFR 15–19)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u116 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah kelahiran dari perempuan pada kelompok umur 15-19</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u117 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah penduduk perempuan kelompok umur 15-19 pada pertengahan tahun yang sama</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u118 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>67</td>
+              <td>Cakupan Pasangan Usia Subur (PUS) yang istrinya di bawah 20 tahun</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u119 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah pasangan usia subur dengan istri di umur kurang 20 th</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u120 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah pasangan usia subur</td>
+            <td>Pasangan</td>
+            {% for d in data %}
+              <td>{{ d.u121 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td>68</td>
+              <td>Persentase Penggunaan Kontrasepsi Jangka Panjang (MKJP)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u122 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah akseptor KB yang menggunakan MKJP</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u123 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah akseptor KB</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u124 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>69</td>
+              <td>Persentase tingkat keberlangsungan pemakaian kontrasepsi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u125 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>70</td>
+              <td>Jumlah pasangan usia subur yang tidak lagi menggunakan kontrasepsi</td>
+              <td>Pasangan</td>
+              {% for d in data %}
+                <td>{{ d.u126 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>71</td>
+              <td>Cakupan anggota Bina Keluarga Balita (BKB) ber-KB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u127 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah anggota kelompok BKR yang ber-KB</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u128 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah anggota kelompok BKR</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u129 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>72</td>
+              <td>Cakupan anggota Bina Keluarga Remaja (BKR) ber-KB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u130 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah anggota kelompok BKR yang ber-KB</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u131 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah anggota kelompok BKR</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u132 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>73</td>
+              <td>Cakupan anggota Bina Keluarga Lansia (BKL) ber-KB</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u133 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah anggota kelompok BKL yang ber-KB</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u134 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah anggota kelompok BKL</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u135 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>74</td>
+              <td>Pusat Pelayanan Keluarga Sejahtera (PPKS) di setiap Kecamatan</td>
+              <td>Layanan</td>
+              {% for d in data %}
+                <td>{{ d.u136 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah PPKS</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u137 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah kecamatan</td>
+              <td>Kecamatan</td>
+              {% for d in data %}
+                <td>{{ d.u138 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>75</td>
+              <td>Cakupan Remaja dalam Pusat Informasi dan Konseling Remaja/Mahasiswa</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u139 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah PIK R/M</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u140 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah kecamatan</td>
+              <td>Kecamatan</td>
+              {% for d in data %}
+                <td>{{ d.u141 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>76</td>
+              <td>Cakupan PKB/PLKB yang didayagunakan Perangkat Daerah KB untuk perencanaan dan pelaksanaan pembangunan daerah di bidang pengendalian penduduk</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u142 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah PKB dan PLKB yang didayagunakan</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u143 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah PKB/PLKB</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u144 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>77</td>
+              <td>Cakupan PUS peserta KB anggota Usaha Peningkatan Pendapatan Keluarga Sejahtera (UPPKS) yang ber-KB mandiri</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u145 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah anggota kelompok UPPKS yang ber-KB mandiri</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u146 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah anggota kelompok UPPKS</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u147 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>78</td>
+              <td>Rasio petugas Pembantu Pembina KB Desa (PPKBD) setiap desa/kelurahan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u148 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah petugas Pembantu Pembina KB Desa</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u149 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah desa/kelurahan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u150 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>79</td>
+              <td>Cakupan ketersediaan dan distribusi alat dan obat kontrasepsi untuk memenuhi permintaan masyarakat</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u151 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah alkon per mix kontrasepsi yang tersedia di Faskes dan gudang Alkon kab/kota</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u152 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Perkiraan Permintaan Masyarakat</td>
+              <td>Kali</td>
+              {% for d in data %}
+                <td>{{ d.u153 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>80</td>
+              <td>Persentase Faskes dan jejaringnya (diseluruh tingkatan wilayah) yang bekerjasama dengan BPJS dan memberikan pelayanan KBKR sesuai dengan standarisasi pelayanan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u154 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah Faskes dan jejaring yang bekerjasama dengan BPJS</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u155 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah Faskes dan jejaring</td>
+              <td>Unit</td>
+              {% for d in data %}
+                <td>{{ d.u156 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>81</td>
+              <td>Cakupan penyediaan Informasi Data Mikro Keluarga di setiap kelurahan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u157 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah informasi data mikro keluarga yang tersedia</td>
+              <td>Informasi</td>
+              {% for d in data %}
+                <td>{{ d.u158 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah seluruh informasi data mikro keluarga</td>
+              <td>Informasi</td>
+              {% for d in data %}
+                <td>{{ d.u159 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>82</td>
+              <td>Persentase remaja yang terkena Infeksi Menular Seksual (IMS)</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u160 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah remaja yang terkena Infeksi Menular Seksual (IMS)</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u161 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah remaja</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u162 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>83</td>
+              <td>Cakupan kelompok kegiatan yang melakukan pembinaan keluarga melalui 8 fungsi keluarga</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u163 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah kelompok kegiatan yang melakukan pembinaan keluarga melalui 8 fungsi keluarga</td>
+              <td>Kelompok</td>
+              {% for d in data %}
+                <td>{{ d.u164 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah kelompok kegiatan</td>
+              <td>Kelompok</td>
+              {% for d in data %}
+                <td>{{ d.u165 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>84</td>
+              <td>Cakupan keluarga yang mempunyai balita dan anak yang memahami dan melaksanakan pengasuhan dan pembinaan t</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u166 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah keluarga yang mempunyai balita dan anak yang memahami dan melaksanakan pengasuhan dan pembinaan tumbuh kembang</td>
+              <td>Keluarga</td>
+              {% for d in data %}
+                <td>{{ d.u167 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah keluarga mempunyai balita dan anak</td>
+              <td>Keluarga</td>
+              {% for d in data %}
+                <td>{{ d.u168 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>85</td>
+              <td>Persentase usia kawin pertama wanita di bawah 21 tahun</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u169 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah (umur kawin pertama wanita x jumlah wanita menurut usia kawin pertama)</td>
+              <td>Tahun</td>
+              {% for d in data %}
+                <td>{{ d.u170 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah wanita menurut usia kawin pertama</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u171 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>86</td>
+              <td>Persentase Pembiayaan Program Kependudukan, Keluarga Bencana dan Pembangunan Keluarga melalui APBD dan APBDes</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u172 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah anggaran untuk urusan PPKB</td>
+              <td>Rp</td>
+              {% for d in data %}
+                <td>{{ d.u173 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah APBD dan APBDes</td>
+              <td>Rp</td>
+              {% for d in data %}
+                <td>{{ d.u174 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>87</td>
+              <td>Jumlah Pasangan Usia Subur Peserta KB</td>
+              <td>Pasangan</td>
+              {% for d in data %}
+                <td>{{ d.u175 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>88</td>
+              <td>Jumlah Pasangan Usia Subur Belum Mengikuti KB</td>
+              <td>Pasangan</td>
+              {% for d in data %}
+                <td>{{ d.u176 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>89</td>
+              <td>Jumlah Kelahiran</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u177 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u178 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u179 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>90</td>
+              <td>Jumlah Kematian</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u180 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u181 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u182 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>91</td>
+            <td>Rata-rata Anak Per Keluarga </td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u183 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>92</td>
+            <td>Peserta KB Berdasarkan Alat atau Metode
+              <td>Orang</td>
+              {% for d in data %}
+              <td>{{ d.u184 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Implan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u185 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Obat/Pil KB**</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u186 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. IUD/Spiral**</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u187 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Suntik</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u188 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Kondom**</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u189 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Vagina Diafragma**</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u190 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Spermatisida**</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u191 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Vasektomi**</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u192 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>i. Tubektomi**</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u193 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>93</td>
+            <td>Jumlah Remaja Wanita Usia 15-19 Thn Yang Melahirkan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u194 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>94</td>
+            <td>Sarana Dan Prasarana KB</td>
+            <td></td>
+            {% for d in data %}
+              <td>{{ d.u195 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Alat Peraga KB</td>
+            <td>Kit</td>
+            {% for d in data %}
+              <td>{{ d.u196 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Balai KB</td>
+            <td>Balai</td>
+            {% for d in data %}
+              <td>{{ d.u197 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Unit Pelayanan KB</td>
+            <td>Unit</td>
+            {% for d in data %}
+              <td>{{ d.u198 }}</td>
+            {% endfor %}
+          </tr>
+          tr>
+            <td></td>
+            <td>d. Puskesmas</td>
+            <td>Unit</td>
+            {% for d in data %}
+              <td>{{ d.u199 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Puskesmas Pembantu<15 th+usia>64</td>
+            <td>Unit</td>
+            {% for d in data %}
+              <td>{{ d.u200 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Klinik KB</td>
+            <td>Unit</td>
+            {% for d in data %}
+              <td>{{ d.u201 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>95</td>
+            <td>Jumlah Kehamilan Yang Tidak Diinginkan Dari Wanita Usia Subur 15-49 Thn</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u202 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>96</td>
+            <td>Jumlah Tenaga Klinik KB</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u203 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>  
+            <td>a. Dokter</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u204 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Bidan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u205 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Perawat Kesehatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u206 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Jumlah Petugas KB</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u207 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Petugas Lapangan KB</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u208 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Penyuluh KB</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u209 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>97</td>
+            <td>Jumlah Kelompok Bina Keluarga</td>
+            <td>Kelompok</td>
+            {% for d in data %}
+            <td>{{ d.u210 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Kelompok Bina Keluarga Balita**</td>
+            <td>Kelompok</td>
+            {% for d in data %}
+            <td>{{ d.u211 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Kelompok Bina Keluarga Remaja**</td>
+              <td>Kelompok</td>
+              {% for d in data %}
+              <td>{{ d.u212 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Jumlah Kelompok Bina Keluarga Lansia**</td>
+            <td>Kelompok</td>
+            {% for d in data %}
+              <td>{{ d.u213 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>98</td>
+            <td>Peserta KB Aktif</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u214 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>99</td>
+            <td>Jumlah Akseptor Baru Menurut Alat Kontrasepsi dan Kecamatan</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u215 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pil</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u216 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Kondom</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u217 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. IUD/Spiral</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u218 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Suntik</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u219 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. MOW</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u220 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Implan</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u221 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+          <td>100</td>
+          <td>Jumlah Akseptor Baru Menurut Alat Kontrasepsi dan Bulan</td>
+          <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pil</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u222 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Januari</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u223 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Februari</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u224 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Maret</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u225 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>April</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u226 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mei</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u227 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juni</td>
+            <td>Bh</td>
+            {% for d in data %}
+              <td>{{ d.u228 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juli</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u229 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Agustus</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u230 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>September</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u231 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Oktober</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u232 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>November</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u233 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Desember</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u234 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Kondom</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u235 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Januari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u236 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Februari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u237 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Maret</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u238 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>April</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u239 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mei</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u240 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juni</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u241 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juli</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u242 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Agustus</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u243 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>September</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u244 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Oktober</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u245 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>November</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u246 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Desember</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u247 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. IUD/Spiral</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u248 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Januari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u249 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Februari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u250 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Maret</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u251 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>April</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u252 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mei</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u253 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juni</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u254 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juli</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u255 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Agustus</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u256 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>September</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u257 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Oktober</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u258 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>November</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u259 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Desember</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u260 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Suntik</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u261 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Januari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u262 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Februari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u263 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Maret</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u264 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>April</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u265 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mei</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u266 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juni</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u267 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juli</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u268 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Agustus</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u269 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>September</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u270 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Oktober</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u271 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>November</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u272 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Desember</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u273 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. MOW</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u274 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Januari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u275 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Februari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u276 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Maret</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u277 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>April</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u278 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mei</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u279 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juni</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u280 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juli</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u281 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Agustus</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u282 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>September</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u283 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Oktober</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u284 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>November</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u285 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Desember</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u286 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Implan</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u287 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Januari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u288 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Februari</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u289 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Maret</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u290 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>April</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u291 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mei</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u292 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juni</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u293 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juli</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u294 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Agustus</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u295 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>September</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u296 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Oktober</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u297 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>November</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u298 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Desember</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u299 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>101</td>
+            <td>Jumlah Klinik KB menurut Unit</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u300 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Departemen Kesehatan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u301 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Klinik KB</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u302 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Akseptor KB</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u303 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. TNI</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u304 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Klinik KB</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u305 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Akseptor KB</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u306 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Swasta</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u307 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Klinik KB</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u308 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Akseptor KB</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u309 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>102</td>
+            <td>Jumlah Pasangan Usia Subur (PUS)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u310 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>103</td>
+            <td>Target Pasangan Usia Subur (PUS)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u311 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>104</td>
+            <td>Pencapaian KB Aktif</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u312 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>105</td>
+            <td>% Terhadap Target</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u313 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>106</td>
+            <td>Jumlah Petugas KB Menurut Jenis dan Kecamatan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u314 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. PPLKB</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u315 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. PKB/PLKB</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u316 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Bina Keluarga Balita (BKB)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u317 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Dasar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u318 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Berkembang</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u319 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Paripurna</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u320 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Persentase Target Terhadap Pencapaian Akseptor Baru</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u321 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Target Akseptor Baru</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u322 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Pencapaian Akseptor Baru</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u323 }}</td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- Content end -->
+
+{% endblock %}

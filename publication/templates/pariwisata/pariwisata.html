@@ -1,0 +1,1235 @@
+{% extends 'base.html' %}
+{% block title %}
+  Pariwisata
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('pariwisata') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('pariwisata_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('pariwisata_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('pariwisata_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('pariwisata_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('pariwisata_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('pariwisata_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('pariwisata_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('pariwisata_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Pariwisata Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('pariwisataTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="pariwisataTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 23 %}
+                  <span><a href="{{ url_for('pariwisata_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 23 %}
+              <th><a href="{{ url_for('pariwisata_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Jumlah Penginapan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Hotel Bintang</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Hotel Non Bintang</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Wisma/Penginapan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Guest House</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jumlah Kamar Tersedia</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Hotel Bintang</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Hotel Non Bintang</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Wisma/Penginapan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Guest House</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Jumlah Kamar Terisi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Hotel Bintang</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Hotel Non Bintang</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Wisma/Penginapan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Guest House</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Jumlah Tempat Tidur</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Hotel Bintang</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Hotel Non Bintang</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Wisma/Penginapan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Guest House</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Jumlah Tenaga Kerja</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Hotel Bintang</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Hotel Non Bintang</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Wisma/Penginapan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Guest House</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Jumlah Tenaga Kerja Berdasarkan Jenis Kelamin</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Laki-laki</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- SD/SLTP/td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- SLTA</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- SMA/SMK/Sederajat</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Universitas</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Kejuruan Hotel/Pariwisata/Diploma</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Perempuan</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- SD/SLTP</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- SLTA</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- SMA/SMK/Sederajat</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Universitas</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Kejuruan Hotel/Pariwisata/Diploma</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Jumlah Restaurant</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Jumlah Warung Makan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Jumlah Warkop</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Jumlah Panti Pijat</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Jumlah Travel</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Kampung Wisata</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Kawasan Wisata Religi</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Kampung Adat</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Obyek Wisata</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u49 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Wisata Alam</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u50 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Wisata Bahari</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Wisata Budaya & Sejarah</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Jumlah Pengunjung Obyek Wisata</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u53 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Wisatawan Domestik</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u54 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Wisatawan Mancanegara</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Jumlah tanda daftar usaha pariwisata per sub jenis usaha</td>
+            <td></td>
+          <tr>
+            <td></td>
+            <td>a. Daya tarik wisata</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Kawasan pariwisata</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u57 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Jasa transportasi wisata</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u58 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Jasa perjalanan wisata</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Jasa makanan dan minuman</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Penyedia akomodasi</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u61 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Penyelenggaraan kegiatan hiburan dan rekreasi</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u62 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Penyelenggaraan pertemuan, perjalanan insentif, konfrensi dan pameran</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u63 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>i. Jasa informasi pariwisata</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u64 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>j. Jasa konsultan pariwisata</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u65 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>k. Jasa pramuwisata</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u66 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>l. Wisata tirta</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u67 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>m. Spa</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u68 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u69 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Jumlah kunjungan wisatawan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Mancanegara</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u70 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Nusantara</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u71 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u72 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Kawasan pariwisata</td>
+            <td>Km2</td>
+            {% for d in data %}
+            <td>{{ d.u73 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Lama kunjungan Wisata</td>
+            <td>Hari</td>
+            {% for d in data %}
+            <td>{{ d.u74 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Jumlah Penerimaan sektor pariwisata</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u75 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Jumlah wisatawan mancanegara</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u76 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u77 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u78 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u79 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u80 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Jumlah kunjungan wisatawan nusantara</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u81 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u82 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u83 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.84 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u85 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Jumlah Perjalanan Wisatawan Nusantara</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.86 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u87 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u88 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u89 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u90 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Jumlah devisa sektor pariwisata</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u91 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u92 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u93 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u94 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u95 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Jumlah pekerja pada industri pariwisata dalam proporsi terhadap total pekerja</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u96 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u97 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u98 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u99 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u100 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>Nilai Tambah Ekonomi Kreatif</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u101 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Kunjungan wisata (%)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u102 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Capaian Kinerja Kunjungan Wisata se-Kabupaten dan Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u103 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Kunjungan Wisata yang direncanakan se-Kabupaten dan Kota</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u104 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>PAD sektor pariwisata</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u105 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. PAD sektor pariwisata</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u106 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Total PAD</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u107 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>Jumlah Pajak Daerah dari Setor Usaha Kepariwisataan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u108 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>31</td>
+            <td>Penyelenggaraan festival seni dan budaya</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u109 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>Sarana penyelenggaraan seni dan budaya</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u110 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>Benda, Situs dan Kawasan Cagar Budaya yang dilestarikan</td>
+            <td>Bh</td>
+            {% for d in data %}
+            <td>{{ d.u111 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Jumlah Paguyuban</td>
+            <td>Paguyuban</td>
+            {% for d in data %}
+            <td>{{ d.u112 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>35</td>
+            <td>Jumlah Toko yang menyediakan Oleh-oleh Khas</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u113 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>Jumlah Grup Kesenian</td>
+            <td>Group</td>
+            {% for d in data %}
+            <td>{{ d.u114 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>37</td>
+            <td>"Banyaknya Tamu Asing dan Tamu Dalam Negeri yang Datang ke Hotel Berbintang"</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Tamu Asing</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u115 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Januari</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u116 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Februari</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u117 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Maret</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u118 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>April</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u119 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mei</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u120 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juni</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u121 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juli</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u122 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Agustus</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u123 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>September</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u124 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Oktober</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u125 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>November</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u126 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Desember</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u127 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Tamu Dalam Negeri (Domestik)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u128 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Januari</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u129 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Februari</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u130 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Maret</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u131 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>April</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u132 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mei</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u133 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juni</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u134 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Juli</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u135 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Agustus</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u136 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>September</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u137 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Oktober</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u138 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>November</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u139 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Desember</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u140 }}</td>
+            {% endfor %}
+          </tr>
+          
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}

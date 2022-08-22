@@ -1,0 +1,1729 @@
+{% extends 'base.html' %}
+{% block title %}
+  PPPA
+{% endblock %}
+
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('pppa') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('pppa_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('pppa_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('pppa_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('pppa_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('pppa_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('pppa_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('pppa_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('pppa_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Pemberdayaan Perempuan dan Perlindunagan Anak Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('pppaTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="pppaTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col" class="my-auto">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th  rowspan="2" scope="col">Satuan</th>
+            <th  colspan="{{ data|length + 1 }}" scope="col" style="text-align: center;">Tahun</th>
+          </tr>
+  
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 19 %}
+                  <span><a href="{{ url_for('pppa_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 19 %}
+              <th><a href="{{ url_for('pppa_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Jumlah Kasus Kekerasan Berdasarkan Jenis Pelayanan Penyelesaian Kekerasan</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pengaduan</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Kesehatan</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u3 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+              <td></td>
+              <td>c. Rehabilitasi Sosial</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u4 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Pemulangan</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u5 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Reintegrasi Sosial</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u6 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Bantuan Hukum</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u7 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. Penegakan Hukum</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u8 }}</td>
+              {% endfor %}      </tr>
+          <tr>
+              <td></td>
+              <td>h. Pendampingan Tokoh Agama</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u9 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>2</td>
+              <td>Jumlah Kasus Kekerasan Berdasarkan Bentuk Kekerasan</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u10 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Fisik</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u11 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Emosional atau Psikologis</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u12 }}</td>
+              {% endfor %}      
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Seksual</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u13 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Trafficking</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u14 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Penelantaran</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u15 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Eksploitasi</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u16 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. Lainnya</td>
+              <td>Kasus</td>
+              {% for d in data %}
+                <td>{{ d.u17 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>3</td>
+              <td>Jumlah Korban Kekerasan Berdasarkan Jenis Kelamin</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u18 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u19 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u20 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>4</td>
+              <td>Jumlah Korban Kekerasan yang Terlayani Berdasarkan Jenis Kelamin</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u21 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u22 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u23 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>5</td>
+              <td>Jumlah Korban Kekerasan kepada Perempuan dan Anak Menurut Kecamatan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u24 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u25 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u26 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Kecamatan Palu Barat</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u27 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u28 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u29 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Kecamatan Ulujadi</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u30 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u31 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u32 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Kecamatan Tatanga</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u33 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u34 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u35 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Kecamatan Palu Selatan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u36 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u37 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u38 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Kecamatan Palu Utara</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u39 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u40 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u41 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Kecamatan Tawaeli</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u42 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u43 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u44 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. Kecamatan Mantikulore</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u45 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u46 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u47 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>h. Kecamatan Palu Timur</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u48 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u49 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u50 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>6</td>
+              <td>Jumlah Korban Kekerasan Berdasarkan Kelompok Usia</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u51 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 0 - 5 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u52 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 6 - 12 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u53 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 13 - 17 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u54 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 18 - 24 tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u55 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 25 - 44 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u56 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 45 - 59 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u57 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- > 60 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u58 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>7</td>
+              <td>Jumlah Korban Kekerasan yang Terlayani Berdasarkan Kelompok Usia/td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u59 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 0 - 5 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u60 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 6 - 12 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u61 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 13 - 17 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u62 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 18 - 24 tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u63 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 25 - 44 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u64 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- 45 - 59 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u65 }}</td>
+              {% endfor %}
+          </tr>
+              <td></td>
+              <td>- > 60 Tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u66 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>8</td>
+              <td>Jumlah Korban Kekerasan Berdasarkan Tingkat Pendidikan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u67 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Tidak Sekolah</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u68 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- SD</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u69 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- SLTP</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u70 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- SLTA</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u71 }}</td>
+              {% endfor %}
+          <tr>
+              <td></td>
+              <td>- Perguruan Tinggi</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u72 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- NA</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u73 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>9</td>
+              <td>Jumlah Korban Kekerasan Berdasarkan Status Perkawinan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u74 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Belum Kawin</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u75 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Kawin</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u76 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Cerai</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u77 }}</td>
+              {% endfor %}
+          </tr>
+              <td></td>
+              <td>- NA</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u78 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>10</td>
+              <td>Jumlah Korban Kekerasan Berdasarkan Pekerjaan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u79 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Tidak Bekerja</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u80 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Bekerja</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u81 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pelajar</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u82 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Ibu Rumah Tangga</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u83 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Swasta / Buruh</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u84 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- PNS / TNI /POLRI</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u85 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Pedagang / Tani / Nelayan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u86 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- NA</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u87 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>11</td>
+              <td>Jumlah Korban Kekerasan pada Status Disabilitas</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u88 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Difabel</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u89 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Non Difabel</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u90 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>12</td>
+              <td>Jumlah Korban Kekerasan pada Penyandang Difabel</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u91 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u92 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u93 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>13</td>
+              <td>Jumlah Anak yang Berhadapan dengan Hukum</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u94 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>14</td>
+              <td>Cakupan perempuan dan anak korban kekerasan yang mendapatkan layanan kesehatan oleh tenaga kesehatan terlatih di Puskesmas mampu tatalaksana KtP/A dan PPT/PKT di Rumah Sakit</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u95 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>15</td>
+              <td>Kontribusi perempuan dalam pekerjaan upahan di sektor non pertanian</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u96 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Prevalensi kekerasan terhadap anak perempuan</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u97 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u98 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u99 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u100 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Proporsi perempuan dewasa dan anak perempuan (umur 15-64 tahun) mengalami kekerasan (fisik, seksual, atau emosional) oleh pasangan atau mantan pasangan dalam 12 bulan terakhir</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u101 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u102 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u103 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u104 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Proporsi perempuan dewasa dan anak perempuan (umur 15-64 tahun) mengalami kekerasan seksual oleh orang lain selain pasangan dalam 12 bulan terakhir</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u105 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u106 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u107 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u108 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Proporsi rumah tangga yang memiliki anak umur 1-17 tahun yang mengalami hukuman fisik dan/atau agresi psikologis dari pengasuh dalam setahun terakhir</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u109 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u110 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kotaa</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u111 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u112 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Proporsi perempuan dan laki-laki muda umur 18-24 tahun yang mengalami kekerasan seksual sebelum umur 18 tahun</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u113 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u114 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u115 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u116 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Persentase keterwakilan perempuan di Dewan Perwakilan Rakyat Daerah (DPRD)</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Target Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u117 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Capaian Nasional</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u118 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u119 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u120 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>22</td>
+              <td>Indeks Pembangunan Gender (IPG)</td>
+              <td>Indeks</td>
+              {% for d in data %}
+                <td>{{ d.u121 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>23</td>
+              <td>Prevalensi kekerasan terhadap perempuan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u122 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>24</td>
+              <td>Indeks Pemberdayaan Gender (IDG)</td>
+              <td>Indeks</td>
+              {% for d in data %}
+                <td>{{ d.u123 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>25</td>
+              <td>Tingkat Partisipasi Angkatan Kerja (TPAK) Perempuan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u124 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>26</td>
+              <td>Indeks Perlindungan Anak</td>
+              <td>Indeks</td>
+              {% for d in data %}
+                <td>{{ d.u125 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>27</td>
+              <td>Persentase Anak Korban Kekerasan yang Mendapatkan Layanan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u126 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>28</td>
+              <td>Persentase Anak Korban Kekerasan yang Mendapatkan Layanan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u127 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>29</td>
+              <td>Indeks Perlindungan Khusus Anak</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u128 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+              <td>30</td>
+              <td>Persentase Balita yang mendapatkan pengasuhan tidak layak</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u129 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>31</td>
+            <td>Prevalensi kekerasan terhadap anak perempuan</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Pekerja perempuan di lembaga pemerintah</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u130 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah pekerja perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u131 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>Proporsi kursi yang diduduki perempuan di DPRD</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a.Jumlah kursi DPRD yang diduduki perempuan</td>
+              <td>Kursi</td>
+              {% for d in data %}
+                <td>{{ d.u132 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah total kursi di keanggotaan DPRD</td>
+              <td>Kursi</td>
+              {% for d in data %}
+                <td>{{ d.u133 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>Partisipasi perempuan di lembaga swasta</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Pekerja perempuan di lembaga swasta</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u134 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah pekerja perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u135 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Rasio KDRT</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah KDRT</td>
+              <td>KDRT</td>
+              {% for d in data %}
+                <td>{{ d.u136 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah rumah tangga</td>
+              <td>RT</td>
+              {% for d in data %}
+                <td>{{ d.u137 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>35</td>
+            <td>Persentase jumlah tenaga kerja dibawah umur</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Pekerja anak usia 5-14 tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u138 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah pekerja usia 5 tahun keatas</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u139 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>Partisipasi angkatan kerja perempuan</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah partisipasi angkatan kerja perempuan</td>
+              <td>Partisipasi</td>
+              {% for d in data %}
+                <td>{{ d.u140 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah angkatan kerja perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u141 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>37</td>
+            <td>Cakupan perempuan dan anak korban kekerasan yang mendapatkan penanganan pengaduan oleh petugas terlatih di dalam unit pelayanan terpadu</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah pengaduan/laporan yang ditindaklanjuti oleh unit pelayanan terpadu</td>
+              <td>Laporan</td>
+              {% for d in data %}
+                <td>{{ d.u142 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah laporan/pengaduan yang masuk ke unit pelayanan terpadu</td>
+              <td>Laporan</td>
+              {% for d in data %}
+                <td>{{ d.u143 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>38</td>
+              <td>Cakupan perempuan dan anak korban kekerasan yang mendapatkan layanan kesehatan oleh tenaga kesehatan terlatih di Puskesmas mampu tatalaksana KtP/A dan PPT/PKT di Rumah Sakit</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u144 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah korban KtP/A yang memperoleh layanan kesehatan oleh tenaga kesehatan terlatih dipuskesmas mampu tatalaksana KtP/A atau PPT/PKT di RS disuatu wilayah kerja tertentu pada kurun waktu tertentu</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u145 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah seluruh korban KtP/A yang terdata datang ke puskesmas mampu tatalaksana kasus Ktp/A dan ke RS disuatu wilayah kerja tertentu dalam kurun waktu tertentu</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u146 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>39</td>
+              <td>Cakupan layanan rehabilitasi sosial yang diberikan oleh petugas rehabilitasi sosial terlatih bagi perempuan dan anak korban kekerasan di dalam unit pelayanan terpadu</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u147 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah korban kekerasan yang memperolah pelayanan rehabsos</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u148 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah korban kekerasan yang membutuhkan rehabsos</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u149 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>40</td>
+              <td>Cakupan penegakan hukum dari tingkat penyidikan sampai dengan putusan pengadilan atas kasus-kasus kekerasan terhadap perempuan dan anak</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u150 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah perkara yang diputuskan pengadilan dengan dasar perundang-undnagan yang berkaitan dengan kekerasan terhadap perempuan dan anak</td>
+              <td>Perkara</td>
+              {% for d in data %}
+                <td>{{ d.u151 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah perkara kekerasan terhadap perempuan dan anak yang disidangkan</td>
+              <td>Perkara</td>
+              {% for d in data %}
+                <td>{{ d.u152 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>41</td>
+              <td>Cakupan perempuan dan anak korban kekerasan yang mendapatkan layanan bantuan hukum</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u153 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah korban mendapat layanan bantuan hukum</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u154 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah korban yang membutuhkan bantuan hukum</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u155 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>42</td>
+              <td>Cakupan layanan pemulangan bagi perempuan dan anak korban kekerasan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u156 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah perempuan dan anak korban kekerasan yang mendapatkan pelayanan pemulungan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u157 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah perempuan dan anak korban kekerasan yang tercatat di UPTa</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u158 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>43</td>
+              <td>Cakupan layanan reintegrasi sosial bagi perempuan dan anak korban kekerasan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u159 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah perempuan dan anak korban kekerasan yang disatukan kembali ke keluarga, keluarga pengganti  dan masyarakat lainnya</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u160 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah korban yang membutuhkan reintegrasi sosial</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u161 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>44</td>
+              <td>Rasio APM perempuan/laki‐laki di SD</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u162 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. APM-SD perempuan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u163 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. APM-SMP laki-laki</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u164 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>45</td>
+              <td>Rasio APM perempuan/laki-laki di SMP</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u165 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. APM-SMP perempuan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u166 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. APM-SMP laki-laki</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u167 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>46</td>
+              <td>Rasio APM perempuan/laki‐laki di SMA</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u168 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Banyaknya murid SLTA perempuan usia 16-18 tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u169 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Banyaknya murid SLTA laki-laki usia 16-18 tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u170 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>47</td>
+              <td>Rasio APM perempuan/laki laki di Perguruan Tinggi</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u171 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah anak perempuan di tingkat pendidikan tinggiusia 19-24 tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u172 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah anak laki-laki di tingkkat pendidikan tinggi usia 19-24 tahun</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u173 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>48</td>
+              <td>Jumlah Organisasi Perempuan yang dibina</td>
+              <td>Organisasi</td>
+              {% for d in data %}
+                <td>{{ d.u174 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>49</td>
+              <td>Rasio melek huruf perempuan terhadap laki‐laki pada kelompok usia 15‐24 tahun</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u175 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. AMH15-24 perempuan</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u176 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. AMH15-24 laki-laki</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u177 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>50</td>
+              <td>Kontribusi perempuan dalam pekerjaan upahan di sector nonpertanian</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u178 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Banyaknya pekerja upahan perempuan di sektor non pertanian</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u179 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Banyaknya pekerja upahan di sektor non pertanian</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u180 }}</td>
+              {% endfor %}
+          </tr>
+        <tr>
+            <td>51</td>
+            <td>Persentase Pendampingan Kasus Kekerasan Terhadap Perempuan dan Anak</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u181 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>52</td>
+            <td>Penyelesaian pengaduan perlindungan perempuan dan anak dari tindakan kekerasan</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u182 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>53</td>
+            <td>Kekerasan Dalam Rumah Tangga (KDRT)</td>
+            <td>KDRT</td>
+            {% for d in data %}
+              <td>{{ d.u183 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>54</td>
+            <td>Persentase perempuan pengambil keputusan di lembaga legislatif</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u184 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>55</td>
+            <td>Jumlah Kabupaten/ Kota Layak Anak berkategori Nindya ke atas</td>
+            <td>Kabupaten</td>
+            {% for d in data %}
+              <td>{{ d.u185 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>56</td>
+            <td>Jumlah Desa Prima</td>
+            <td>Kelurahan</td>
+            {% for d in data %}
+              <td>{{ d.u186 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>57</td>
+            <td>Jumlah kebijakan yang responsif gender mendukung pemberdayaan perempuan</td>
+            <td>Kebijakan</td>
+            {% for d in data %}
+              <td>{{ d.u187 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>58</td>
+            <td>Prevalensi Kekerasan terhadap anak perempuan dan laki-laki 0-17 th</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u188 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>59</td>
+            <td>Proporsi perempuan dan anak perempuan menagalami kekerasan Dalam Rumah Tangga (KDRT)</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u189 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>60</td>
+            <td>Proporsi perempuan dan anak perempuan mengalami kekerasan non-KDRT</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u190 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>61</td>
+            <td>Persentase korban kekerasan terhadap perempuan yang mendapat layanan komprehensif</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u191 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>62</td>
+            <td>Tersedianya pusat layanan korban kekerasan perempuan dan anak di Kota Palu</td>
+            <td>Layanan</td>
+            {% for d in data %}
+              <td>{{ d.u192 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>63</td>
+            <td>Penurunan Perempuan dan Anak Korban Kekerasan</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u193 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>64</td>
+            <td>Prevalensi Kekerasan Terhadap Perempuan dan Anak</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u194 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>65</td>
+            <td>Presentase Perempuan pengambilan keputusan di ranah publik</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u195 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>66</td>
+            <td>Rasio kekerasan dalam keluarga</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u196 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>67</td>
+            <td>Jumlah kekerasan terhadap disabilitas (difabel)</td>
+            <td>Kali</td>
+            {% for d in data %}
+              <td>{{ d.u197 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>68</td>
+            <td>Jumlah kekerasan terhadap perempuan dan anak berdasarkan usia</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u198 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>69</td>
+            <td>Jumlah kekerasan terhadap perempuan menurut jenis perkara<15 th+usia>64</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u199 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>70</td>
+            <td>Jumlah kekerasan terhadap anak menurut jenis perkara</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u200 }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- Content end -->
+
+{% endblock %}

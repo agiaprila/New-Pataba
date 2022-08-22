@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}
+  Edit
+{% endblock %}
+
+{% block content %}
+  
+  <div class="container">
+    <h1>Edit Table Modal</h1>
+    <p class="bg-danger text-center text-white">Jika terdapat data kosong, harap diisi dengan angka 0</p>
+
+    <hr>
+
+    <form method="POST" class="edit-form">
+
+      {{ form.hidden_tag() }}
+
+      {{ form.tahun.label() }}
+      {{ form.tahun(class="form-control my-2", autocomplete="off")}}
+
+      <!-- awal -->
+
+      {{ form.u1.label() }}
+      {{ form.u1(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u2.label() }}
+      {{ form.u2(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u3.label() }}
+      {{ form.u3(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u4.label() }}
+      {{ form.u4(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u5.label() }}
+      {{ form.u5(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u6.label() }}
+      {{ form.u6(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u7.label() }}
+      {{ form.u7(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u8.label() }}
+      {{ form.u8(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u9.label() }}
+      {{ form.u9(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u10.label() }}
+      {{ form.u10(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u11.label() }}
+      {{ form.u11(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u12.label() }}
+      {{ form.u12(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u13.label() }}
+      {{ form.u13(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u14.label() }}
+      {{ form.u14(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u15.label() }}
+      {{ form.u15(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u16.label() }}
+      {{ form.u16(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u17.label() }}
+      {{ form.u17(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u18.label() }}
+      {{ form.u18(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u19.label() }}
+      {{ form.u19(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u20.label() }}
+      {{ form.u20(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u21.label() }}
+      {{ form.u21(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u22.label() }}
+      {{ form.u22(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u23.label() }}
+      {{ form.u23(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u24.label() }}
+      {{ form.u24(class="form-control my-2", autocomplete="off")}}
+
+      <!-- akhir -->
+      
+      {{ form.district_id.label() }}
+      {{ form.district_id(class="form-control my-2", placeholder="Test")}}
+
+      <br>
+
+      {{ form.submit(class="btn btn-warning btn-large btn-block")}}
+
+    </form>
+
+  </div>
+
+  <br><br><br><br>
+
+{% endblock %}
