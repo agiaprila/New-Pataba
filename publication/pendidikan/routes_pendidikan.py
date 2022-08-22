@@ -290,7 +290,7 @@ def pendidikan_add():
       flash('Table Edited!', category='success')
       return redirect(url_for('pendidikan'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('pendidikan/pendidikan_add.html', form=form)
 
@@ -305,5 +305,5 @@ def pendidikan_delete(id):
     flash('Data Berhasil Dihapus', category='success')
     return redirect(url_for('pendidikan'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('pendidikan'))

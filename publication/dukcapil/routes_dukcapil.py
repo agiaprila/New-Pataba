@@ -272,7 +272,7 @@ def dukcapil_add():
       #   flash('Unauthorized', category='danger')
       #   return redirect(url_for('dukcapil_add'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('dukcapil/dukcapil_add.html', form=form)
 
@@ -291,6 +291,6 @@ def dukcapil_delete(id):
     #   flash('Unauthorized', category='danger')
     #   return redirect(url_for('dukcapil'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('dukcapil'))
 

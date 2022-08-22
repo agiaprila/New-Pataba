@@ -246,7 +246,7 @@ def pppa_add():
       #   flash('Unauthorized', category='danger')
       #   return redirect(url_for('pppa_add'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('pppa/pppa_add.html', form=form)
 
@@ -265,6 +265,6 @@ def pppa_delete(id):
     #   flash('Unauthorized', category='danger')
     #   return redirect(url_for('setda'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('pppa'))
 

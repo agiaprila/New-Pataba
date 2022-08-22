@@ -8,7 +8,7 @@ from flask_login import current_user, login_required
 # lingkungan (Kota)
 @app.route('/publikasi/lingkungan')
 def lingkungan():
-  data = lingkungan.query.filter_by(district_id=None).order_by(Lingkungan.tahun).all()
+  data = Lingkungan.query.filter_by(district_id=None).order_by(Lingkungan.tahun).all()
   return render_template('lingkungan/lingkungan.html', data=data)
 
 # lingkungan (Kecamatan)
@@ -101,7 +101,7 @@ def lingkunganm_add():
       flash('Table Edited!', category='success')
       return redirect(url_for('lingkungan'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('lingkungan/lingkungan_add.html', form=form)
 
@@ -116,5 +116,5 @@ def lingkungan_delete(id):
     flash('Data Berhasil Dihapus', category='success')
     return redirect(url_for('lingkungan'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('lingkungan'))

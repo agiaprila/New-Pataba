@@ -282,7 +282,7 @@ def setda_add():
       #   flash('Unauthorized', category='danger')
       #   return redirect(url_for('setda_add'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('setda/setda_add.html', form=form)
 
@@ -301,6 +301,6 @@ def setda_delete(id):
     #   flash('Unauthorized', category='danger')
     #   return redirect(url_for('setda'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('setda'))
 

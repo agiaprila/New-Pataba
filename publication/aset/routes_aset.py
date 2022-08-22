@@ -146,7 +146,7 @@ def aset_add():
       #   flash('Unauthorized', category='danger')
       #   return redirect(url_for('aset_add'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('aset/aset_add.html', form=form)
 
@@ -165,6 +165,6 @@ def aset_delete(id):
     #   flash('Unauthorized', category='danger')
     #   return redirect(url_for('aset'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('aset'))
 

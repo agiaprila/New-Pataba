@@ -57,7 +57,7 @@ def inspektorat_add():
       flash('Table Edited!', category='success')
       return redirect(url_for('inspektorat'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('inspektorat/inspektorat_add.html', form=form)
 
@@ -72,5 +72,5 @@ def inspektorat_delete(id):
     flash('Data Berhasil Dihapus', category='success')
     return redirect(url_for('inspektorat'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('inspektorat'))

@@ -334,6 +334,10 @@ class Dprd(db.Model):
   # ---
   district_id = db.Column(db.Integer(), nullable=True)
 
+# <<<<<<< HEAD
+# testing database
+# =======
+# >>>>>>> cd177f5022c15936f370668a0c8f11c1272fd4ba
 class Inspektorat(db.Model):
   id = db.Column(db.Integer(), primary_key=True)
   tahun = db.Column(db.String(length=4), nullable=False)
@@ -352,6 +356,10 @@ class Inspektorat(db.Model):
   u12 = db.Column(db.Integer())
   u13 = db.Column(db.Integer())
   u14 = db.Column(db.Integer())
+# <<<<<<< HEAD
+  # ---
+  district_id = db.Column(db.Integer(), nullable=True)
+# =======
   u15 = db.Column(db.Integer())
   u16 = db.Column(db.Integer())
   u17 = db.Column(db.Integer())
@@ -619,8 +627,6 @@ class Pendidikan(db.Model):
   u251 = db.Column(db.Integer())
   # ---
   district_id = db.Column(db.Integer(), nullable=True)
-
-
 
 class Anutapura(db.Model):
   id = db.Column(db.Integer(), primary_key=True)
@@ -1458,8 +1464,6 @@ class Sosial(db.Model):
     # ---
   district_id = db.Column(db.Integer(), nullable=True)
 
-
-
 class Perdagangan(db.Model):
   id = db.Column(db.Integer(), primary_key=True)
   tahun = db.Column(db.String(length=4), nullable=False)
@@ -1761,8 +1765,6 @@ class Dukcapil(db.Model):
   u226 = db.Column(db.Integer())
   # ---
   district_id = db.Column(db.Integer(), nullable=True)
-
-
 
 class Kearsipan(db.Model):
   id = db.Column(db.Integer(), primary_key=True)
@@ -3345,3 +3347,4 @@ class Pendapatan(db.Model):
 
 
 
+# >>>>>>> cd177f5022c15936f370668a0c8f11c1272fd4ba
