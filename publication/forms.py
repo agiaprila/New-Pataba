@@ -535,7 +535,7 @@ class FormPendidikan(FlaskForm):
   u178 = IntegerField('4) Rusak Berat')
   u179 = IntegerField('Jumlah')
   u180 = IntegerField('1) Baik')
-  u118 = IntegerField('2) Rusak Ringan')
+  u181 = IntegerField('2) Rusak Ringan')
   u182 = IntegerField('3) Rusak Sedang')
   u183 = IntegerField('4) Rusak Berat')
   u184 = IntegerField('Jumlah')
@@ -615,8 +615,6 @@ class FormPendidikan(FlaskForm):
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
   submit = SubmitField('Tambahkan')
-
-
 
 class FormAnutapura(FlaskForm):
   # bagian pemerintahan
@@ -1362,7 +1360,7 @@ class FormSosial(FlaskForm):
   u46 = IntegerField('Daerah yang aktif melakukan pemutakhiran data terpadu penanggulangan kemiskinan')
   u47 = IntegerField('Indeks keberfungsian sosial penyandang disabilitas')
   u48 = IntegerField('Indeks keberfungsian sosial Lanjut Usia')
-  u40 = IntegerField('Indeks keberfungsian sosial anak')
+  u49 = IntegerField('Indeks keberfungsian sosial anak')
   u50 = IntegerField('Indeks keberfungsian sosial tuna sosial dan korban perdagangan orang')
   u51 = IntegerField('Jumlah Penerima Bantuan (Kepala Keluarga)')
   u52 = IntegerField('Jumlah Anggaran Bantuan Sosial Pangan')
@@ -1422,7 +1420,7 @@ class FormSosial(FlaskForm):
   u106 = IntegerField('a. Negeri')
   u107 = IntegerField('b. Swasta')
   u108 = IntegerField('a. Negeri')
-  u119 = IntegerField('b. Swasta')
+  u109 = IntegerField('b. Swasta')
   u110 = IntegerField('a. Negeri')
   u111 = IntegerField('b. Swasta')
   u112 = IntegerField('a. Negeri')
@@ -1767,6 +1765,7 @@ class FormDukcapil(FlaskForm):
  # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
   submit = SubmitField('Tambahkan')
+
 class FormKearsipan(FlaskForm):
   # bagian pemerintahan
   tahun = IntegerField('Tahun', validators=[DataRequired()])
@@ -2244,7 +2243,7 @@ class FormPPKB(FlaskForm):
   u178 = IntegerField('a. Laki-laki')
   u179 = IntegerField('b. Perempuan')
   u180 = IntegerField('Jumlah Kematian')
-  u118 = IntegerField('a. Laki-laki')
+  u181 = IntegerField('a. Laki-laki')
   u182 = IntegerField('b. Perempuan')
   u183 = IntegerField('Rata-rata Anak Per Keluarga')
   u184 = IntegerField('Peserta KB Berdasarkan Alat atau Metode')
@@ -3037,7 +3036,7 @@ class FormKepegawaian(FlaskForm):
   u178 = IntegerField('hh. Kecamatan Palu Barat')
   u179 = IntegerField('1) Laki-laki')
   u180 = IntegerField('2. Perempuan')
-  u118 = IntegerField('ii. Kecamatan Ulujadi')
+  u181 = IntegerField('ii. Kecamatan Ulujadi')
   u182 = IntegerField('1) Laki-laki')
   u183 = IntegerField('2. Perempuan')
   u184 = IntegerField('jj. Kecamatan Tatanga')

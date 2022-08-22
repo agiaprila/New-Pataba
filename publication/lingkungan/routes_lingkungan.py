@@ -21,7 +21,7 @@ def lingkungan_kec(district_id):
 # edit tabel
 @app.route('/publikasi/lingkungan/add', methods=['GET', 'POST'])
 @login_required
-def lingkunganm_add():
+def lingkungan_add():
   if current_user.role == 'admin' or current_user.officer_of_agency == 21:
     form = FormLingkungan()
     if form.validate_on_submit():
