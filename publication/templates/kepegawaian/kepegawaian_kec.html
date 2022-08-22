@@ -1,0 +1,2445 @@
+{% extends 'base.html' %}
+{% block title %}
+  Kepegawaian
+{% endblock %}
+
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('kepegawaian') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('kepegawaian_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('kepegawaian_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('kepegawaian_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('kepegawaian_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('kepegawaian_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('kepegawaian_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('kepegawaian_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('kepegawaian_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Badan Kepegawaian Daerah Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('kepegawaianTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="kepegawaianTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col" class="my-auto">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th  rowspan="2" scope="col">Satuan</th>
+            <th  colspan="{{ data|length + 1 }}" scope="col" style="text-align: center;">Tahun</th>
+          </tr>
+  
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 27 %}
+                  <span><a href="{{ url_for('kepegawaian_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 27 %}
+              <th><a href="{{ url_for('kepegawaian_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Jumlah Pegawai Negeri Sipil</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jumlah Pegawai Negeri Sipil Menurut Jenis Kelamin</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u3 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+              <td></td>
+              <td>b. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u4 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>3</td>
+              <td>Jumlah Pegawai Negeri Sipil Menurut Jabatan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u5 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Tinggi Pratama</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u6 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Administrator</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u7 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Pengawas</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u8 }}</td>
+              {% endfor %}      
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Pelaksana</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u9 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Fungsional</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u10 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>4</td>
+              <td>Jumlah Pegawai Negeri Sipil dengan Jabatan sebagai Pelaksana</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u11 }}</td>
+              {% endfor %}      
+          </tr>
+          <tr>
+              <td>5</td>
+              <td>Jumlah Pegawai Negeri Sipil dengan Jabatan sebagai Fungsional/td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u12 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>6</td>
+              <td>Jumlah Pegawai Negeri Sipil Berdasarkan Jabatan Struktural</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u13 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Eselon IV.a</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u14 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Eselon IV.b</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u15 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Eselon III.a</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u16 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Eselon III.b</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u17 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Eselon II.a</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u18 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Eselon II.b</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u19 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>7</td>
+              <td>Jumlah Pegawai Negeri Sipil Menurut Tingkat Pendidikan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u20 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. SD/MI/Sederajat</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u21 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. SMP/MTs/Sederajat</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u22 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. SMA/SMK/MA/Sederajat</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u23 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. D.III</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u24 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Strata-1/D.IV</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u25 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Strata-2</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u26 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. Strata-3</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u27 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>8</td>
+              <td>Jumlah Pegawai Negeri Sipil Menurut Tingkat Kepangkatan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u28 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Juru Muda</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u29 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Juru Muda Tingkat I</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u30 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Juru</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u31 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Juru Tingkat I</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u32 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Pengatur Muda</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u33 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Pengatur Muda Tingkat I</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u34 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. Pengatur</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u35 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>h. Pengatur Tingkat I</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u36 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>i. Penata Muda</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u37 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>j. Penata Muda Tingkat I</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u38 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>k. Penata</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u39 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>l. Penata Tingkat I</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u40 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>m. Pembina</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u41 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>n. Pembina Tingkat I</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u42 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>o. Pembina Utama Muda</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u43 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>p. Pembina Utama Madya</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u44 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>q. Pembina Utama</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u45 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>9</td>
+              <td>Kepegawaian serta Pendidikan dan Pelatihan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u46 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>10</td>
+              <td>Rata - Rata Lama Pegawai mendapatkan Pendidikan dan Pelatihan</td>
+              <td>Hari/Bulan</td>
+              {% for d in data %}
+                <td>{{ d.u47 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>11</td>
+              <td>Persentase ASN yang mengikuti Pendidikan dan Pelatihan Formal</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u48 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah ASN yang mengikuti pendidikan dan pelatihan formal</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u49 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah total ASN</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u50 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>12</td>
+              <td>Persentase Pejabat ASN yang telah mengikuti Pendidikan dan Pelatihan Struktura</td>
+              <td>%</td>
+              {% for d in data %}
+                <td>{{ d.u51 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Jumlah pejabat ASN yang telah mengikuti diklat struktural</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u52 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Jumlah total jabatan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u53 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>13</td>
+              <td>Jumlah jabatan  Pimpinan Tinggi pada instansi pemerintah</td>
+              <td>Jabatan</td>
+              {% for d in data %}
+                <td>{{ d.u54 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>14</td>
+              <td>Jumlah Jabatan Administrasi Pada instansi pemerintah</td>
+              <td>Jabatan</td>
+              {% for d in data %}
+                <td>{{ d.u55 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>15</td>
+              <td>Jumlah Pemangku Jabatan Fungsional tertentu pada instansi pemerintah</td>
+              <td>Jabatan</td>
+              {% for d in data %}
+                <td>{{ d.u56 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>16</td>
+              <td>Jumlah Aparatur Sipil Negara di Lingkungan Pemerintah Kota Palu</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u57 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>17</td>
+              <td>Jumlah Pegawai Negeri Sipil Menurut Jabatan dan Jenis Kelamin :</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u58 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Es. II a</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-Laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u59 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u60 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Es. II b</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-Laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u61 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u62 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Es. III a</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-Laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u63 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u64 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Es. III b</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-Laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u65 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u66 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Es. IV a</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-Laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u67 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u68 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Es. IV b</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-Laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u69 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u70 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Es. V a</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-Laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u71 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u72 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>18</td>
+              <td>Jumlah Pegawai Negri Sipil Berdasarkan Fungsional</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u73 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Fungsional Tertentu</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-Laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u74 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u75 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Fungsional Umum</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-Laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u76 }}</td>
+              {% endfor %}
+          </tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u77 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>19</td>
+              <td>Jumlah Pegawai Daerah Menurut Perangkat Daerah dan Jenis Kelamin :</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u78 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Sekretariat Daerah</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u79 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u80 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u81 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Sekretariat DPRD</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u82 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u83 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u84 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Inspektorat</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u85 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u86 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u87 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Dinas Pendidikan Dan Kebudayaan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u88 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u89 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u90 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Dinas Kesehatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u91 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>1) Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u92 }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td></td>
+            <td>2. Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u93 }}</td>
+            {% endfor %}
+        </tr>
+          <tr>
+              <td></td>
+              <td>f. RSU Anutapura</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u94 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u95 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u96 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. Dinas Pekerjaan Umum</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u97 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u98 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u99 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>h. Dinas Penataan Ruang Dan Pertanahan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u100 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u101 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u102 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>i. Dinas Perumahan Dan Kawasan Permukiman</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u103 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u104 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u105 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>j. Satuan Polisi Pamong Praja</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u106 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u107 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u108 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>k. Dinas Pemadam Kebakaran Dan Penyelamatan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u109 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u110 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u111 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>l. Dinas Sosial</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u112 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u113 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u114 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>m. Dinas Koperasi, Umkm Dan Tenaga Kerja</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u115 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u116 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u117 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>n. Dinas Perdagangan Dan Perindustrian</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u118 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u119 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u120 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>o. Dinas Kependudukan Dan Pencatatan Sipil</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u121 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u122 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u123 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>p .Dinas Pertanian Dan Ketahanan Pangan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u124 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u125 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u126 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>q. Dinas Kearsipan Dan Perpustakaan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u127 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u128 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u129 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>r. Dinas Pemuda Dan Olahraga</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u130 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u131 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u132 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+              <td></td>
+              <td>s. Dinas Pemberdayaan Perempuan Dan Perlindungan Anak</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u133 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u134 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u135 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>t. Dinas Pengendalian Penduduk Dan Keluarga Berencana</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u136 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u137 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u138 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>u. Dinas Lingkungan Hidup</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u139 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u140 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u141 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>v. Dinas Penanaman Modal Dan Pelayanan Terpadu Satu Pintu</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u142 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u143 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u144 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+              <td></td>
+              <td>w. Dinas Pariwisata</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u145 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u146 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u147 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>x.Dinas Perhubungan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u148 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u149 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u150 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>y. Dinas Komunikasi Dan Informatika</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u151 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u152 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u153 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>z. Badan Perencanaan Pembangunan Daerah</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u154 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u155 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u156 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>aa. Badan Kepagawaian Dan Pengembangan Sumber Daya Manusia Daerah</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u157 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u158 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u159 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>bb. Badan Pengelola Keuangan Dan Aset Daerah</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u160 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u161 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u162 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>cc. Badan Pendapatan Daerah</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u163 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u164 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u165 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>dd. Badan Penelitian Dan Pengembangan Daerah</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u166 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u167 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u168 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>ee. Badan Kesatuan Bangsa Dan Politik</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u169 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u170 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u171 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>ff. Badan Penanggulangan Bencana Daerah</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u172 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u173 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u174 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>gg. Administrator Kawasan Ekonomi Khusus</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u175 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u176 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u177 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>hh. Kecamatan Palu Barat</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u178 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u179 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u180 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>ii. Kecamatan Ulujadi</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u181 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u182 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u183 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>jj. Kecamatan Tatanga</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u184 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u185 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u186 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>kk. Kecamatan Palu Selatan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u187 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u188 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u189 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>ll. Kecamatan Palu Utara</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u190 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u191 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u192 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>mm. Kecamatan Tawaeli</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u193 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u194 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u195 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>nn. Kecamatan Mantikulore</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u196 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u197 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u198 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>oo. Kecamatan Palu Timur</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u199 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>1) Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u200 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>2. Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u201 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>20</td>
+              <td>Jumlah Pegawai Daerah Menurut Pendidikan dan Jenis Kelamin :</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u202 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Strata Tiga</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u203 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u204 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Strata Dua</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>  
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u205 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u206 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Strata Satu</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u207 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u208 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Diploma Empat</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u209 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u210 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Diploma Tiga</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u211 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+                <td>Orang</td>
+                {% for d in data %}
+                <td>{{ d.u212 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Diploma Dua</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u213 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u214 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Diploma Satu</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u215 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u216 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. SMA / SMK<td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u217 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u218 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>i. SLTP	</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u219 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u220 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>j. SD</td>
+            <td></td>
+        </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u221 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u222 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Jumlah Pegawai Negeri Sipil Menurut Tingkat Kepangkatan dan Jenis Kelamin :</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. I/A (Juru Muda)</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u223 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u224 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. I/B (Juru Muda Tingkat I)</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Laki-laki</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u225 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Perempuan</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u226 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. I/C (Juru)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u227 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u228 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. I/D (Juru Tingkat I)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u229 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u230 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. II/A (Pengatur Muda)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u231 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u232 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. II/B (Pengatur Muda Tingkat I)</td>
+            <td></td>
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u233 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u234 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. II/C (Pengatur)</td>
+            <td></td>
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u235 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u236 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. II/D (Pengatur Tingkat I)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u237 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u238 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>i. III/A (Penata Muda)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u239 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u240 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>j. III/B (Penata Muda Tingkat I)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u241 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u242 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>k. III/C (Penata)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u243 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u244 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>l. III/D (Penata Tingkat I)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u245 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u246 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>m. IV/A (Pembina)</td>
+            <td></td>
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u247 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u248 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>n. IV/B (Pembina Tingkat I)</td>
+            <td></td>
+            </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u249 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u250 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>o. IV/C (Pembina Utama Muda)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u251 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u252 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>p. IV/D (Pembina Utama Madya)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u253 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u254 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>q. Pembina Utama</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u255 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u256 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Jumlah Pegawai Yang Mendapatkan Bantuan Biaya Pendidikan</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Strata-1/D.IV</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u257 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Strata-2</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u258 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Strata-3</td>
+              <td>Orang</td>
+              {% for d in data %}
+                <td>{{ d.u259 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Kasus Pelanggaran Disiplin PNS Menurut Tingkatan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Ringan</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u260 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Sedang</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u261 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Berat</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u262 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Penyelesaian Kasus Pelanggaran Disiplin PNS Menurut Tingkatan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Ringan</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u262 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Sedang</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u264 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Berat</td>
+            <td>Kasus</td>
+            {% for d in data %}
+              <td>{{ d.u265 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Persentase Penyelesaian Kasus Pelanggaran Disiplin PNS Menurut Tingkatan</td>
+            <td></td>
+            </tr>
+          <tr>
+            <td></td>
+            <td>a. Ringan</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u266 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Sedang</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u267 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Berat</td>
+            <td>%</td>
+            {% for d in data %}
+              <td>{{ d.u268 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Pegawai yang Menerima Penghargaan Satya Lencana</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. 10 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u269 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. 20 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u270 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. 30 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+              <td>{{ d.u271 }}</td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- Content end -->
+
+{% endblock %}

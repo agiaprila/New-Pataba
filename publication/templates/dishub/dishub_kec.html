@@ -1,0 +1,1103 @@
+{% extends 'base.html' %}
+{% block title %}
+  Dishub
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('dishub') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('dishub_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('dishub_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('dishub_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('dishub_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('dishub_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('dishub_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('dishub_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('dishub_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Perhubungan Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('dishubTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="dishubTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 24 %}
+                  <span><a href="{{ url_for('dishub_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 24 %}
+              <th><a href="{{ url_for('dishub_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Jumlah Kendaraan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Mobil Penumpang</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Mobil Bus</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Mobil Barang</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Sepeda Motor</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Alat Berat dan Besar</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Bis 26 Kursi Lebih</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Truk</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Mobil Bak Terbuka</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jumlah Pelabuhan Laut</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Jumlah Pelabuhan Udara</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Jumlah Pelabuhan Terminal Bis</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Jumlah orang yang terangkut angkutan umum</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Jumlah barang yang terangkut angkutan umum</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Jumlah orang melalui dermaga/bandara/ terminal per tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Jumlah barang melalui dermaga/bandara/ terminal per tahun</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Nilai dan Kontribusi Sektor Pengangkutan dalam PDRB atas dasar harga konstan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Nilai dan Kontribusi Sektor Pengangkutan dalam PDRB atas dasar harga berlaku</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Persentase perkembangan Kontribusi Sektor Pengangkutan dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Persentase perkembangan Kontribusi Sektor Pengangkutan dalam PDRB atas dasar harga konstan (HK)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Pertumbuhan Kontribusi Sektor Pengangkutan dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Pertumbuhan Kontribusi Sektor Pengangkutan dalam PDRB atas dasar harga konstan (Hk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Jumlah dermaga penyeberangan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Jumlah pelabuhan strategis</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Rasio Konektivitas dan Aksesibilitas Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Indeks Kinerja Pelayanan Perhubungan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Level Keselamatan Transportasi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Jumlah Kendaraan Bermotor</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Level Keselamatan Transportasi</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Rasio ijin trayek</td>
+            <td>Izin</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah penduduk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Jumlah Pelabuhan Laut/Udara/Terminal Bis</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Jumlah penumpang angkutan darat melalui terminal</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Jumlah trayek angkutan umum</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Jumlah orang/ barang yang terangkut angkutan umum</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah angkutan darat</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penumpang angkutan darat</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>Persentase kepemilikan KIR angkutan umum</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah angkutan umum yang tidak memiliki KIR pada Tahun n</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah angkutan umum pada Tahun n</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Persentase Pemenuhan Uji Kendaraan ( KIR)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>Pemasangan Rambu-rambu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>Rasio panjang jalan per jumlah kendaraan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u49 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Panjang Jalan</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u50 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Kendaraan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>31</td>
+            <td>Jumlah Uji Kir Angkutan Umum</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Mobil Penumpang</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u53 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. Bus</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u54 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>C. Bus 25 Seat</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>D. Bus 26 Seat ke Atas</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>E. Truck</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u57 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>F. Pickup</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u58 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>G. Kendaraan Khusus</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>H. Kereta Tempelan Gandengan</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>I. Sepeda Motor</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u61 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>Jumlah Wajib Uji Kir Angkutan Umum</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u62 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Mobil Penumpang</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u63 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. Bus</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u64 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>C. Bus 25 Seat</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u65 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>D. Bus 26 Seat ke Atas</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u66 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>E. Truck</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u67 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>F. Pickup</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u68 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>G. Kendaraan Khusus</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u69 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>H. Kereta Tempelan Gandengan</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u70 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>I. Sepeda Motor</td>
+            <td>kali</td>
+            {% for d in data %}
+            <td>{{ d.u71 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>Jumlah Orang Yang Terangkut Angkutan Umum Melalui Terminal Tipe A</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u72 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Jumlah Penumpang Masuk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u73 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. Jumlah Penumpang Keluar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u74 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Jumlah Orang Yang Terangkut Angkutan Umum Melalui Terminal Tipe B</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u75 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Jumlah Penumpang Masuk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u76 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. Jumlah Penumpang Keluar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u77 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>35</td>
+            <td>Jumlah Orang Yang Terangkut Angkutan Umum Melalui Terminal Tipe C</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u78 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Jumlah Penumpang Masuk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u79 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. Jumlah Penumpang Keluar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u80 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>Jumlah Orang Yang Terangkut  Melalui Pelabuhan Terminal Taipa (ASDP)</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u81 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Jumlah Penumpang Masuk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u82 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. Jumlah Penumpang Keluar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u83 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>37</td>
+            <td>Jumlah Barang Yang Terangkut Menurut Golongan  Melalui Pelabuhan Terminal Taipa (ASDP)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Jumlah Barang Masuk Menurut Golongan</td>
+            <td>Gol</td>
+            {% for d in data %}
+            <td>{{ d.u84 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan I</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan II</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan III</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan IV</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan IV Pick Up</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan V Bus</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan V Truck</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan VI Bus</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan VI Truck</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan VII</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan VIII</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan IX</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. Jumlah Barang Keluar Menurut Golongan</td>
+            <td>Gol</td>
+            {% for d in data %}
+            <td>{{ d.u85 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan I</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan II</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan III</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan IV</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan IV Pick Up</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan V Bus</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan V Truck</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan VI Bus</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan VI Truck</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan VII</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan VIII</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Golongan IX</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Kendaraan Tilang</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Angkot</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u86 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. AKDP</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u87 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>C. AKAP</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u88 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>D. ANGDES</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u89 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>E. Pickup</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u90 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>F. Truck</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u91 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>G. Rental</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u92 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>41</td>
+            <td>Jumlah jasa kirim barang online</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. JNT</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u93 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. JNE</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u94 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. POS</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u95 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. TIKI</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u96 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Gudang</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u97 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Sicepat Express</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u98 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Ninja Express</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u99 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. JDID</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u100 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>i. SAP Express</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u101 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>42</td>
+            <td>Persentase layanan angkutan darat</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u102 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>43</td>
+            <td>Jumlah Penumpang Kapal Laut Pelabuhan Pantoloan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Datang</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u103 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Berangkat</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u104 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Barang Kapal Laut Pelabuhan Pantoloan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Dibongkar</td>
+            <td>Ton</td>
+            {% for d in data %}
+            <td>{{ d.u105 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Dimuat</td>
+            <td>Ton</td>
+            {% for d in data %}
+            <td>{{ d.u106 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Penumpang Pesawat Udara</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Datang</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u107 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Berangkat</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u108 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Transit</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u109 }}</td>
+            {% endfor %}
+          </tr>
+          
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}

@@ -1,0 +1,882 @@
+{% extends 'base.html' %}
+{% block title %}
+  Pertanahan
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('pertanahan') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('pertanahan_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('pertanahan_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('pertanahan_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('pertanahan_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('pertanahan_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('pertanahan_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('pertanahan_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('pertanahan_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Penataan Ruang dan Pertanahan Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('pertanahanTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="pertanahanTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 8 %}
+                  <span><a href="{{ url_for('pertanahan_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 8 %}
+              <th><a href="{{ url_for('pertanahan_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Luas wilayah administrasi</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Batas wilayah administrasi</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Posisi astronomis</td>
+            <td>o</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Posisi geostrategik</td>
+            <td>o</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Kawasan pedalaman</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Kawasan terpencil</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Kawasan pesisir</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Kawasan Pegunungan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Kawasan Kepulauan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Kemiringan lahan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Ketinggian lahan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Penggunaan lahan untuk kawasan budidaya</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Penggunaan lahan untuk kawasan lindung</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Rasio Ruang Terbuka Hijau per Satuan Luas Wilayah ber HPL/HGB</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Luasan RTH publik sebesar 20% dari luas wilayah kota/kawasan perkotaan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Rasio bangunan ber- IMB per satuan bangunan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Ruang publik yang berubah peruntukannya</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Rasio luas kawasan tertutup pepohonan berdasarkan hasil pemotretan citra satelit dan survei foto udara terhadap luas daratan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Ketaatan terhadap RTRW</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Penyelesaian izin lokasi</td>
+            <td>Lokasi</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Kawasan rawan bencana</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Tipe Klimatologii</td>
+            <td>-</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Curah Hujan</td>
+            <td>-</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Suhu</td>
+            <td>oC</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Kelembaban</td>
+            <td>-</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Hidrologi DAS</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>Hidrologi Danau</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Hidrologi Rawa</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>Hidrologi Hutan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>Rehabilitasi lahan kritis</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>31</td>
+            <td>Kerusakan Kawasan Hutan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>Rasio luas kawasan lindung untuk menjaga kelestarian keanekaragaman hayati terhadap total luas kawasan hutan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Luas Kawasan lindung</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Total Luas Kawasan Hutan Kota Palu</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>Jumlah Rencana Pengelolaan Daerah Aliran Sungai Terpadu (RPDAST) yang diinternalisasi ke dalam Rencana Tata Ruang Wilayah (RTRW).</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u37 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u38 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td>35</td>
+            <td>Proporsi luas lahan kritis yang direhabilitasi terhadap luas lahan keseluruhan.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u41 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u42 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td>35</td>
+            <td>Jumlah daerah tertinggal yang terentaskan.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u45 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u46 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td>36</td>
+            <td>Jumlah desa tertinggal</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u49 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u50 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td>37</td>
+            <td>Jumlah desa Mandiri</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u53 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u54 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td>38</td>
+            <td>Jumlah kawasan konservasi yang memperoleh nilai indeks METT minimal 70%.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Target Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u57 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td>d. Capaian Kota</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u58 }}</td>
+              {% endfor %}
+            </tr>
+          <tr>
+            <td>39</td>
+            <td>Jumlah Daerah yang Menyelenggarakan Reforma Agraria dalam rangka Mengurangi Ketimpangan Kepemilikan Tanah</td>
+            <td>Daerah</td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Jumlah Daerah yang Menyandingkan Penataan Aset dengan Penataan Akses dalam Kerangka Reforma Agraria</td>
+            <td>Daerah</td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td>41</td>
+              <td>Jumlah Daerah yang Menetapkan Perda terkait Masyarakat Hukum Adat yang Dilengkapi dengan Lampiran Delineasi Peta Tanah Adat</td>
+              <td>Daerah</td>
+              {% for d in data %}
+              <td>{{ d.u61 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td>42</td>
+              <td>Luas Kawasan Hutan</td>
+              <td>Ha</td>
+              {% for d in data %}
+              <td>{{ d.u62 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td>43</td>
+              <td>Luas Kawasan Perairan</td>
+              <td>Ha</td>
+              {% for d in data %}
+              <td>{{ d.u63 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td>44</td>
+              <td>Jumlah Produksi Kayu Hutan Menurut Jenis Produksi</td>
+              <td>m3</td>
+              {% for d in data %}
+              <td>{{ d.u64 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td><strong>Penataan Ruang</strong></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>45</td>
+              <td>Rasio ruang terbuka hijau per satuan luas wilayah ber HPL/HGB</td>
+              <td>%</td>
+              {% for d in data %}
+              <td>{{ d.u65 }}</td>
+              {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>a. Luas ruang terbuka hijau</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u66 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>b. Luas wilayah ber HPL/HGB</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u67 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>46</td>
+                <td>Persentase luas RTH dari luas wilayah kota</td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u68 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>a. Luasan RTH publik yang tersedia di akhir tahun pencapaian SPM</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u69 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>b. Luasan RTH publik yang seharusnya tersedia di wilayah kota/kawasan perkotaan</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u70 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>47</td>
+                <td>Rasio bangunan ber- IMB per satuan bangunan</td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u71 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>a. Jumlah bagunan ber - IMB</td>
+                <td>Unit</td>
+                {% for d in data %}
+                <td>{{ d.u72 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>b. Jumlah bangunan</td>
+                <td>Unit</td>
+                {% for d in data %}
+                <td>{{ d.u73 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>48</td>
+                <td>Ruang publik yang berubah peruntukkannya  </td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u74 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>a. Jumlah ruang publik yang berubah fungsinya (ha)</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u75 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>b. Jumlah ruang publik yang tersedia (ha)</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u76 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>49</td>
+                <td>Rasio luas kawasan tertutup pepohonan berdasarkan hasil pemotretan citra satelit dan survei foto udara  terhadap luas daratan </td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u77 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>a. Luas kawasan tertutup pepohonan berdasarkan hasil pemotretan berdasarkan hasil pemotretan citra satelit dan survei foto udara</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u78 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>b. Luas daratan</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u79 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>50</td>
+                <td>RKetaatan terhadap RTRW  (%) </td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u80 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>a. Realisasi RTRW</td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u81 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>b. Rencana Peruntukan</td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u82 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>51</td>
+                <td>Persentase luas lahan bersertifikat </td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u83 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>a. Jumlah Luas Lahan bersertifikat</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u84 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>b. Jumlah luas wilayah</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u85 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>Penyelesaian kasus tanah Negara </td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u86 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>a. Jumlah kasus yang diselesaikan</td>
+                <td>Kasus</td>
+                {% for d in data %}
+                <td>{{ d.u87 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>b. Jumlah kasus yang terdaftar</td>
+                <td>Kasus</td>
+                {% for d in data %}
+                <td>{{ d.u88 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>53</td>
+                <td>Penyelesaian izin lokasi</td>
+                <td>Izin</td>
+                {% for d in data %}
+                <td>{{ d.u89 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>a. Jumlah Ijin Lokasi</td>
+                <td>Izin</td>
+                {% for d in data %}
+                <td>{{ d.u90 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td></td>
+                <td>b. Permohonan Ijin Lokasi</td>
+                <td>Izin</td>
+                {% for d in data %}
+                <td>{{ d.u91 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>54</td>
+                <td>Jumlah asset Pemda bersertifikat/td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u92 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>55</td>
+                <td>Jumlah asset Pemda yang seharusnya bersertifikat</td>
+                <td>Ha</td>
+                {% for d in data %}
+                <td>{{ d.u93 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>56</td>
+                <td>Jumlah permasalahan pertanahan yang diselesaikan</td>
+                <td>Kasus</td>
+                {% for d in data %}
+                <td>{{ d.u94 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>57</td>
+                <td>Jumlah permasalahan pertanahan</td>
+                <td>Kasus</td>
+                {% for d in data %}
+                <td>{{ d.u95 }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>58</td>
+                <td>Rasio Ruang Terbuka Hijau per Satuan Luas Wilayah ber HPL Atau HGB</td>
+                <td>%</td>
+                {% for d in data %}
+                <td>{{ d.u96 }}</td>
+                {% endfor %}
+            </tr>
+    
+            <!-- l -->
+            
+            
+            
+            
+    
+    
+    
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}

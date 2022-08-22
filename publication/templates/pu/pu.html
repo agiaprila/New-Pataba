@@ -1,0 +1,1478 @@
+{% extends 'base.html' %}
+{% block title %}
+  PU
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('pu') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('pu_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('pu_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('pu_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('pu_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('pu_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('pu_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('pu_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('pu_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Pekerjaan Umum Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('puTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="puTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 7 %}
+                  <span><a href="{{ url_for('pu_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 7 %}
+              <th><a href="{{ url_for('pu_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Panjang jalan berdasarkan yang ditetapkan Kepala Daerah dalan SK Jalan Kewenangan Kota Palu</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Panjang Ruas Jalan Berdasarkan Kondisi</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Mantap</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Tidak Mantap</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Panjang Jalan</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Dibangun</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Ditingkatkan (struktur/fungsi)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Direkonstruksi/direhabilitasi</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Dipelihara</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Dalam Kondisi Mantap</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Panjang Jembatan</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Dibangun</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Diganti/dilebarkan</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Direhabilitasi</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Dipelihara</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Panjang Jalan Menurut Jenis Permukaan</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Jalan Negara</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Aspal</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Kerikil</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Tanah</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Tidak Dirinci</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. Jalan Provinsi</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Aspal</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Kerikil</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Tanah</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Tidak Dirinci</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>C. Jalan Kota</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Aspal</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Kerikil</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Tanah</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Tidak Dirinci</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Panjang Jalan Menurut Kewenangan dan Kondisi Jalan</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>A. Jalan Negara</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Baik</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Sedang</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Rusak</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Rusak Berat</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>B. Jalan Provinsi</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Baik</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Sedang</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Rusak</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Rusak Berat</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>C. Jalan Kota</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Baik</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Sedang</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Rusak</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Rusak Berat</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jumlah bangunan gedung</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Ditetapkan oleh Wali Kota untuk dilindungi dan dilestarikan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u49 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Ditetapkan oleh Wali Kota untuk kepentingan strategis daerah Provinsi</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u50 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Milik Pemerintah Kota Palu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Milik Pemerintah Kota Palu yang dipelihara/dirawat</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Hidrologi Sungai</td>
+            {% for d in data %}
+            <td>{{ d.u53 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Struktur Geologi</td>
+            {% for d in data %}
+            <td>{{ d.u54 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Potensi Geologi</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Karakteristik Geologi</td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Potensi Kandungan</td>
+            {% for d in data %}
+            <td>{{ d.u57 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Kawasan Pertambangan</td>
+            {% for d in data %}
+            <td>{{ d.u58 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Kontribusi sektor pertambangan terhadap PDRB</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Panjang Jalan</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Jumlah Penyusunan dan Penetapan Perda Rencana Detail Tata Ruang (RDTR) Kabupaten/Kota</td>
+            <td>Perda/Perkada</td>
+            {% for d in data %}
+            <td>{{ d.u61 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Persentase Kesesuaian Rencana Program Pembangunan Sektor dengan Rencana Tata Ruang</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u62 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Jumlah Penegakan Perda Rencana Tata Ruang Daerah</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u63 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Jumlah Penyusunan dan Penetapan Perda Rencana Tata Ruang Wilayah Kabupaten/Kota</td>
+            <td>Perda/Perkada</td>
+            {% for d in data %}
+            <td>{{ d.u64 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Jumlah Rumah Tangga yang terlayani air minum melalui pembangunan SPAM BJP terlindungi individual/komunal</td>
+            <td>Rumah Tangga</td>
+            {% for d in data %}
+            <td>{{ d.u65 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Kapasitas Pembangunan SPAM Kabupaten/Kota dan SPAM Lintas Kabupaten/Kota (lpd), SPAM berbasis Masyarakat</td>
+            <td>Liter/Detik</td>
+            {% for d in data %}
+            <td>{{ d.u66 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Jumlah SR yang terlayani SPAM (SR)</td>
+            <td>Sambungan Rumah (SR)</td>
+            {% for d in data %}
+            <td>{{ d.u67 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Jumlah sambungan rumah yang terlayani SPALD-T Skala Kota (SR)</td>
+            <td>Sambungan Rumah (SR)</td>
+            {% for d in data %}
+            <td>{{ d.u68 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Jumlah sambungan rumah yang terlayani SPALD-T Skala Pemukiman (SR)</td>
+            <td>Sambungan Rumah (SR)</td>
+            {% for d in data %}
+            <td>{{ d.u69 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Jumlah rumah tangga yang memiliki fasilitas sanitasi dan tangki septik (RT)</td>
+            <td>Rumah Tangga</td>
+            {% for d in data %}
+            <td>{{ d.u70 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Jumlah truk tinja (unit)</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u71 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Jumlah truk sampah yang tersedia (unit)</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u72 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Jumlah Kabupaten/Kota yang terfasilitasi pendampingan implementasi SSK (Kab/Kota)</td>
+            <td>Kabupaten/Kota</td>
+            {% for d in data %}
+            <td>{{ d.u73 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Jumlah Kabupaten/Kota yang terfasilitasi penguatan kakpasitas daerah dalam pengelolaan air limbah domestik (Kab/Kota)</td>
+            <td>Kabupaten/Kota</td>
+            {% for d in data %}
+            <td>{{ d.u74 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Jumlah Kabupaten/Kota yang terfasilitasi penguatan kakpasitas daerah dalam pengelolaan sampah (Kab/Kota)</td>
+            <td>Kabupaten/Kota</td>
+            {% for d in data %}
+            <td>{{ d.u75 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Jumlah Kabupaten/Kota yang terfasilitasi penyusunan pengaturan bidang air minum (Kab/Kota)</td>
+            <td>Kabupaten/Kota</td>
+            {% for d in data %}
+            <td>{{ d.u76 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>Persentase kondisi mantap jalan Provinsi (persen)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u77 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Persentase kondisi mantap jalan Kabupaten/Kota (persen)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u78 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>Persentase Rumah Tangga yang menempati hunian dengan akses air minum layak</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u79 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>Persentase Rumah Tangga yang menempati hunian dengan akses air minum aman</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u80 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>31</td>
+            <td>Panjang sungai kewenangan daerah yang dinormalisasi dan ditingkatkan kapasitas alirannya</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u81 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>Luas jaringan irigasi permukaan yang dibangun</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u82 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>Luas jaringan daerah irigasi permukaan kewenangan yang direhabilitasi</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u83 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Jumlah Kabupaten/Kota yang terfasilitasi pembinaan kelembagaan pengelolaan irigasi</td>
+            <td>Kabupaten/Kota</td>
+            {% for d in data %}
+            <td>{{ d.u84 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>35</td>
+            <td>Panjang jaringan jalan dalam kondisi baik</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u85 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Panjang jalan kondisi baik</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u86 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Panjang jalan seluruhnya</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u87 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>Panjang jalan dengan jumlah penduduk</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u88 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah panjang jalan</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u89 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u90 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>37</td>
+            <td>Kawasan pemukiman yang belum dapat dilalui kendaraan roda 4</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u91 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah kawasan pemukiman penduduk yang belum dilalui kendaraan roda 4</td>
+            <td>Km2</td>
+            {% for d in data %}
+            <td>{{ d.u92 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh kawasan pemukiman penduduk</td>
+            <td>Km2</td>
+            {% for d in data %}
+            <td>{{ d.u93 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>38</td>
+            <td>Jalan Kabupaten dalam kondisi baik (>40 KM/Jam)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u94 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Panjang jalan kabupaten dalam kondisi baik</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u95 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Panjang seluruh jalan Kabupaten di daerah tersebut</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u96 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>39</td>
+            <td>Jalan yang memiliki trotoar dan drainase/saluran pembuangan air (minimal 1,5)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u97 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Panjang jalan yang memiliki trotoar dan drainase (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u98 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Panjang trotoar</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u99 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Panjang drainase</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u100 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Panjang seluruh jalan Kabupaten (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u101 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Sempadan jalan yang dipakai pedagang kaki lima atau bangunan rumah liar</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u102 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Panjang Sempadan jalan yang dipakai pedagang kaki lima atau bangunan rumah liar (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u103 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Panjang seluruh jalan sempadan Kota (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u104 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>41</td>
+            <td>Rumah tinggal bersanitasi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u105 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Panjang sempadan jalan yang dipakai pedagang kaki lima atau bangunan rumah liar (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u106 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Panjang seluruh jalan sempadan Kabupaten (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u107 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>42</td>
+            <td>Sempadan sungai yang dipakai bangunan liar</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u108 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Panjang sempadan sungai yang dipakai bangunan liar (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u109 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Panjang seluruh sempadan sungai Kabupaten (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u110 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>43</td>
+            <td>Drainase dalam kondisi baik/pembuangan aliran air tidak tersumbat</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u111 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Panjang drainase tersumbat pembuangan aliran air (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u112 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Panjang seluruh drainase di daerah Kota (Km)</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u113 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>44</td>
+            <td>Tidak terjadi genangan > 2 kali setahun</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u114 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Luasan daerah yang tergenang</td>
+            <td>Km2</td>
+            {% for d in data %}
+            <td>{{ d.u115 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Luasan daerah rawan genangan atau berpotensi tergenang</td>
+            <td>Km2</td>
+            {% for d in data %}
+            <td>{{ d.u116 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>45</td>
+            <td>Pembangunan turap di wilayah jalan penghubung dan aliran sungai rawan longsor</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u117 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah lokasi pembangunan turap di wilayah jalan penghubung dan aliran sungai rawan longsor</td>
+            <td>m2</td>
+            {% for d in data %}
+            <td>{{ d.u118 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh wilayah rawan longsor</td>
+            <td>m2</td>
+            {% for d in data %}
+            <td>{{ d.u119 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>46</td>
+            <td>Irigasi Kabupaten dalam kondisi baik</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u120 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Luas irigasi Kabupaten dalam kondisi baik</td>
+            <td>Km2</td>
+            {% for d in data %}
+            <td>{{ d.u121 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Luas irigasi Kabupaten</td>
+            <td>Km2</td>
+            {% for d in data %}
+            <td>{{ d.u122 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>47</td>
+            <td>Jaringan irigasi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u123 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Panjang saluran irigasi</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u124 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Luas lahan budidaya pertanian</td>
+            <td>Km2</td>
+            {% for d in data %}
+            <td>{{ d.u125 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>48</td>
+            <td>Penduduk berakses air minum</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u126 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Penduduk berakses air minum</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u127 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u128 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>49</td>
+            <td>Rumah tangga dengan akses berkelanjutan terhadap air minum layak, perkotaan dan pedesaan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u129 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penduduk dengan akses terhadap sumber air minum yang terlindungi dan berkelanjutan</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u130 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk seluruhnya</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u131 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>Pembangunan dan pemeliharaan prasaranan jalan</td>
+            {% for d in data %}
+            <td>{{ d.u132 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pembangunan Jalan Hotmix</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u133 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Pembangunan Jalan Aspal</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u134 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Pemeliharaan rutin Jalan Aspal</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u135 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Pembangunan Jalan Makadam</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u136 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Pembangunan Drainase</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u137 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Pembangunan Jalan Aspal Mandiri</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u138 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Perbaikan Sistem PJU</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u139 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>51</td>
+            <td>Pembangunan dan Pemeliharaan Prasarana Jembatan</td>
+            {% for d in data %}
+            <td>{{ d.u140 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pembangunan Jembatan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u141 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Rehabilitasi Jembatan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u142 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>52</td>
+            <td>Pembangunan dan Pemeliharaan Dam</td>
+            {% for d in data %}
+            <td>{{ d.u143 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pembangunan Rehabilitasi dan Pemeliharaan Dam</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u144 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Pembangunan Pintu Air Irigasi</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u145 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>53</td>
+            <td>Pembangunan dan Pemeliharaan Saluran Irigasi</td>
+            {% for d in data %}
+            <td>{{ d.u146 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pembangunan Rehabilitasi</td>
+            <td>DI</td>
+            {% for d in data %}
+            <td>{{ d.u147 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Pembangunan dan Perbaikan Talud Pengaman Saluran</td>
+            <td>DI</td>
+            {% for d in data %}
+            <td>{{ d.u148 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>54</td>
+            <td>Nilai Kontrak Proyek Prasarana Fisik baik Pembangunan dan Pemeliharaan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u149 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>55</td>
+            <td>Pembangunan Turap di Wilayah Jalan Penghubung dan Aliran Sungai Rawan Longsor Lingkup Kewenangan Kota</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u150 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>56</td>
+            <td>Nilai dan Kontribusi Sektor Konstruksi dalam PDRB atas dasar harga konstan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u151 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>57</td>
+            <td>Nilai dan Kontribusi Sektor Konstruksi dalam PDRB atas dasar harga berlaku</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u152 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>58</td>
+            <td>Persentase perkembangan Kontribusi Sektor Konstruksi dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u153 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>59</td>
+            <td>Persentase perkembangan Kontribusi Sektor Konstruksi dalam PDRB atas dasar harga konstan (Hk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u154 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>60</td>
+            <td>Pertumbuhan Kontribusi Sektor Konstruksi dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u155 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>61</td>
+            <td>Pertumbuhan Kontribusi Sektor Konstruksi dalam PDRB atas dasar harga konstan (Hk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u156 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>62</td>
+            <td>Nilai dan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u157 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>63</td>
+            <td>Nilai dan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u158 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>64</td>
+            <td>Persentase perkembangan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u159 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>65</td>
+            <td>Persentase perkembangan Kontribusi Sektor AIr Bersih dalam PDRB atas dasar harga konstan (Hk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u160 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>66</td>
+            <td>Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u161 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>67</td>
+            <td>Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan (Hk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u162 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>68</td>
+            <td>Persentase perkembangan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u163 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>69</td>
+            <td>Persentase perkembangan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan (Hk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u164 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>70</td>
+            <td>Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku (HB)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u165 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>71</td>
+            <td>Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan (HK)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u166 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>72</td>
+            <td>Indikator SPM Bidang Pekerjaan Umum</td>
+            <td>Indikator</td>
+            {% for d in data %}
+            <td>{{ d.u167 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>73</td>
+            <td>Pemenuhan kebutuhan air minum curah lintas Kabupaten/Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u168 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>74</td>
+            <td>Jumlah Warga Negara yang memperoleh kebutuhan air minum curah lintas Kabupaten/Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u169 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>75</td>
+            <td>Penyediaan pelayanan pengolahan air limbah domestik regional lintas Kabupaten/Kota</td>
+            <td>Layanan</td>
+            {% for d in data %}
+            <td>{{ d.u170 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>76</td>
+            <td>Jumlah Warga Negara yang memperoleh layanan pengolahan air limbah domestik regional lintas Kabupaten/Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u171 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>77</td>
+            <td>Jumlah Warga Negara yang memperoleh kebutuhan pokok air minum sehari-hari</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u172 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>78</td>
+            <td>Jumlah Warga Negara yang memperoleh layanan pengolahan air limbah domestik</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u173 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>79</td>
+            <td>Persentase Sepeda Motor Menurut Kecamatan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u174 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>80</td>
+            <td>Jumlah Proyek Konstruksi yang Tercatat</td>
+            <td>Proyek</td>
+            {% for d in data %}
+            <td>{{ d.u175 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>81</td>
+            <td>Jumlah Nilai Proyek yang Tercatat</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u176 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>82</td>
+            <td>Rasio Ruang Terbuka Hijau per Satuan Luas Wilayah ber HPL atau HGB</td>
+            {% for d in data %}
+            <td>{{ d.u177 }}</td>
+            {% endfor %}
+          </tr>
+    
+    
+          
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}

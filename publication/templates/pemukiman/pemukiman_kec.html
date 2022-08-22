@@ -1,0 +1,1477 @@
+{% extends 'base.html' %}
+{% block title %}
+  Pemukiman
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('pemukiman') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('pemukiman_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('pemukiman_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('pemukiman_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('pemukiman_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('pemukiman_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('pemukiman_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('pemukiman_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('pemukiman_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Perumahan dan Kawasan Permukiman Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('pemukimanTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="pemukimanTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 9 %}
+                  <span><a href="{{ url_for('pemukiman_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 9 %}
+              <th><a href="{{ url_for('pemukiman_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Persentase penduduk berakses air minum</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Proporsi rumah tangga dengan akses berkelanjutan terhadap air minum layak, perkotaan dan perdesaan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Persentase areal kawasan kumuh</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Rasio tempat ibadah per satuan penduduk</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Rasio rumah layak huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Rasio permukiman layak huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Cakupan ketersediaan rumah layak huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Cakupan layanan rumah layak huni yang terjangkau</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Persentase pemukiman yang tertata</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Persentase lingkungan pemukiman kumuh</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Persentase luasan permukiman kumuh yang tertangani di kawasan perkotaan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Proporsi rumah tangga kumuh perkotaan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Cakupan Lingkungan Yang Sehat dan Aman yang didukung dengan PSU</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Persentase rumah tangga pengguna listrik</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Rasio ketersediaan daya listrik</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Nilai dan Kontribusi Sektor Listrik dan Gas dalam PDRB atas dasar harga konstan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Nilai dan Kontribusi Sektor Listrik dan Gas dalam PDRB atas dasar harga berlaku</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Persentase perkembangan Kontribusi Sektor Listrik dan Gas dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Persentase perkembangan Kontribusi Sektor Listrik dan Gas dalam PDRB atas dasar harga konstan (HK)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Pertumbuhan Kontribusi Sektor Listrik dan Gas dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Pertumbuhan Kontribusi Sektor Listrik dan Gas dalam PDRB atas dasar harga konstan (Hk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Persentase Rumah Tangga yang menempati hunian dengan akses sanitasi (air limbah) layak (%)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Persentase Rumah Tangga yang menempati hunian dengan akses sanitasi (air limbah) aman (%)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Jumlah kab/kota yang terfasilitasi penyusunan pengaturan bidang sanitasi (kab/kota)</td>
+            <td>kabupaten/kota</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Indikator SPM Bidang Perumahan Rakyat</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Penyediaan dan rehabilitasi rumah yang layak huni bagi korban bencana provinsi</td>
+            <td>Km</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>Jumlah Warga Negara korban bencana yang memperoleh rumah layak huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Fasilitasi penyediaan rumah yang layak huni bagi masyarakat yang terkena relokasi program Pemerintah Daerah provinsi</td>
+            <td>Fasilitas</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>Jumlah Warga Negara yang terkena relokasi akibat program Pemerintah Daerah provinsi yang memperoleh fasilitasi penyediaan rumah yang layak huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>Penyediaan & rehabiitasi rumah yg layak huni bagi korban bencana Kab/kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah unit rumah korban bencana yang ditangani pada tahun N</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah total rencana unit rumah korban bencana yang ditangani pada tahun N</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>31</td>
+            <td>Jumlah Warga Negara korban bencana yang memperoleh rumah layak huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>Fasilitasi penyediaan rumah yang layak huni bagi masyarakat yang terkena relokasi program Pemerintah Daerah kabupaten/kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Rumah tanga penerima fasilitas penggantian hak atas penggunaan tanah dan atau bangunan rumah tangga penerima subsidi uang sewa + rumah tangga penerima penyediaan rumah layak huni</td>
+            <td>KK</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah total rumah tangga terkena relokasi program pemerintah daerah yang memenuhi kriteria penerima layanan</td>
+            <td>KK</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>Jumlah Warga Negara yang terkena relokasi akibat program Pemerintah Daerah kabupaten/kota yang memperoleh fasilitasi penyediaan rumah yang layak huni</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Persentase rumah tangga yang memiliki akses terhadap layanan sanitasi layak dan berkelanjutan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>35</td>
+            <td>Proporsi Populasi Penduduk Yang Memiliki Akses Terhadap Layanan Sanitasi Layak Dan Berkelanjutan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>Persentase rumah tangga kumuh perkotaan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u49 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>37</td>
+            <td>Persentase Rumah Tangga Kumuh Perkotaan (40% Ke Bawah), Menurut Provinsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u50 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u53 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>38</td>
+            <td>Proporsi populasi yang memiliki fasilitas cuci tangan dengan sabun dan air</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u54 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u57 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>39</td>
+            <td>Proporsi Populasi Yang Memiliki Fasilitas Cuci Tangan Dengan Sabun Dan Air Menurut Provinsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u58 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u61 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Proporsi rumah tangga yang memiliki akses terhadap hunian yang layak dan terjangkau</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u62 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u63 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u64 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u65 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>41</td>
+            <td>Persentase Rumah Tangga yang Memiliki Akses Terhadap Hunian Yang Layak Dan Terjangkau Menurut Provinsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u66 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u67 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u68 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u69 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>42</td>
+            <td>Jumlah Rumah Tangga Berpendapatan Rendah Yang Menerima Bantuan/Subsidi Pembiayaan Perumahan Berupa Bantuan Uang Muka dan Fasilitas Likuiditas Pembiayaan Perumahan (FLPP)</td>
+            <td>Rumah Tangga</td>
+            {% for d in data %}
+            <td>{{ d.u70 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>43</td>
+            <td>Jumlah Warga Negara Korban Bencana Yang Memperoleh Rumah Layak Huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u71 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>44</td>
+            <td>Jumlah penerbitan Sertipikat Hak Milik (SHM)/Sertipikat Hak Guna Bangunan (SHGB)/Sertipikat Hak Satuan Rumah Susun (SHRS)</td>
+            <td>Persil</td>
+            {% for d in data %}
+            <td>{{ d.u72 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>45</td>
+            <td>Jumlah Hunian Baru Layak Yang Terbangun Melalui Peran Masyarakat dan Dunia Usaha</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u73 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>46</td>
+            <td>Jumlah Rumah Tangga Yang Mendapatkan Fasilitas Pembiayaan Dari Lembaga Keuangan</td>
+            <td>Rumah Tangga</td>
+            {% for d in data %}
+            <td>{{ d.u74 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>47</td>
+            <td>Jumlah Hunian Baru Layak Yang Terbangun Melalui Fasilitasi Pemerintah</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u75 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>48</td>
+            <td>Jumlah Warga Negara Yang Terkena Relokasi Akibat Program Pemerintah Daerah Yang Memperoleh Fasilitasi Penyediaan Rumah Yang Layak Huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u76 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>49</td>
+            <td>Jumlah Rumah Tangga Yang Mendapatkan Bantuan Peningkatan Kualitas</td>
+            <td>Rumah Tangga</td>
+            {% for d in data %}
+            <td>{{ d.u77 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>Jumlah Rumah Yang Dilayani Bantuan PSU Pada Perumahan, Termasuk PSU Kawasan Skala Besar</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u78 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>51</td>
+            <td>Jumlah Luasan Permukiman Kumuh Yang Ditangani Secara Terpadu</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u79 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>52</td>
+            <td>Jumlah Kawasan di Permukiman Kumuh Perkotaan Yang Ditangani Melalui Peremajaan Kota</td>
+            <td>Kawasan</td>
+            {% for d in data %}
+            <td>{{ d.u80 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perumahan Rakyat dan Kawasan Pemukiman</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>53</td>
+            <td>Rasio rumah layak huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u81 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah rumah layak huni</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u82 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u83 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>54</td>
+            <td>Rasio permukiman layak huni</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.84 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Luas pemukiman layak huni</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u85 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Luas wilayah permukiman</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.86 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>55</td>
+            <td>Cakupan ketersediaan rumah layak huni</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u87 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah seluruh rumah layak huni disuatu wilayah kerja pada kurun waktu tertentu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u88 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah rumah di suatu wilayah kerja pada kurun waktu tertentu</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u89 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>56</td>
+            <td>Cakupan layanan rumah layak huni yang terjangkau</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u90 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah rumah tangga MBR yang menempati rumah layak huni dan terjangkau pada kurun waktu tertentu</td>
+            <td>RT</td>
+            {% for d in data %}
+            <td>{{ d.u91 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah rumah tangga MBR pada kurun waktu tertentu</td>
+            <td>RT</td>
+            {% for d in data %}
+            <td>{{ d.u92 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>57</td>
+            <td>Persentase pemukiman yang tertata</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u93 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Luas area permukiman tertata</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u94 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Luas area permukiman keseluruhan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u95 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>58</td>
+            <td>Persentase lingkungan pemukiman kumuh</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u96 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Luas lingkungan permukiman kumuh</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u97 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Luas wilayah</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u98 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>59</td>
+            <td>Persentase luasan permukiman kumuh di kawasan perkotaan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u99 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Luasan pemukiman kumuh yang tertangani</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u100 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Luas pemukiman kumuh</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u101 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>60</td>
+            <td>Proporsi rumah tangga kumuh perkotaan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u102 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah rumah tangga kumuh perkotaan</td>
+            <td>RT</td>
+            {% for d in data %}
+            <td>{{ d.u103 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh rumah</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u104 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>61</td>
+            <td>Cakupan Lingkungan yang sehat dan aman yang didukung dengan PSU</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u105 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah lingkungan yang didukung PSU pada kurun waktu tertentu</td>
+            <td>Lingkungan</td>
+            {% for d in data %}
+            <td>{{ d.u106 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah lingkungan perumahan pada kurun waktu tertentu</td>
+            <td>Lingkungan</td>
+            {% for d in data %}
+            <td>{{ d.u107 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>62</td>
+            <td>Presentase Rumah Tidak Layak Huni (RTLH) Menurut Kecamatan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u108 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Barat</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u109 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tatanga</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u110 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Ulujadi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u111 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Selatan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u112 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Timur</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u113 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Mantikulore</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u114 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Utara</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u115 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tawaeli</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u116 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>63</td>
+            <td>Jumlah Luas Pengguna Lahan Perumahan Dan Pemukiman Menurut Kecamatan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u117 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Barat</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u118 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tatanga</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u119 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Ulujadi</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u120 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Selatan</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u121 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Timur</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u122 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Mantikulore</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u123 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Utara</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u124 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tawaeli</td>
+            <td>Ha</td>
+            {% for d in data %}
+            <td>{{ d.u125 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>64</td>
+            <td>Jumlah Pengembang / Developer Menurut Kecamatan</td>
+            <td>Pengembang</td>
+            {% for d in data %}
+            <td>{{ d.u126 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Barat</td>
+            <td>Pengembang</td>
+            {% for d in data %}
+            <td>{{ d.u127 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tatanga</td>
+            <td>Pengembang</td>
+            {% for d in data %}
+            <td>{{ d.u128 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Ulujadi</td>
+            <td>Pengembang</td>
+            {% for d in data %}
+            <td>{{ d.u129 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Selatan</td>
+            <td>Pengembang</td>
+            {% for d in data %}
+            <td>{{ d.u130 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Timur</td>
+            <td>Pengembang</td>
+            {% for d in data %}
+            <td>{{ d.u131 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Mantikulore</td>
+            <td>Pengembang</td>
+            {% for d in data %}
+            <td>{{ d.u132 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Utara</td>
+            <td>Pengembang</td>
+            {% for d in data %}
+            <td>{{ d.u133 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tawaeli</td>
+            <td>Pengembang</td>
+            {% for d in data %}
+            <td>{{ d.u134 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>65</td>
+            <td>Jumlah Rumah Susun Menurut Kecamatan</td>
+            <td>Rusun</td>
+            {% for d in data %}
+            <td>{{ d.u135 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Barat</td>
+            <td>Rusun</td>
+            {% for d in data %}
+            <td>{{ d.u136 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tatanga</td>
+            <td>Rusun</td>
+            {% for d in data %}
+            <td>{{ d.u137 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Ulujadi</td>
+            <td>Rusun</td>
+            {% for d in data %}
+            <td>{{ d.u138 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Selatan</td>
+            <td>Rusun</td>
+            {% for d in data %}
+            <td>{{ d.u139 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Timur</td>
+            <td>Rusun</td>
+            {% for d in data %}
+            <td>{{ d.u140 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Mantikulore</td>
+            <td>Rusun</td>
+            {% for d in data %}
+            <td>{{ d.u141 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Utara</td>
+            <td>Rusun</td>
+            {% for d in data %}
+            <td>{{ d.u142 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tawaeli</td>
+            <td>Rusun</td>
+            {% for d in data %}
+            <td>{{ d.u143 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>66</td>
+            <td>Jumlah Rumah Dan Status Kepemilikan Menurut Kecamatan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u144 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Barat</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u145 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tatanga</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u146 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Ulujadi</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u147 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Selatan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u148 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Timur</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u149 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Mantikulore</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u150 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Utara</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u151 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tawaeli</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u152 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>67</td>
+            <td>Jumlah Huntap Menurut Kecamatan Tahun 2021</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u153 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Barat</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u154 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tatanga</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u155 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Ulujadi</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u156 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Selatan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u157 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Timur</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u158 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Mantikulore</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u159 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Utara</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u160 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tawaeli</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u161 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>68</td>
+            <td>Jumlah Rumah Kantor (Rukan) Menurut Kecamatan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u162 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Barat</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u163 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tatanga</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u164 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Ulujadi</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u165 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Selatan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u166 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Timur</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u167 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Mantikulore</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u168 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Palu Utara</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u169 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Kecamatan Tawaeli</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u170 }}</td>
+            {% endfor %}
+          </tr>
+    
+    
+          
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}
