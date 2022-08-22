@@ -166,7 +166,7 @@ def pemadam_add():
       flash('Table Edited!', category='success')
       return redirect(url_for('pemadam'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('pemadam/pemadam_add.html', form=form)
 
@@ -181,5 +181,5 @@ def pemadam_delete(id):
     flash('Data Berhasil Dihapus', category='success')
     return redirect(url_for('pemadam'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('pemadam'))

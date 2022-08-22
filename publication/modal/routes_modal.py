@@ -61,7 +61,7 @@ def modal_add():
       flash('Table Edited!', category='success')
       return redirect(url_for('modal'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('modal/modal_add.html', form=form)
 
@@ -76,5 +76,5 @@ def modal_delete(id):
     flash('Data Berhasil Dihapus', category='success')
     return redirect(url_for('modal'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('modal'))

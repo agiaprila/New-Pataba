@@ -19,3 +19,34 @@ from publication import routes
 from publication.setda import routes_setda
 from publication.dprd import routes_dprd
 from publication.inspektorat import routes_inspektorat
+from publication.pendidikan import routes_pendidikan
+# dinas kesehatan
+from publication.anutapura import routes_anutapura
+from publication.pu import routes_pu
+from publication.pertanahan import routes_pertanahan
+from publication.pemukiman import routes_pemukiman
+from publication.satpol import routes_satpol
+from publication.pemadam import routes_pemadam
+from publication.sosial import routes_sosial
+# umkm
+from publication.perdagangan import routes_perdagangan
+from publication.dukcapil import routes_dukcapil
+# ketahanan pangan
+from publication.kearsipan import routes_kearsipan
+from publication.dispora import routes_dispora
+from publication.pppa import routes_pppa
+from publication.ppkb import routes_ppkb
+from publication.lingkungan import routes_lingkungan
+from publication.modal import routes_modal
+from publication.pariwisata import routes_pariwisata
+from publication.dishub import routes_dishub
+from publication.kominfo import routes_kominfo
+from publication.bappeda import routes_bappeda
+from publication.kepegawaian import routes_kepegawaian
+from publication.aset import routes_aset
+# pendapatan daerah
+# penelitian dan pengembangan
+# badan kesatuan bangsa dan politik
+# badan penanggulangan bencana daerah
+# administarator kawasan ekonomi khusus
+

@@ -182,7 +182,7 @@ def sosial_add():
       flash('Table Edited!', category='success')
       return redirect(url_for('sosial'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('sosial/sosial_add.html', form=form)
 
@@ -197,5 +197,5 @@ def sosial_delete(id):
     flash('Data Berhasil Dihapus', category='success')
     return redirect(url_for('sosial'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('sosial'))

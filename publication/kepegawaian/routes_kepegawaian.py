@@ -317,7 +317,7 @@ def kepegawaian_add():
       #   flash('Unauthorized', category='danger')
       #   return redirect(url_for('kepegawaian_add'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('kepegawaian/kepegawaian_add.html', form=form)
 
@@ -336,6 +336,6 @@ def kepegawaian_delete(id):
     #   flash('Unauthorized', category='danger')
     #   return redirect(url_for('kepegawaian'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('kepegawaian'))
 

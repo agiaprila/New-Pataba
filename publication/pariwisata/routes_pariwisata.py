@@ -177,7 +177,7 @@ def pariwisata_add():
       flash('Table Edited!', category='success')
       return redirect(url_for('pariwisata'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('pariwisata/pariwisata_add.html', form=form)
 
@@ -192,5 +192,5 @@ def pariwisata_delete(id):
     flash('Data Berhasil Dihapus', category='success')
     return redirect(url_for('pariwisata'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('pariwisata'))

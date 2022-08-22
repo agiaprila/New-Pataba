@@ -91,7 +91,7 @@ def kominfo_add():
       flash('Table Edited!', category='success')
       return redirect(url_for('kominfo'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('kominfo/kominfo_add.html', form=form)
 
@@ -106,5 +106,5 @@ def kominfo_delete(id):
     flash('Data Berhasil Dihapus', category='success')
     return redirect(url_for('kominfo'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('kominfo'))

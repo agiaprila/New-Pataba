@@ -1,35 +1,35 @@
 from publication import app, db
-from publication.models import Districts, Perdagangan
+from publication.models import Districts, Lingkungan
 from flask import render_template, flash, redirect, url_for, request
-from publication.forms import FormPerdagangan
+from publication.forms import FormLingkungan
 from flask_login import current_user, login_required
 
-# ------------------------------------  ( Perdagangan dan Perindustrian ) --------------------------------------------
-# perdagangan (Kota)
-@app.route('/publikasi/perdagangan')
-def perdagangan():
-  data = Perdagangan.query.filter_by(district_id=None).order_by(Perdagangan.tahun).all()
-  return render_template('perdagangan/perdagangan.html', data=data)
+# ------------------------------------  ( Lingkungan Hidup ) --------------------------------------------
+# lingkungan (Kota)
+@app.route('/publikasi/lingkungan')
+def lingkungan():
+  data = Lingkungan.query.filter_by(district_id=None).order_by(Lingkungan.tahun).all()
+  return render_template('lingkungan/lingkungan.html', data=data)
 
-# perdagangan (Kecamatan)
-@app.route('/publikasi/perdagangan/<int:district_id>')
-def perdagangan_kec(district_id):
-  data = Perdagangan.query.filter_by(district_id=district_id).order_by( Perdagangan.tahun).all()
+# lingkungan (Kecamatan)
+@app.route('/publikasi/lingkungan/<int:district_id>')
+def lingkungan_kec(district_id):
+  data = Lingkungan.query.filter_by(district_id=district_id).order_by( Lingkungan.tahun).all()
   district_name = Districts.query.filter_by(id=district_id).first()
-  return render_template('perdagangan/perdagangan_kec.html', data=data, district_id=district_id, district_name=district_name)
+  return render_template('lingkungan/lingkungan_kec.html', data=data, district_id=district_id, district_name=district_name)
 
 # edit tabel
-@app.route('/publikasi/perdagangan/add', methods=['GET', 'POST'])
+@app.route('/publikasi/lingkungan/add', methods=['GET', 'POST'])
 @login_required
-def perdagangan_add():
-  if current_user.role == 'admin' or current_user.officer_of_agency == 14:
-    form = FormPerdagangan()
+def lingkunganm_add():
+  if current_user.role == 'admin' or current_user.officer_of_agency == 21:
+    form = FormLingkungan()
     if form.validate_on_submit():
       if form.district_id.data == 'None':
         form.district_id.data = eval(form.district_id.data)
       else:
         form.district_id.data = int(form.district_id.data)
-      rows_to_create = Perdagangan(tahun=form.tahun.data,
+      rows_to_create = Lingkungan(tahun=form.tahun.data,
                               u1=form.u1.data,
                               u2=form.u2.data,
                               u3=form.u3.data,
@@ -92,28 +92,29 @@ def perdagangan_add():
                               u60=form.u60.data,
                               u61=form.u61.data,
                               u62=form.u62.data,
+                              u63=form.u63.data,
 
                               district_id=form.district_id.data
                             )
       db.session.add(rows_to_create)
       db.session.commit()
       flash('Table Edited!', category='success')
-      return redirect(url_for('perdagangan'))
+      return redirect(url_for('lingkungan'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
-  return render_template('perdagangan/perdagangan_add.html', form=form)
+  return render_template('lingkungan/lingkungan_add.html', form=form)
 
 # hapus record
-@app.route('/publikasi/perdagangan/delete/<int:id>')
+@app.route('/publikasi/lingkungan/delete/<int:id>')
 @login_required
-def perdagangan_delete(id):
-  row_to_delete = Perdagangan.query.filter_by(id=id).first()
-  if current_user.role == 'admin' or current_user.officer_of_agency == 14 or current_user.officer_of_agency == None:
+def lingkungan_delete(id):
+  row_to_delete = Lingkungan.query.filter_by(id=id).first()
+  if current_user.role == 'admin' or current_user.officer_of_agency == 21 or current_user.officer_of_agency == None:
     db.session.delete(row_to_delete)
     db.session.commit()
     flash('Data Berhasil Dihapus', category='success')
-    return redirect(url_for('perdagangan'))
+    return redirect(url_for('lingkungan'))
   else:
-    flash('Bukan Dinasmu', category='danger')
-    return redirect(url_for('perdagangan'))
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
+    return redirect(url_for('lingkungan'))

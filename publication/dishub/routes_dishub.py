@@ -147,7 +147,7 @@ def dishub_add():
       flash('Table Edited!', category='success')
       return redirect(url_for('dishub'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('publikasi_page')) 
   return render_template('dishub/dishub_add.html', form=form)
 
@@ -162,5 +162,5 @@ def dishub_delete(id):
     flash('Data Berhasil Dihapus', category='success')
     return redirect(url_for('dishub'))
   else:
-    flash('Bukan Dinasmu', category='danger')
+    flash('Unauthorized! Pastikan Mengedit Dinas Sendiri.', category='danger')
     return redirect(url_for('dishub'))
