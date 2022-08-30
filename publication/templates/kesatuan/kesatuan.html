@@ -1,0 +1,915 @@
+{% extends 'base.html' %}
+{% block title %}
+  Kesatuan
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('kesatuan') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('kesatuan_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('kesatuan_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('kesatuan_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('kesatuan_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('kesatuan_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('kesatuan_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('kesatuan_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('kesatuan_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Badan Kesatuan Bangsa dan Politik Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('kesatuanTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="kesatuanTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 31 %}
+                  <span><a href="{{ url_for('kesatuan_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 31 %}
+              <th><a href="{{ url_for('kesatuan_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Kasus demonstrasi bidang politik</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Bidang Politik</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Bidang ekonomi</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Kegiatan Pembinaan kepada LSM, Ormas dan OKP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Kegiatan Pembinaan Politik</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Orang Asing</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Potensi Konflik :</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Kecamatan Palu Barat</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Kecamatan Tatanga</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Kecamatan Ulujadi</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Kecamatan Palu Selatan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Kecamatan Palu Timur</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Kecamatan Mantikulore</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Kecamatan Palu Utara</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Kecamatan Tawaeli</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Organisasi Masyarakat Menurut Kecamatan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Kecamatan Palu Barat</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Kecamatan Tatanga</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Kecamatan Ulujadi</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Kecamatan Palu Selatan</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Kecamatan Palu Timur</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Kecamatan Mantikulore</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Kecamatan Palu Utara</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Kecamatan Tawaeli</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Fasilitasi Penyelesaian Perselisihan Partai Politik</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Persentase Angka Masyarakat yang Menggunakan Hak Politiknya</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Angka Potensi Gangguan Ideologi, Politik, Ekonomi, Pertahanan dan Keamanan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Angka Potensi Gangguan Sosial Budaya</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Cakupan petugas Perlindungan Masyarakat (Linmas)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Tingkat penyelesaian pelanggaran K3 (ketertiban, ketentraman, keindahan)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Persentase Penegakan PERDA</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Terfasilitasi Pendampingan Pengakuan MHA</td>
+            <td>MHA</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Terverifikasinya MHA dan Kearifan Lokal atau Pengetahuan Tradisional</td>
+            <td>MHA</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Terverifikasi hak kearifan lokal atau hak pengetahuan tradisional</td>
+            <td>MHA</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Penetapan hak MHA</td>
+            <td>MHA</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Terfasilitasi kegiatan peningkatan pengetahuan dan keterampilan MHA</td>
+            <td>MHA</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Terfasilitasi penyediaan sarana/prasarana MHA</td>
+            <td>MHA</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Terlaksananya pendidikan dan pelatihan MHA</td>
+            <td>MHA</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Proporsi penduduk yang menjadi korban kejahatan kekerasan dalam 12 bulan terakhir</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Proporsi Penduduk Yang Menjadi Korban Kejahatan Kekerasan Dalam 12 Bulan Terakhir Menurut Provinsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Proporsi penduduk yang merasa aman berjalan sendirian di area tempat tinggalnya</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Proporsi Penduduk Yang Merasa Aman Berjalan Sendirian Di Area Tempat Tinggalnya</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u49 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u50 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Indeks Lembaga Demokrasi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u53 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u54 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Indeks Demokrasi Indonesia (IDI) Menurut Provinsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u57 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u58 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Proporsi korban kekerasan dalam 12 bulan terakhir yang melaporkan kepada polisi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u61 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u62 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u63 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u64 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Jumlah Warga Negara yang memperoleh layanan akibat dari penegakan hukum Perda dan perkada</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u65 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Persentase perda/perkada yang ditegakkan sesuai dengan standar</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u66 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Indeks Demokrasi Indonesia</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u67 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Persentase Timdu PKS Provinsi yang melaksanakan RAD secara efektif</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u68 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Jumlah aparatur pusat dan daerah yag ditingkatkan kapasitasnya dibidang kewaspadaan dini dan deteksi dini tingkat dasar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u69 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Jumlah Pusat Pendidikan Wawasan Kebangsaan (PPWK) yang berkinerja tinggi</td>
+            <td>Provinsi</td>
+            {% for d in data %}
+            <td>{{ d.u70 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Jumlah provinsi melaksanakan kampanye Gerakan Indonesia Bersatu dalam kebhinekaan</td>
+            <td>Provinsi</td>
+            {% for d in data %}
+            <td>{{ d.u71 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>Jumlah Bantuan Partai Politik Menurut Partai Di Kota Palu</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>GERINDRA</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u72 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>GOLKAR</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u73 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>HANURA</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u74 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>PKS</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u75 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>NASDEM</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u76 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>PAN</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u77 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>PKB</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u78 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>PDI-P</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u79 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>DEMOKRAT</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u80 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>PPP</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u81 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>PERINDO</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u82 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Jumlah Lembaga Adat Menurut Kecamatan Tahun 2021</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Palu barat</td>
+            <td>Lembaga</td>
+            {% for d in data %}
+            <td>{{ d.u83 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Tatanga</td>
+            <td>Lembaga</td>
+            {% for d in data %}
+            <td>{{ d.u84 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Ulujadi</td>
+            <td>Lembaga</td>
+            {% for d in data %}
+            <td>{{ d.u85 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Palu Selatan</td>
+            <td>Lembaga</td>
+            {% for d in data %}
+            <td>{{ d.u86 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Palu Timur</td>
+            <td>Lembaga</td>
+            {% for d in data %}
+            <td>{{ d.u87 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mantikulore</td>
+            <td>Lembaga</td>
+            {% for d in data %}
+            <td>{{ d.u88 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Palu Utara</td>
+            <td>Lembaga</td>
+            {% for d in data %}
+            <td>{{ d.u89 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Tawaeli</td>
+            <td>Lembaga</td>
+            {% for d in data %}
+            <td>{{ d.u90 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>Jumlah Organisasi Masyarakat Menurut Kecamatan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Palu barat</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u91 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Tatanga</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u92 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Ulujadi</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u93 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Palu Selatan</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u94 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Palu Timur</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u95 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Mantikulore</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u96 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Palu Utara</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u97 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Tawaeli</td>
+            <td>Organisasi</td>
+            {% for d in data %}
+            <td>{{ d.u98 }}</td>
+            {% endfor %}
+          </tr>
+          
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}

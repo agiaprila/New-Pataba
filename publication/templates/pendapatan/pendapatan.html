@@ -1,0 +1,1070 @@
+{% extends 'base.html' %}
+{% block title %}
+  Pendapatan
+{% endblock %}
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('pendapatan') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('pendapatan_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('pendapatan_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('pendapatan_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('pendapatan_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('pendapatan_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('pendapatan_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('pendapatan_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('pendapatan_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Badan Pendapatan Daerah Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('pendapatanTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="pendapatanTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 29 %}
+                  <span><a href="{{ url_for('pendapatan_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 29 %}
+              <th><a href="{{ url_for('pendapatan_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Rasio penerimaan pajak terhadap PDB</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jumlah Wajib Pajak Daerah</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pajak Hotel</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Pajak Restoran</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Pajak Hiburan</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Pajak Reklame</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Pajak Parkir</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Pajak Minerba ( Galian C )</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Pajak ABT</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Pajak BPHTB</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>i. Pajak PBB</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>j. Pajak Sarang Burung Walet</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>k. Pajak Penerangan Jalan (PPJ)</td>
+            <td>WP</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Realisasi Penerimaan Pajak Daerah menurut Kegiatan di Kota Palu</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pajak Hotel</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Pajak Restoran</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Pajak Hiburan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Pajak Reklame</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Pajak Parkir</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Pajak Minerba ( Galian C )</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Pajak ABT</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Pajak BPHTB</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>i. Pajak PBB</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>j. Pajak Sarang Burung Walet</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>k. Pajak Penerangan Jalan (PPJ)</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Potensi dan Realisasi Pendapatan PBB Menurut Kecamatan di Kota Palu</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Palu Barat</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Potensi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Realisasi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Tatanga</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Potensi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Realisasi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Ulujadi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Potensi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Realisasi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Palu Selatan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Potensi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Realisasi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Palu Timur</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Potensi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Realisasi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Mantikulore</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Potensi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Realisasi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Palu Utara</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Potensi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Realisasi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Tawaeli</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Potensi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Realisasi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Realisasi Pendapatan Pemerintah Kota Palu Menurut Jenis Pendapatan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.  Pendapatan Asli Daerah (PAD)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Pajak Daerah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Retribusi Daerah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>3) Hasil Perusahaan Milik Daerah dan Pengelolaan Kekayaan Daerah yang Dipisahkan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>4) Lain-lain PAD yang Sah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Dana Perimbangan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Bagi Hasil Pajak</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Bagi Hasil Bukan Pajak/Sumber Daya Alam</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>3) Dana Alokasi Umum</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u49 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>4) Dana Alokasi Khusus</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u50 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>5) Transfer Pemerintah Pusat - Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>6) Dana Penyesuaian</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>7) Transfer Pemerintah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u53 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>8) Pendapatan Bagi Hasil Pajak</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u54 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>9) Pendapatan Bagi Hasil Pajak Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Lain-lain Pendapatan yang Sah</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Pendapatan Hibah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Dana Darurat</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u57 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>3) Dana Bagi Hasil Pajak dari Pemerintah Daerah Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u58 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>4) Dana Penyesuaian dan Otonomi Daerah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>5) Bantuan Keuangan dari Pemerintah Daerah Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>6) Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u61 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Realisasi Pendapatan Pemerintah Kota Palu Menurut Jenis Belanja</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Belanja Operasi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u62 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Belanja Pegawai</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u63 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Belanja Barang dan Jasa</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u64 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>3) Belanja Bunga</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u65 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>4) Belanja Hibah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u66 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>5) Belanja Bantuan Sosial</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u67 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>6) Belanja Bantuan Keuangan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u68 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Belanja Modal</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u69 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>1) Belanja Tanah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u70 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>2) Belanja Peralatan dan Mesin</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u71 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>3) Belanja Bangunan dan Gedung</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u72 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>4) Belanja Jalan, Irigasi dan Jaringan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u73 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>5) Belanja Aset Tetap Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u74 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Belanja Tak Terduga</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u75 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Rasio penerimaan pajak terhadap PDB</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u76 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u77 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u78 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u79 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Persentase PAD terhadap pendapatan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. PAD</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u80 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Pendapatan daerah</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u81 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Rasio Pendapatan Pajak Daerah terhadap PAD</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u82 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Rasio Hasil Retribusi Daerah terhadap PAD</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u83 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Rasio Hasil Pengelolaan Kekayaan Daerah yang Dipisahkan terhadap PAD</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u84 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Rasio Lain-lain Pendapatan Asli Daerah yang Sah terhadap PAD</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u85 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Opini BPK</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Proporsi anggaran riset pemerintah terhadap PDB</td>
+            <td></td>
+          </tr>
+          <tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u86 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u87 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u88 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u89 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Rata-rata pertumbuhan ekonomi di daerah tertinggal</td>
+            <td></td>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u90 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u91 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u92 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u93 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Persentase rencana anggaran untuk belanja fungsi perlindungan sosial pemerintah pusat</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u94 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u95 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u96 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u97 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Realisasi Belanja Pemerintah Kota Palu Menurut Jenis Belanja</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Belanja Tidak Langsung/Indirect Expenditure</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u98 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Belanja Pegawai/Personnel Expenditures</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u99 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Belanja bunga/interest Expenditerus</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u100 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Belanja Subsidi/Subsidies Expenditures</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u101 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Belanja Hibah/Grant Expenditures</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u102 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Belanja Bantuan Sosial/Social Aid Expenditures</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u103 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Belanja Bagi Hasil/Sharing Fund Expenditure</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u104 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Belanja Bantuan Keuangan/Financial Aids Expenditures</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u105 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>i. Belanja Tidak Terduga/Unpredicted Expenditures</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u106 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>j. Belanja Modal/Capital Expenditure</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u107 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>k. Belanja Pegawai/Personnel Expenditures</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u108 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>l. Belanja Barang dan Jasa/Goods and Services Expenditures</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u109 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>m. Belanja Modal/Capital Expenditure</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u110 }}</td>
+            {% endfor %}
+          </tr>
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- akhir tabel -->
+
+  </div>
+
+  <!-- Content end -->
+
+{% endblock %}

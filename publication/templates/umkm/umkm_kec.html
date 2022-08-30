@@ -1,0 +1,5112 @@
+{% extends 'base.html' %}
+{% block title %}
+  UMKM
+{% endblock %}
+
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('umkm') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('umkm_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('umkm_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('umkm_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('umkm_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('umkm_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('umkm_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('umkm_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('umkm_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Koperasi, UMKM dan Tenaga Kerja Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('umkmTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="umkmTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col" class="my-auto">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th  rowspan="2" scope="col">Satuan</th>
+            <th  colspan="{{ data|length + 1 }}" scope="col" style="text-align: center;">Tahun</th>
+          </tr>
+  
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 13 %}
+                  <span><a href="{{ url_for('umkm_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 13 %}
+              <th><a href="{{ url_for('umkm_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>BIDANG KOPERASI</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Jumlah Koperasi Berdasarkan Keaktifan</td>
+            <td>Koperasi</td>
+            {% for d in data %}
+              <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Aktif</td>
+            <td>Koperasi</td>
+            {% for d in data %}
+              <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Tidak Aktif</td>
+            <td>Koperasi</td>
+            {% for d in data %}
+              <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+              <td>2</td>
+              <td>Jumlah Koperasi BerdasarKan Jenisnya</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u4 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Unit Desa (KUD)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u5 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi ABRI</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u6 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pegawai Negeri (KPN)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u7 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Karyawan (Kopkar)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u8 }}</td>
+              {% endfor %}     
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Industri/Kerajinan (Kopinkra)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u9 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Wanita (KOPWAN)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u10 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pertanian (Koptan)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u11 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Simpan Pinjam (KSP)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u12 }}</td>
+              {% endfor %}      
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pensiunan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u13 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Sekolah</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u14 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Serba Usaha (KSU)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u15 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pasar (Kopas)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u16 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Perikanan dan Nelayan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u17 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Angkutan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u18 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi lainnya</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u19 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>3</td>
+              <td>Jumlah Koperasi Aktif Berdasarkan Kecamatan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u20 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>4</td>
+              <td>Jumlah Koperasi Aktif Berdasarkan Jenisnya</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u21 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Unit Desa (KUD)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u22 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi ABRI</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u23 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pegawai Negeri (KPN)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u24 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Karyawan (Kopkar)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u25 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Industri/Kerajinan (Kopinkra)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u26 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Wanita (KW)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u27 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pertanian (Koptan)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u28 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Simpan Pinjam (KSP)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u29 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pensiunan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u30 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Sekolah</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u31 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Serba Usaha (KSU)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u32 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pasar (Kopas)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u33 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Perikanan dan Nelayan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u34 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Angkutan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u35 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi lainnya</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u36 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Jumlah Koperasi Berdasarkan Rapat Anggota Tahunan (RAT)</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Sudah RAT</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u37 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Belum RAT</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u38 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Jumlah Data Perkembangan Koperasi Berdasarkan Rapat Anggota Tahunan</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Unit Desa (KUD)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u39 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi ABRI</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u40 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pegawai Negeri (KPN)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u41 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Karyawan (Kopkar)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u42 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Industri/Kerajinan (Kopinkra)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u43 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Wanita (KOPWAN)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u44 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pertanian (Koptan)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u45 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Simpan Pinjam (KSP)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u46 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pensiunan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u47 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Sekolah</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u48 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Serba Usaha (KSU)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u49 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pasar (Kopas)</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u50 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Perikanan dan Nelayan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u51 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Angkutan</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u52 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi lainnya</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u53 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Jumlah Modal Sendiri dan Modal Luar Koperasi Berdasarkan Jenis Koperasi</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u54 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u55 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Koperasi Unit Desa (KUD)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u56 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u57 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u58 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Koperasi ABRI</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u59 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u60 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u61 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Koperasi Pegawai Negeri (KPN)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u62 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u63 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u64 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>d. Koperasi Karyawan (Kopkar)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u65 }}</td>
+              {% endfor %}
+          </tr>
+          </tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u66 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u67 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>e. Koperasi Industri/Kerajinan (Kopinkra)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u68 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u69 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u70 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>f. Koperasi Wanita (KOPWAN)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u71 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u72 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u73 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>g. Koperasi Pertanian (Koptan)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u74 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u75 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u76 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>h. Koperasi Simpan Pinjam (KSP)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u77 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u78 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u79 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>i. Koperasi Pensiunan</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u80 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u81 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u82 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>j. Koperasi Sekolah</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u83 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u84 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u85 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>k. Koperasi Serba Usaha (KSU)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u86 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u87 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u88 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>l. Koperasi Pasar (Kopas)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u89 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u90 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u91 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>m. Koperasi Perikanan dan Nelayan</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u92 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u93 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u94 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>n. Koperasi Angkutan</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u95 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u96 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u97 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>o. Koperasi lainnya</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u98 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Sendiri</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u99 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Modal Luar</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u100 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td>8</td>
+              <td>Jumlah Data Perkembangan Koperasi Berdasarkan Sisa Hasil Usaha (SHU)</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Unit Desa (KUD)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u101 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi ABRI</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u102 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pegawai Negeri (KPN)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u103 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Karyawan (Kopkar)k</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u104 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Industri/Kerajinan (Kopinkra)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u105 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Wanita (KOPWAN)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u106 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pertanian (Koptan)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u107 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Simpan Pinjam (KSP)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u108 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pensiunan</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u109 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Sekolah</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u110 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Serba Usaha (KSU)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u111 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Pasar (Kopas)</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u112 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Perikanan dan Nelayan</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u113 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi Angkutan</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u114 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>- Koperasi lainnya</td>
+              <td>Rupiah</td>
+              {% for d in data %}
+                <td>{{ d.u115 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Koperasi aktif</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a.Jumlah koperasi aktif</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u116 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b.Jumlah seluruh koperasi</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u117 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Jumlah Koperasi Berdasarkan Keanggotaannya</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td></td>
+              <td>a. Koperasi Sekolah</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u118 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>b. Koperasi Pasar</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u119 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+              <td></td>
+              <td>c. Koperasi Unit Desa</td>
+              <td>Koperasi</td>
+              {% for d in data %}
+                <td>{{ d.u120 }}</td>
+              {% endfor %}
+          </tr>
+          <tr>
+            <td>USAHA MIKRO KECIL DAN MENENGAH</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>UKM non BPR/LKM aktif</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah UKM non BPR/LKM aktif</td>
+            <td>UKM</td>
+            {% for d in data %}
+            <td>{{ d.u121 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Jumlah seluruh UKM non BPR/LKM</td>
+            <td>UKM</td>
+            {% for d in data %}
+            <td>{{ d.u122 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>BPR/LKM aktif</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah BPR/LKM aktif</td>
+            <td>BPR</td>
+            {% for d in data %}
+            <td>{{ d.u123 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Jumlah seluruh BPR/LKM</td>
+            <td>BPR</td>
+            {% for d in data %}
+            <td>{{ d.u124 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Usaha Mikro dan kecil</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah usaha mikro dan kecil</td>
+            <td>UKM</td>
+            {% for d in data %}
+            <td>{{ d.u125 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Jumlah seluruh UKM</td>
+            <td>UKM</td>
+            {% for d in data %}
+            <td>{{ d.u126 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Jumlah Pencari Kerja Berdasarkan Pendidikan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u127 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. SMA</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u128 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. S1</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u129 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. S2</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u130 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. S3</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u131 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Rasio pinjaman terhadap simpanan di bank umum</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u132 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Rasio pinjaman terhadap simpanan di BPR</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u133 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Persentase tenaga kerja formal</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u134 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u135 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Persentase Tenaga Kerja Formal Menurut Provinsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u136 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u137 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Persentase tenaga kerja informal sektor pertanian</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u138 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u139 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Persentase Tenaga Kerja Informal Sektor Pertanian</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u140 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u141 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Upah rata-rata per jam pekerja</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u142 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u143 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Upah Rata - Rata Per Jam Pekerja Menurut Provinsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u144 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u145 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Tingkat pengangguran terbuka berdasarkan jenis kelamin dan kelompok umur</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u146 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u147 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Tingkat setengah pengangguran</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u148 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u149 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Tingkat Setengah Pengangguran Menurut Provinsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u150 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u151 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Proporsi tenaga kerja pada sektor industri manufaktur</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u152 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u153 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>Laju pertumbuhan PDB per tenaga kerja/Tingkat pertumbuhan PDB riil per orang bekerja per tahun</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u154 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u155 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Laju Pertumbuhan PDB Per Tenaga Kerja/Tingkat Pertumbuhan PDB Riil Per Orang Bekerja Per Tahun</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u156 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u157 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>Proporsi lapangan kerja informal sektor non-pertanian, berdasarkan jenis kelamin</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u158 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u159 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>Proporsi Lapangan Kerja Informal Sektor Non-Pertanian Menurut Provinsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u160 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u161 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>31</td>
+            <td>Proporsi volume remitansi TKI (dalam US dollars) terhadap PDB</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u162 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u163 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>Proporsi kredit UMKM terhadap total kredit</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u164 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u165 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>Proporsi industri kecil dengan pinjaman atau kredit</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u166 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u167 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Proporsi pembayaran utang dan bunga (Debt Service) terhadap ekspor barang dan jasa</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u168 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u169 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>35</td>
+            <td>Jumlah Perusahaan yang menerapkan Norma Kerja dan Jamsos TK</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u170 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>Jumlah Perizinan dan Akreditasi LPK di daerah</td>
+            <td>Lembaga</td>
+            {% for d in data %}
+            <td>{{ d.u171 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>37</td>
+            <td>Jumlah Tenaga Kerja yang Ditempatkan Melalui IPK Daerah</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u172 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>38</td>
+            <td>Jumlah Perusahaan yang telah Memiliki Struktur dan Skala Upah</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u173 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>39</td>
+            <td>Jumlah Layanan Terpadu Satu Atap (LTSA) di Daerah</td>
+            <td>Provinsi</td>
+            {% for d in data %}
+            <td>{{ d.u174 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Jumlah Perusahaan yang mendapatkan konsultansi dan pengukuran produktivitas</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u175 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>41</td>
+            <td>Jumlah Perusahaan yang mempekerjakan 10 orang atau lebih yang telah memiliki peraturan perusahaan</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u176 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>42</td>
+            <td>Jumlah Perusahaan yang membuat Perjanjian Kerja Bersama</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u177 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>43</td>
+            <td>Jumlah Pekerja yang telah terdaftar sebagai peserta jaminan sosial tenaga kerja</td>
+            <td>Provinsi</td>
+            {% for d in data %}
+            <td>{{ d.u178 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>44</td>
+            <td>Jumlah Lembaga kerja sama tripartit atau dewan pengupahan provinsi dan kab./kota yang telah menjalankan fungsinya</td>
+            <td>Provinsi</td>
+            {% for d in data %}
+            <td>{{ d.u179 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>45</td>
+            <td>Jumlah Perusahaan yang mempekerjakan 50 orang atau lebih yang telah membentuk lembaga kerja sama bipartit</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u180 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>46</td>
+            <td>Jumlah Unit layanan disabilitas</td>
+            <td>Provinsi</td>
+            {% for d in data %}
+            <td>{{ d.u181 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>47</td>
+            <td>Jumlah tenaga kerja yang ditempatkan di dalam negeri</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u182 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>48</td>
+            <td>Jumlah Perusahaan yang Menerapkan Kondisi Kerja yang Layak</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u183 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>49</td>
+            <td>Jumlah perusahaan yang menerapkan norma K3</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u184 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>Rasio Kewirausahaan Nasional</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>51</td>
+            <td>Kontribusi PDB UMKM</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>52</td>
+            <td>UMKM naik kelas dan Modernisasi Koperasi (48.000 Unit)</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u185 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>53</td>
+            <td>Kontribusi PDB Koperasi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>54</td>
+            <td>Jumlah tenaga kerja yang dilatih dan ditempatkan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u186 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>55</td>
+            <td>Jumlah perusahaan yang mendapatkan sertifikat SMK3</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u187 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>56</td>
+            <td>Jumlah perusahaan yang mematuhi Wajib Lapor Ketenagakerjaan Perusahaan melalui WLKP Online (Sisnaker)</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u188 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>57</td>
+            <td>Jumlah tenaga kerja yang mendapat pemberdayaan wirausaha baru</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u189 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>58</td>
+            <td>Jumlah Pencari Kerja Terdaftar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u190 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>59</td>
+            <td>Jumlah Lowongan Kerja Terdaftar</td>
+            <td>Lowongan</td>
+            {% for d in data %}
+            <td>{{ d.u191 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>60</td>
+            <td>Jumlah Penempatan/Pemenuhan Tenaga Kerja</td>
+            <td>Unit Kerja</td>
+            {% for d in data %}
+            <td>{{ d.u192 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>61</td>
+            <td>Angka pertisipasi angkatan kerja</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Angkatan kerja 15 tahun ke atas</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u193 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk usia 15 tahun ke atas</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u194 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>62</td>
+            <td>Tingkat partisipasi angkatan kerja (%)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penduduk Angkatan Kerja</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u195 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk usia kerja (15-64 Tahun)</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u196 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>63</td>
+            <td>Tingkat pengangguran terbuka</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penganggur terbuka usia angkatan kerja</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u197 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk angkatan kerja</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u198 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>64</td>
+            <td>Rasio penduduk yang berkerja</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Penduduk yang bekerja</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u199 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Angkatan Kerja/td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u200 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>65</td>
+            <td>Laju pertumbuhan PDB per tenaga kerja</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Produk Domestik Bruto</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u201 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Tenaga Kerja	Jiwa</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u202 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>66</td>
+            <td>Rasio kesempatan kerja terhadap penduduk usia 15 tahun ke atas</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Kesempatan kerja</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u203 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk usia 15 tahun ke atas</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u204 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>67</td>
+            <td>Proporsi tenaga kerja yang berusaha sendiri dan pekerja bebas keluarga terhadap total kesempatan kerja</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Tenaga kerja yang berusaha sendiri dan pekerja bebas keluarga</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u205 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Total kesempatan kerja</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u206 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>TENAGA KERJA</td>
+          </tr>
+          <tr>
+            <td>68</td>
+            <td>Jumlah Kasus Hubungan Industrial Berdasarkan Jenis Kasus</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u207 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perselisihan Hak</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u208 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perselisihan Kepentingan</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u209 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perselisihan Pemutusan Hubungan Kerja (PHK)</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u210 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perselisihan Antar Serikat Pekerja atau Buruh Dalam Satu Perusahaan</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u211 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>69</td>
+            <td>Jumlah Lowongan Kerja Terdaftar Berdasarkan Jenis Kelamin</td>
+            <td>Lowongan</td>
+            {% for d in data %}
+            <td>{{ d.u212 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Lowongan</td>
+            {% for d in data %}
+            <td>{{ d.u213 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Lowongan</td>
+            {% for d in data %}
+            <td>{{ d.u214 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>70</td>
+            <td>Jumlah Pencari Kerja Terdaftar Berdasarkan Jenis Kelamin</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u215 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u216 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u217 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>71</td>
+            <td>Jumlah Pencari Kerja Berdasarkan Pendidikan Terakhir</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u218 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Tidak/Belum Tamat SD</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u219 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Dasar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u220 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Pertama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u221 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Atas</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u222 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Kejuruan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u223 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Diploma (D I / II / III)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u224 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Universitas</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u225 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>72</td>
+            <td>Jumlah Penduduk Usia Kerja</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u226 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>73</td>
+            <td>Jumlah Penduduk Usia Kerja Berdasarkan Golongan Umur</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u227 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15 - 19 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u228 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20 - 24 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u229 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25 - 29 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u230 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 30 - 34 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u231 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 35 - 39 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u232 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 40 - 44 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u233 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 45 - 49 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u234 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 50 - 54 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u235 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 55 - 59 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u236 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- > 60 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u237 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>74</td>
+            <td>Jumlah Penduduk Usia Kerja Berdasarkan Jenis Kelamin</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u238 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u239 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u240 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>75</td>
+            <td>Jumlah Penduduk Usia Kerja Berdasarkan Tingkat Pendidikan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u241 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Dasar kebawah</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u242 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Pertama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u243 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Atas</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u244 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Kejuruan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u245 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Diploma (D I / II / III)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u246 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Universitas</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u247 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>76</td>
+            <td>Jumlah Penganggur Terbuka Berdasarkan Kecamatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u248 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>77</td>
+            <td>Jumlah Penganggur Terbuka Berdasarkan Golongan Umur</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u249 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15 - 19 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u250 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20 - 24 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u251 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25 - 29 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u252 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 30 - 34 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u253 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 35 - 39 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u254 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 40 - 44 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u255 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 45 - 49 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u256 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 50 - 54 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u257 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 55 - 59 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u258 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- > 60 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.259 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>78</td>
+            <td>Jumlah Penganggur Terbuka Berdasarkan Jenis Kelamin</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u260 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u261 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u262 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>79</td>
+            <td>Jumlah Penganggur Terbuka Berdasarkan Pendidikan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u263 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Dasar kebawah</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u264 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Pertama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u265 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Atas</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u266 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Kejuruan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u267 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Diploma (D I / II / III)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u268 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Universitas</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u269 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>80</td>
+            <td>Jumlah Angkatan Kerja Berdasarkan Kecamatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u270 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>81</td>
+            <td>Jumlah Angkatan Kerja Berdasarkan Tingkat Pendidikan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u271 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Dasar kebawah</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u272 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Pertama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u273 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Atas</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u274 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Kejuruan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u275 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Diploma (D I / II / III)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u276 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Universitas</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u277 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>82</td>
+            <td>Jumlah Angkatan Kerja Berdasarkan Golongan Umur</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u278 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15 - 19 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u279 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20 - 24 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u280 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25 - 29 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u281 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 30 - 34 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u282 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 35 - 39 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u283 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 40 - 44 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u284 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 45 - 49 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u285 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 50 - 54 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u286 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 55 - 59 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u287 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- > 60 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u288 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>83</td>
+            <td>Jumlah Angkatan Kerja Berdasarkan Jenis Kelamin</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u289 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u290 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u291 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+            <td>84</td>
+            <td>Tingkat partisipasi angkatan kerja</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u292 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>85</td>
+            <td>Tingkat Partisipasi Angkatan Kerja Berdasarkan Golongan Umur</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u293 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15 - 19 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u294 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20 - 24 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u295 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25 - 29 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u296 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 30 - 34 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u297 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 35 - 39 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u298 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 40 - 44 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u299 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 45 - 49 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u300 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 50 - 54 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u301 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 55 - 59 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u302 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- > 60 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u303 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>86</td>
+            <td>Tingkat Partisipasi Angkatan Kerja Berdasarkan Jenis Kelamin</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u304 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Laki-laki</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u305 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perempuan</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u306 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>87</td>
+            <td>Tingkat Partisipasi Angkatan Kerja Berdasarkan Pendidikan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u307 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Dasar kebawah</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u308 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Pertama</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u309 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Atas</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u310 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Kejuruan</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u311 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Diploma (D I / II / III)</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u312 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Universitas</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u313 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>88</td>
+            <td>Tingkat pengangguran terbuka</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u314 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>89</td>
+            <td>Tingkat Penganggur Terbuka Berdasarkan Golongan Umur</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u315 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15 - 19 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u316 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20 - 24 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u317 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25 - 29 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u318 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 30 - 34 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u319 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 35 - 39 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u320 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 40 - 44 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u321 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 45 - 49 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u322 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 50 - 54 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u323 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 55 - 59 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u324 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- > 60 Tahun</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u325 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>90</td>
+            <td>Tingkat Penganggur Terbuka Berdasarkan Pendidikan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u326 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Dasar kebawah</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u327 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Pertama</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u328 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Atas</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u329 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Sekolah Menengah Kejuruan</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u330 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Diploma (D I / II / III)</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u331 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Universitas</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u332 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>91</td>
+            <td>Angka sengketa pengusaha-pekerja per tahun</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u333 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah sengketa pengusaha pekerja</td>
+            <td>Sengketa</td>
+            {% for d in data %}
+            <td>{{ d.u334 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah perusahaan</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u335 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>92</td>
+            <td>Besaran kasus yang diselesaikan dengan Perjanjian Bersama (PB)</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u336 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. kasus yang diselesaikan melalui Perjanjian Bersama (PB)</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u337 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. kasus yang dicatatkan</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u338 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>93</td>
+            <td>Besaran pencari kerja yang terdaftar yang ditempatkan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u339 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. pencari kerja yang ditempatkan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u340 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. pencari kerja yang terdaftar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u341 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>94</td>
+            <td>Keselamatan dan perlindungan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u342 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah perusahaan yangmenerapkan K3 pada Tahun n</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u343 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah perusahaan di wilayah kabupaten pada Tahun n</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u344 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>95</td>
+            <td>Besaran pekerja/buruh yang menjadi peserta program Jamsostek</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u345 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. pekerja/buruh JAMSOSTEK</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u346 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. pekerja/buruh</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u347 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>96</td>
+            <td>Perselisihan buruh dan pengusaha terhadap kebijakan pemerintah daerah</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u348 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penyelesaian perselisihan buruh danpengusaha dengan kebijakan pemda pada Tahun n</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u349 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah kejadian perselisihan buruh dan pengusaha dengan kebijakan pemda</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u350 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>97</td>
+            <td>Besaran Pemeriksaan Perusahaan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u351 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. perusahaan yang telah diperiksa</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u352 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. perusahaan yang terdaftar</td>
+            <td>Perusahaan</td>
+            {% for d in data %}
+            <td>{{ d.u353 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>98</td>
+            <td>Besaran Pengujian Peralatan di Perusahaan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u354 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. peralatan yang telah diuji</td>
+            <td>Alat</td>
+            {% for d in data %}
+            <td>{{ d.u355 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. peralatan yang telah terdaftar</td>
+            <td>Alat</td>
+            {% for d in data %}
+            <td>{{ d.u356 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>99</td>
+            <td>Besaran tenaga kerja yang mendapatkan pelatihan berbasis kompetensi</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u357 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. tenaga kerja yang dilatih</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u358 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Pendaftar pelatihan berbasis kompetensi</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u359 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>100</td>
+            <td>Besaran tenaga kerja yang mendapatkan pelatihan berbasis masyarakat</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u360 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. tenaga kerja yang dilatih</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u361 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. pendaftar pelatihan berbasis masyarakat</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u362 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>101</td>
+            <td>Besaran tenagakerja yang mendapatkan pelatihan kewirausahaan</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u363 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.  tenaga kerja yang dilatiha</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u364 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. pendaftar pelatihan kewirausahaan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u365 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>102</td>
+            <td>Rasio lulusan S1</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u366 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah lulusan S1</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u367 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u368 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>103</td>
+            <td>Rasio lulusan S2</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u369 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah lulusan S2</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u370 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u371 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>104</td>
+            <td>Rasio lulusan S3</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u372 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah lulusan S3</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u373 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u374 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>105</td>
+            <td>Kasus pemogokan kerja</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u375 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>106</td>
+            <td>Jumlah Pencari Kerja yang Terdaftar menurut Tingkat Pendidikan dan Jenis Kelamin</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u376 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Januari</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u377 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u378 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u379 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u380 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u381 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u382 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u383 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u384 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u385 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u386 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u387 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u388 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u389 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u390 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u391 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u392 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Februari</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u393 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u394 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u395 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u396 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u397 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u398 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u399 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u400 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u401 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u402 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u403 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u404 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u405 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u406 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u407 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u408 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Maret</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u409 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u410 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u411 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u412 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u413 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u414 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u415 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u416 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u417 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u418 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u419 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u420 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u421 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u422 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u423 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u424 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. April</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u425 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u426 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u427 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u428 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u429 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u430 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u431 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u432 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u433 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u434 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u435 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u436 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u437 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u438 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u439 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u440 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>e. Mei</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u441 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u442 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u443 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u444 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u445 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u446 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u447 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u448 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u449 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u450 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u451 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u452 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u453 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u454 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u455 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u456 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>f. Juni</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u457 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u458 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u459 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u460 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u461 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u462 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u463 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u464 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u465 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u466 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u467 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u468 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u469 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u470 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u471 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u472 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>g. Juli</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u473 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u374 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u475 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u476 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u477 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u478 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u479 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u480 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u481 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u482 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u483 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u484 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u485 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u486 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u487 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u488 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>h. Agustus</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u489 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u490 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u491 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u492 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u493 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u494 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u495 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u496 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u497 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u498 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u499 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u500 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u501 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u502 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u503 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u504 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>i. September</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u505 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u506 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u507 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u508 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u509 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u510 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u511 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u512 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u513 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u514 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u515 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u516 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u517 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u518 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u519 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u520 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>j. Oktober</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u521 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u522 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u523 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u524 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u525 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u526 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u527 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u528 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u529 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u530 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u531 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u532 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u533 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u534 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u535 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u536 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>k. November</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u537 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u538 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u539 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u540 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u541 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u542 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u543 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u544 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u545 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u546 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u547 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u548 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u549 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u550 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u551 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u552 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>l. Desember</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u553 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u554 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u555 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u556 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SLTP</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u557 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u558 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u559 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>SMU/SMK/Senior</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u560 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u561 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u562 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Diploma I/II/III</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u563 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u564 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u565 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarjana/Pasca Sarjana</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u566 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u567 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u568 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>107</td>
+            <td>Jumah Pencari Kerja yang Sudah dan Belum Ditempatkan menurut Jenis Kelamin</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u569 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sisa Pencari Kerja Tahun Lalu</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u570 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u571 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u572 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Pencari Kerja yang Terdaftar</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u573 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u574 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u575 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Pencari Kerja yang Ditempatkan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u576 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u577 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u578 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Pencari Kerja yang Dihapuskan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u579 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u580 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u581 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Pencari Kerja yang Belum Ditempatkan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u582 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Laki-Laki</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u583 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perempuan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u584 }}</td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- Content end -->
+
+{% endblock %}
