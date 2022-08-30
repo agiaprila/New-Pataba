@@ -1,0 +1,3002 @@
+{% extends 'base.html' %}
+{% block title %}
+  Dinkes
+{% endblock %}
+
+{% block content %}
+  <!-- Content -->
+
+  <div class="container">
+    <div class="ket-tabel d-flex justify-content-center">
+      <a href="{{ url_for('dinkes') }}" class="btn btn-success m-2">Kota Palu</a>
+      <a href="{{ url_for('dinkes_kec', district_id=1) }}" class="btn btn-success m-2">Palu Barat</a>
+      <a href="{{ url_for('dinkes_kec', district_id=2) }}" class="btn btn-success m-2">Palu Selatan</a>
+      <a href="{{ url_for('dinkes_kec', district_id=3) }}" class="btn btn-success m-2">Tatanga</a>
+      <a href="{{ url_for('dinkes_kec', district_id=4) }}" class="btn btn-success m-2">Ulujadi</a>
+      <a href="{{ url_for('dinkes_kec', district_id=5) }}" class="btn btn-success m-2">Mantikulore</a>
+      <a href="{{ url_for('dinkes_kec', district_id=6) }}" class="btn btn-success m-2">Palu Timur</a>
+      <a href="{{ url_for('dinkes_kec', district_id=7) }}" class="btn btn-success m-2">Palu Utara</a>
+      <a href="{{ url_for('dinkes_kec', district_id=8) }}" class="btn btn-success m-2">Tawaili</a>
+    </div>
+    <h3 class="text-center">Publikasi Dinas Kesehatan Kota Palu</h3>
+
+    <button class="btn btn-sm btn-info btn-download" onclick="exportTableToExcel('dinkesTable', 'tabel')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
+        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1H4zm9 6h-3v2h3V7zm0 3h-3v2h3v-2zm0 3h-3v2h2a1 1 0 0 0 1-1v-1zm-4 2v-2H6v2h3zm-4 0v-2H3v1a1 1 0 0 0 1 1h1zm-2-3h2v-2H3v2zm0-3h2V7H3v2zm3-2v2h3V7H6zm3 3H6v2h3v-2z"/>
+      </svg>
+      <span>
+        Download Tabel
+      </span>
+    </button>
+
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="dinkesTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col" class="my-auto">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th  rowspan="2" scope="col">Satuan</th>
+            <th  colspan="{{ data|length + 1 }}" scope="col" style="text-align: center;">Tahun</th>
+          </tr>
+  
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 5 %}
+                  <span><a href="{{ url_for('dinkes_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 5 %}
+              <th><a href="{{ url_for('dinkes_add') }}" class="btn btn-success">Tambah</a></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Angka Usia Harapan Hidup</td>
+            <td>Tahun</td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Cakup desa siaga aktif</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Angka kelangsungan hidup bayi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Cakupan pertolongan persalinan oelh tenaga kesehatan yang memiliki kompetensi kebidanan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Prsentase posyandu aktif</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Indikator SPM Bidang kesehatan</td>
+            <td>indeks</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Pelayanan kesehatan bagi penduduk berdampak krisis kesehatan akibat bencana dan atau berpotensi bencana provinsi</td>
+            <td>Layanan</td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Jumlah Warga Negara yang terdampak krisis kesehatan akibat bencana dan/atau berpotensi bencana provinsi yang mendapatkan layanan kesehatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Pelayanan kesehatan bagi penduduk pada kondisi kejadian luar biasa provinsi</td>
+            <td>Layanan</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Jumlah Warga Negara pada kondisi kejadian luar biasa provinsi yang mendapatkan layanan kesehatan</td>
+            <td> Orang</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Pelayanan Kesehatan Ibu Hamil</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Jumlah Ibu Hamil yang mendapatkan layanan kesehatan</td>
+            <td>Bumil</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Pelayanan Kesehatan Ibu Bersalin</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Jumlah Ibu Bersalin yang mendapatkan layanan kesehatan</td>
+            <td>Bulin</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Pelayanan Kesehatan Bayi Baru Lahir</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Jumlah Bayi Baru Lahir yang mendapatkan layanan kesehatan</td>
+            <td>Bayi</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Pelayanan kesehatan balita</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Jumlah Balita yang mendapatkan layanan kesehatan</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Pelayanan kesehatan pada usia pendidikan dasar</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Jumlah Warga Negara usia pendidikan dasar yang mendapatkan layanan kesehatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>21</td>
+            <td>Pelayanan kesehatan pada usia produktif</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Jumlah Warga Negara usia produktif yang mendapatkan layanan kesehatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Pelayanan kesehatan pada usia lanjut</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Jumlah warga negara usia lanjut yang mendapatkan layanan kesehatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Pelayanan kesehatan penderita hipertensi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Jumlah Warga Negara penderita hipertensi yang mendapatkan layanan kesehatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>Pelayanan kesehatan penderita diabetes melitus</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Jumlah Warga Negara penderita diabetes mellitus yang mendapatkan layanan kesehatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>Pelayanan kesehatan orang dengan gangguan jiwa berat</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>Jumlah Warga Negara dengan gangguan jiwa berat yang terlayani kesehatan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>31</td>
+            <td>Pelayanan kesehatan orang terduga tuberkulosis</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>Jumlah Warga Negara terduga tuberculosis yang mendapatkan layanan kesehatan</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>Pelayanan kesehatan orang dengan risiko terinfeksi virus yang melemahkan daya tahan tubuh manusia (Human Immunodeficiency Virus)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Jumlah Warga Negara dengan risiko terinfeksi virus yang melemahkan daya tahan tubuh manusia (Human Immunodeficiency Virus) yang mendapatkan layanan kesehatan</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <!-- Have Child -->
+          <tr>
+            <td>35</td>
+            <td>Prevalensi stunting (pendek dan sangat pendek) pada anak di bawah dua tahun/baduta.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>Prevalensi anemia pada ibu hamil.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>37</td>
+            <td>Insiden Tuberkulosis (ITB) per 100.000 penduduk.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>38</td>
+            <td>Kejadian Malaria per 1000 orang.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u49 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u50 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>39</td>
+            <td>Jumlah kabupaten/kota yang mencapai eliminasi malaria.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u53 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u54 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Jumlah Kabupaten/Kota dengan eliminasi filariasis (berhasil lolos dalam survei penilaian transmisi tahap I)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u57 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u58 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>41</td>
+            <td>Persentase kabupaten/kota yang melakukan deteksi dini untuk infeksi Hepatitis B.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u61 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u62 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>42</td>
+            <td>Jumlah provinsi dengan eliminasi Kusta.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u63 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u64 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u65 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u66 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>43</td>
+            <td>Jumlah Provinsi dengan eliminasi Kusta</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u67 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u68 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u69 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u70 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>44</td>
+            <td>Prevalensi obesitas pada penduduk umur ≥18 tahun.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u71 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u72 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u73 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u74 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>45</td>
+            <td>Jumlah yang mengakses layanan pasca rehabilitasi.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u75 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u76 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u77 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u78 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>46</td>
+            <td>Jumlah penduduk yang dicakup asuransi kesehatan atau sistem kesehatan masyarakat per 1000 penduduk.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u79 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u80 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u81 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u82 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>47</td>
+            <td>Persentase ketersediaan obat dan vaksin di Puskesmas.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u83 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u84 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u85 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u86 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>48</td>
+            <td>Kepadatan dan distribusi tenaga kesehatan.</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u87 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u88 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u89 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>d. Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u90 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>49</td>
+            <td>Jumlah Kasus Penyakit</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u91 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>Jumlah Rumah Sakit</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u92 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Umum</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u93 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Khusus</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u94 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>51</td>
+            <td>Jumlah Rumah Sakit/Rumah Bersalin</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u95 }}</td>
+            {% endfor %}
+          </tr>
+          </tr>
+          <tr>
+            <td>52</td>
+            <td>Jumlah Puskesmas</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u96 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Rawat Inap</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u97 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Non Rawat Inap</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u98 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>53</td>
+            <td>Jumlah Klinik/Balai Kesehatan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u99 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>54</td>
+            <td>Jumlah Posyandu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u100 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>55</td>
+            <td>Jumlah Polindes</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u101 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>56</td>
+            <td>Prevalensi stunting (pendek dan sangat pendek) pada balita (%)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u102 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>57</td>
+            <td>Prevalensi Wasting (Kurus dan Sangat Kurus) Pada Balita (%)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u103 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>58</td>
+            <td>Persentase obat memenuhi syarat</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u104 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>59</td>
+            <td>Persentase makanan memenuhi syarat</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u105 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>60</td>
+            <td>Persentase balita gizi buruk</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u106 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah balita gizi buruk</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u107 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. jumlah balita </td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u108 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>61</td>
+            <td>Prevalensi balita gizi kurang (%)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u109 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah balita gizi kurang</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u110 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. jumlah balita </td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u111 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>62</td>
+            <td>Cakupan Kelurahan Siaga Aktif</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u112 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Kelurahan siaga aktif</td>
+            <td>Kelurahan</td>
+            {% for d in data %}
+            <td>{{ d.u113 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Kelurahan siaga yang dibentuk </td>
+            <td>Kelurahan</td>
+            {% for d in data %}
+            <td>{{ d.u114 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>63</td>
+            <td>Angka kematian bayi (AKB) per 1000 kelahiran hidup</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Kematian Bayi (berumur kurang 1 tahun) pada satu tahun tertentu</td>
+            <td>per 1000 KH</td>
+            {% for d in data %}
+            <td>{{ d.u115 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Kelahiran Hidup pada satu tahun tertentu </td>
+            <td>Bayi</td>
+            {% for d in data %}
+            <td>{{ d.u116 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>64</td>
+            <td><strong>kelangsungan hidup bayi</strong> </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Angka Kematian Bayi / Infant Mortality Rate (IMR) </td>
+            <td>per 1000 KH</td>
+            {% for d in data %}
+            <td>{{ d.u117 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Kematian Bayi (berumur kurang 1 tahun) pada satu tahun tertentu. </td>
+            <td>Bayi</td>
+            {% for d in data %}
+            <td>{{ d.u118 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>c. Jumlah Kelahiran Hidup pada satu tahun tertentu.</td>
+            <td>Bayi</td>
+            {% for d in data %}
+            <td>{{ d.u119 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>65</td>
+            <td><strong>Angka kematian Balita per 1.000 Kelahiran hidup</strong> </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Kematian Bayi (berumur kurang 5 tahun) pada satu tahun tertentu</td>
+            <td>bayi</td>
+            {% for d in data %}
+            <td>{{ d.u120 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Kelahiran Hidup pada satu tahun tertentu. </td>
+            <td>Bayi</td>
+            {% for d in data %}
+            <td>{{ d.u121 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>66</td>
+            <td><strong>Angka kematian Neonatal per 1.000 Kelahiran hidup</strong> </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Kematian Bayi (berumur kurang 1 bulan) pada satu tahun tertentu</td>
+            <td>bayi</td>
+            {% for d in data %}
+            <td>{{ d.u122 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Kelahiran Hidup pada satu tahun tertentu</td>
+            <td>Bayi</td>
+            {% for d in data %}
+            <td>{{ d.u123 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>67</td>
+            <td><strong>Angka kematian Ibu per 100.000 Kelahiran hidup</strong> </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah ibu hamil yang meninggal karena hamil, bersalin, dan nifas di suatu wilayah tertentu selama 1 tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u124 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah kelahiran hidup di wilayah tersebut dan pada kurun waktu yang sama</td>
+            <td>Kelahiran</td>
+            {% for d in data %}
+            <td>{{ d.u125 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>68</td>
+            <td>Rasio posyandu per satuan balita</td>
+            <td>per 1000 balita</td>
+            {% for d in data %}
+            <td>{{ d.u126 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah posyandu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u127 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah balita</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u128 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>69</td>
+            <td>Rasio Puskesmas, Poliklinik, Pustu  per satuan Penduduk</td>
+            <td>per 1000 penduduk</td>
+            {% for d in data %}
+            <td>{{ d.u129 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah puskesmas, poliklinik, pustu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u130 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u131 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>70</td>
+            <td>Rasio Rumah Sakit per satuan penduduk</td>
+            <td>per 1000 penduduk</td>
+            {% for d in data %}
+            <td>{{ d.u132 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Rumah sakit</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u133 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u134 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>71</td>
+            <td>Rasio Dokter per satuan Penduduk</td>
+            <td>per 1000 penduduk</td>
+            {% for d in data %}
+            <td>{{ d.u135 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Dokter</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u136 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u137 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>72</td>
+            <td>Rasio tenaga medis per satuan penduduk</td>
+            <td>per 1000 penduduk</td>
+            {% for d in data %}
+            <td>{{ d.u138 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Tenaga Medis</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u139 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u140 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>73</td>
+            <td>Cakupan komplikasi kebidanan yang ditangani</td>
+            <td>per 1000 penduduk</td>
+            {% for d in data %}
+            <td>{{ d.u141 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah komplikasi kebidanan yang mendapat penanganan difinitif di satu wilayah kerja pada kurun waktu tertentu</td>
+            <td>Komplikasi</td>
+            {% for d in data %}
+            <td>{{ d.u142 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah ibu dengan komplikasi kebidanan di satu wilayah kerja pada kurun waktu yang sama </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u143 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>74</td>
+            <td>Cakupan pertolongan persalinan oleh tenaga kesehatan yg memiliki kompetensi kebidanan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u144 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah ibu bersalin yang ditolong oleh tenaga kesehatan di satu wilayah kerja pada kurun waktu tertentu</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u145 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh sasaran ibu bersalin di satu wilayah kerja dalam kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u146 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>75</td>
+            <td>Cakupan Desa/Kelurahan Universal Child Immunization (UCI)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u147 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Desa / Kelurahan UCI</td>
+            <td>Kelurahan</td>
+            {% for d in data %}
+            <td>{{ d.u148 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Seluruh Desa / Kelurahan</td>
+            <td>Kelurahan</td>
+            {% for d in data %}
+            <td>{{ d.u149 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>76</td>
+            <td>Cakupan Balita Gizi Buruk mendapat perawatan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u150 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah balita gizi buruk mendapat perawatan di sarana pelayanan kesehatan di satu wilayah kerja pada kurun waktu tertentu</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u151 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh balita gizi buruk yang ditemukan di satu wilayah kerja dalam waktu yang sama</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u152 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>77</td>
+            <td>Proporsi penduduk dengan asupan kalori di bawah tingkat konsumsi minimum (standar yang digunakan Indonesia 2.100 Kkal/kapita/hari)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u153 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Banyaknya penduduk yang tingkat konsumsinya lebih rendah dari 2.100 Kkal/kapita/hari)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u154 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>78</td>
+            <td>Persentase anak usia 1 tahun yang diimunisasi campak</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u155 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah anak usia 1 tahun yang mendapat imunisasi campak di suatu wilayah selama 1 tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u156 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah anak usia 1 tahun pada wilayah dan tahun yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u157 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>79</td>
+            <td>Non Polio AFP Rate per 100.000 penduduk</td>
+            <td>per 1000 penduduk</td>
+            {% for d in data %}
+            <td>{{ d.u158 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah kasus AFP non Polio yang dilaporkan</td>
+            <td>Kasus </td>
+            {% for d in data %}
+            <td>{{ d.u159 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk < 15 tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u160 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>80</td>
+            <td>Cakupan Balita Pneumonia yang ditangani</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u161 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penderita pnemonia balita yang ditangani di suatu wilayah kerja pada kurun waktu satu tahun</td>
+            <td>Orang </td>
+            {% for d in data %}
+            <td>{{ d.u162 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah perkiraan penderita pneumonia balita di suatu wilayah kerja pada kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u163 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>81</td>
+            <td>Cakupan penemuan & penanganan penderita penyakit TBC BTA (+)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u164 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penderita baru TBC BTA (+) yang ditemukandan diobati di satu wilayah kerja selama 1 Tahun</td>
+            <td>Orang </td>
+            {% for d in data %}
+            <td>{{ d.u165 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah perkiraan penderita baru TBC BTA (+) dalam Kurun wkt yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u166 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>82</td>
+            <td>Tingkat prevalensi Tuberkulosis (per 100.000 penduduk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u167 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Banyaknya kasus penderita TBC (baru dan lama)</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u168 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Penduduk pada kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u169 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>83</td>
+            <td>Tingkat kematian karena Tuberkulosis (per 100.000 penduduk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u170 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah Paisen TB yang meninggal</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u171 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk pada kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u172 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>84</td>
+            <td>Proporsi jumlah kasus Tuberkulosis yang terdeteksi dalam program DOTS</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u173 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah pasien tuberkulosis BTA yang mendapat pengobatan melalui DOTS</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u174 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah pasien baru TB paru BTA yang diperkirakan ada dalam wilayah tersebut</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u175 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>85</td>
+            <td>Proporsi kasus Tuberkulosis yang diobati dan sembuh dalam program DOTS</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u176 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah pasien tuberkulosis paru BTA yang sembuh disuatu wilayah selama 1 tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u177 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Jumlah pasien TB Paru BTA yang diobati diwilayah dan pada kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u178 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>86</td>
+            <td>Cakupan penemuan & penanganan penderita penyakit DBD</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u179 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penderita DBD yang ditangani sesuai SOP di satu wil. Kerja selama 1 Tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u180 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penderita DBD yang ditemukan di satu wilayah dalam Kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u181 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>87</td>
+            <td>Penderita Diare yang ditangani</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u182 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penderita diare yang datang dan dilayani disaran kesehatan dan kader di suatu wilayah tertentu   dalam waktu satu tahun </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u183 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah perkiraan penderita diare pada satu wilayah tertentu dalam waktu yang sama (10% dari angka kesakitan diare x jumlah penduduk)</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u184 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>88</td>
+            <td>Angka kejadian malaria</td>
+            <td>per 1000 penduduk</td>
+            {% for d in data %}
+            <td>{{ d.u185 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Penduduk yang menderita malaria pada tahun tertentu</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u186 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk pada pertengahan tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u187 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>89</td>
+            <td>Tingkat kematian akibat malaria</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u188 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah kematian tersangka malaria</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u189 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk beresiko pada kurun waktu 1 tahun</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u190 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>90</td>
+            <td>Proporsi anak balita yang tidur dengan kelambu berinsektisida</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u191 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Banyaknya balita yang pada malam sebelumnya survei tidur mengunakan kelambu yang sudah dipoteksi dengan insektisida</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u192 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah balita</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u193 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>91</td>
+            <td>Proporsi anak balita dengan demam yang diobati dengan obat anti malaria yang tepat</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u194 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penderita diobati dengan ACT dalam 1 tahun</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u195 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penderita positif dalam 1 tahun</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u196 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>92</td>
+            <td>Prevalensi HIV/AIDS (persen) dari total populasi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u197 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah pasien HIV dan AIDS di satu wilayah kerja pada kurun waktu tertentu</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u198 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk disatu wiayah kerja pada kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u199 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>93</td>
+            <td>Penggunaan kondom pada hubungan seks berisiko tinggi terakhir</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u200 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Banyaknya penduduk usia 15-24 thn yang memakai kondom berhubungan seks dengan pasangan tidak tetap selama 12 bulan terakhir</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u201 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Banyaknya penduduk usia 15-24 tahun yang melakukan hubungan seks dengan pasangan tidak tetap selama 12 bulan terakhir</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u202 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>94</td>
+            <td>Proporsi jumlah penduduk usia 15-24 tahun yang memiliki pengetahuan komprehensif tentang HIV/AIDS</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u203 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah penduduk usia 15-24 tahun yang mempunyai pengetahuan komprehensif tentang bahaya penyakit HIV/AIDS di satu wilayah pada waktu tertentu</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u204 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah penduduk usia 15-24 tahun di satu wilayah pada waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u205 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>95</td>
+            <td>Cakupan pelayanan kesehatan rujukan pasien masyarakat miskin</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u206 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah kunjungan pasien miskin di sarana Kesehatan Strata 1</td>
+            <td>kunjungan</td>
+            {% for d in data %}
+            <td>{{ d.u207 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh miskin di Kab/Kabupaten</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u208 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>96</td>
+            <td>Cakupan kunjungan bayi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u209 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah kunjungan bayi memperoleh pelayanan kes. sesuai standardi satu wilayah kerja pada kurun waktu tertentu</td>
+            <td>kunjungan</td>
+            {% for d in data %}
+            <td>{{ d.u210 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh bayi lahir hidup di satu wilayah kerja pada kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u211 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>97</td>
+            <td>Cakupan puskesmas</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u212 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah puskesmas</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u213 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh kecamatan</td>
+            <td>Kecamatan</td>
+            {% for d in data %}
+            <td>{{ d.u214 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>98</td>
+            <td>Cakupan puskesmas pembantu </td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u215 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah puskesmas Pembantu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u216 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh desa</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u217 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>99</td>
+            <td>Cakupan kunjungan Ibu Hamil K4</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u218 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah ibu hamil yang memperoleh pelayanan antenatal K4 di satu wilayah kerja pada waktu tertentu</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u219 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah sasaran ibu hamil di suatu wilayah kerja dalam kurun waktu sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u220 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>100</td>
+            <td>Cakupan pelayanan nifas</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u221 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah peserta ibu nifas yang telah memperoleh 3 kalipelayanan nifas sesuai standar di satu wilayah  kerja pada kurun waktu tertentu</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u222 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Seluruh ibu nifas di satu wilayah kerja dalam kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u223 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>101</td>
+            <td>Cakupan neonatus dengan komplikasi yang ditangani</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u224 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah nconatus dengan komplikasi yang tertangani</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u225 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah perkiraan neonatus dengan komplikasi yang ada</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u226 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>102</td>
+            <td>Cakupan pelayanan anak Balita</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u227 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah anak balita yang memperoleh pelayanan pemantauan minimal 8 kali di satu wilayah kerja ada waktu tertentu </td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u228 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah target anak balita disatu wilayah kerja dalam waktu yang sama</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u229 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>103</td>
+            <td>Cakupan pemberian makanan pendamping ASI pada anak usia 6-24 bulan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u230 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Cakupan pemberian makanan pendamping ASI pada anak usia 6-24 bulan </td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u231 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh anak usia 6-24 bulan keluarga miskin</td>
+            <td>Balita</td>
+            {% for d in data %}
+            <td>{{ d.u232 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>104</td>
+            <td>Cakupan penjaringan kesehatan anak usia pendidikan dasar</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u233 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah murid SD dan setingkat yang diperiksa kesehatannya oleh tenaga kesehatan atau tenaga terlatih disatu wilayah kerja pada kurun waktu tertentu </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u234 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah murid SD dan setingkat di satu wilayah kerja dalam kurun waktu yang sama</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u235 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>105</td>
+            <td>Cakupan pelayanan kesehatan dasar masyarakat miskin</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u236 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah kunjungan pasien miskin di sarkes strata 1</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u237 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah seluruh masyarakat miskin</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u238 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>106</td>
+            <td>Cakupan pelayanan gawat darurat level 1 yang harus diberikan sarana kesehatan (RS)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u239 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Pelayanan gawat darurat level 1</td>
+            <td>Layanan</td>
+            {% for d in data %}
+            <td>{{ d.u240 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah Rumah Sakit</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u241 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>107</td>
+            <td>Cakupan Desa/Kelurahan mengalami KLB yang dilakukan penyelidiki epidemiologi < 24 jam </td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u242 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah KLB di desa/kelurahan yang ditangani > 24 jam dalam periode tertentu</td>
+            <td>KLB</td>
+            {% for d in data %}
+            <td>{{ d.u243 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Jumlah KLB di desa/kelurahan yang terjadi pada periode yang sama</td>
+            <td>KLB</td>
+            {% for d in data %}
+            <td>{{ d.u244 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>108</td>
+            <td>Jumlah tenaga kesehatan</td> </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u245 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Dokter spesialis</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u246 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Dokter Gigi </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u247 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Dokter Umum</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u248 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Bidan </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u249 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perawat </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u250 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Perawat Gigi </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u251 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Apoteker</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u252 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Asisten Apoteker </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u253 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Analis </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u254 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Pengatur Gizi</td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u255 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Non Paramedis </td>
+            <td>Orang</td>
+            {% for d in data %}
+            <td>{{ d.u256 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>109</td>
+            <td>Banyaknya Rumah Sakit Umum, Puskesmas, Puskesmas Pembantu, Klinik, dan Pos Kesehatan Lainnya</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u257 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Rumah Sakit Umum </td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u258 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- puskesmas </td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u259 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- puskesmas Pembantu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u260 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Polides</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u261 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- Posyandu</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u262 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>110</td>
+            <td>Banyaknya Fasilitas Sarana Kesehatan di Rumah Sakit Umum</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u263 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Rumah sakit</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u264 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah tempat tidur</td>
+            <td>Buah</td>
+            {% for d in data %}
+            <td>{{ d.u265 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Kamar</td>
+            <td>Buah</td>
+            {% for d in data %}
+            <td>{{ d.u266 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>111</td>
+            <td>Banyaknya Fasilitas Sarana Kesehatan Puskesmas</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u267 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>112</td>
+            <td>Persalinan Menurut Tempat Persalinan</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u268 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td> Rumah Sakit/Swasta</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u269 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td> Puskesmas/Polindes/Bidan Swasta</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u270 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>  Dukun Bayi Terlatih/Rumah</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u271 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td> Rumah</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u272 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>113</td>
+            <td>Banyaknya Persalinan Bayi yang Lahir di Rumah Sakit</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u273 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>114</td>
+            <td> Jumlah Bayi Lahir, Bayi Berat Badan Lahir Rendah (BBLR), BBLR Dirujuk, dan Bergizi Buruk</td>
+            <td>Kali</td>
+            {% for d in data %}
+            <td>{{ d.u274 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td> Jumlah Bayi Lahir</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u275 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Bayi BBLR</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u276 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Bayi BBLR Dirujuk</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u277 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Bayi Gizi Buruk</td>
+            <td>Jiwa</td>
+            {% for d in data %}
+            <td>{{ d.u278 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>115</td>
+            <td>Sarana Air Bersih Pemerintah dan Swadaya</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u279 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perlindungan Mata Air (PMA)</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u280 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Penampungan Air Hujan (PAH)</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u281 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sumur Pompa Tangan (SPT)</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u282 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>116</td>
+            <td>Jamban Keluarga dan Sarana Pembuangan Air Limbah Pemerintah dan Swadaya</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u283 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jamban Keluarga</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u284 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sarana Pembuangan Limbah</td>
+            <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.u285 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>117</td>
+            <td>Jumlah Kasus HIV ATAU AIDS, IMS, DBD, Diare, TB, dan Malaria</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u286 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Kasus HIV Menurut Jenis Kelamin dan Umur</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u287 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td><strong>a. Laki-Laki</strong> </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u288 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- <= 4 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u289 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 5-14 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u290 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15-19 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u291 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20-24 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u292 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25-49 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u293 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- => 50 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u294 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td><strong>b. Perempuan</strong> </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u295 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- <= 4 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u296 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 5-14 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u297 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15-19 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u298 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20-24 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u299 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25-49 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u300 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- => 50 tahun</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u301 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Kasus dan Kematian AIDS Menurut Kelompok Umur</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u302 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td><strong>Kasus Baru</strong></td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u303 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- < 1 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u304 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 1-4 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u305 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 5-14 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u306 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15-19 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u307 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20-24 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u308 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25-49 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u309 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 50-59 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u310 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- >=60 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u311 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td><strong>Kasus Komulatif</strong></td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u312 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- < 1 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u313 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 1-4 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u314 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 5-14 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u315 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15-19 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u316 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20-24 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u317 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25-49 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u318 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 50-59 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u319 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- >=60 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u320 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td><strong>Kematian akibat AIDS</strong></td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u321 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- < 1 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u322 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 1-4 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u323 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 5-14 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u324 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 15-19 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u325 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 20-24 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u326 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 25-49 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u327 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- 50-59 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u328 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>- >=60 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u329 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>118</td>
+            <td>Jumlah Kasus Konfirmasi Covid 19 </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u330 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>a. 0-5 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u331 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>b. 6-11 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u332 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>c. 12-17 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u333 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>d. 18-23 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u334 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>d. 24-29 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u335 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>d. 30-35 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u336 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>d. 36-41 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u337 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>d. 42-47 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u338 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>d. 48-53 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u339 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>d. 54-59 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u340 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>d. 60-65 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u341 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td> </td>
+            <td>d. >65 tahun </td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u342 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>119 </td>
+            <td>Jumlah Ibu Hamil, Melakukan Kunjungan K1, Melakukan Kunjungan K4 Kurang Energi Kronis (KEK), dan Mendapat Tablet Zat Besi (Fe)</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u343 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Ibu Hamil</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u344 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Melakukan Kunjungan K1</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u345 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Melakukan Kunjungan K4 Kurang Energi Kronis (KEK)</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u346 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Jumlah Mendapat Tablet Zat Besi (Fe)</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u347 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>120</td>
+            <td>Ibu Hamil Kurang Energi Kronik (KEK)</td>
+            <td>orang</td>
+            {% for d in data %}
+            <td>{{ d.u348 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>121</td>
+            <td>Rasio Rumah Sakit (TT) Per Satuan Penduduk</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u349 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>122</td>
+            <td>Rasio Perawat Per Satuan Penduduk</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u350 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>123</td>
+            <td>Rasio Bidan Per Satuan Penduduk</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u351 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>124</td>
+            <td>Jumlah Posyandu Aktif</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u352 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>125</td>
+            <td>Jumlah Kasus Kejadian Luar Biasa</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u353 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Demam Berdarah</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u354 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Konfirmasi Covid-19</td>
+            <td>Kasus</td>
+            {% for d in data %}
+            <td>{{ d.u355 }}</td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- Content end -->
+
+{% endblock %}

@@ -24,860 +24,858 @@
     <span> Download Tabel </span>
   </button>
 
-  <!-- awal tabel -->
-  <div class="table-responsive mb-5" style="padding: 5vh">
-    <table class="table" id="asetTable">
-      <thead class="table-dark text-center">
-        <tr>
-          <th rowspan="2" scope="col">No</th>
-          <th rowspan="2" scope="col">Uraian</th>
-          <th rowspan="2" scope="col">Satuan</th>
-          <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
-        </tr>
-
-        <tr>
-          {% for d in data %}
-          <th>
-            {{ d.tahun }} {% if current_user.role == 'admin' or current_user.officer_of_agency == 28 %}
-            <span><a href="{{ url_for('aset_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+    <!-- awal tabel -->
+    <div class="table-responsive mb-5" style="padding: 5vh;">
+      <table class="table" id="asetTable">
+        <thead class="table-dark text-center">
+          <tr>
+            <th rowspan="2" scope="col">No</th>
+            <th rowspan="2" scope="col">Uraian</th>
+            <th rowspan="2" scope="col">Satuan</th>
+            <th colspan="{{ data|length + 1 }}" scope="col" style="text-align: center">Tahun</th>
+          </tr>
+    
+          <tr>
+            {% for d in data %}
+              <th>
+                {{ d.tahun }}
+                {% if current_user.role == 'admin' or current_user.officer_of_agency == 28 %}
+                  <span><a href="{{ url_for('dishub_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                {% endif %}
+              </th>
+            {% endfor %}
+            {% if current_user.role == 'admin' or current_user.officer_of_agency == 28 %}
+              <th><a href="{{ url_for('dishub_add') }}" class="btn btn-success">Tambah</a></th>
             {% endif %}
-          </th>
-          {% endfor %} {% if current_user.role == 'admin' or current_user.officer_of_agency == 28 %}
-          <th><a href="{{ url_for('aset_add') }}" class="btn btn-success">Tambah</a></th>
-          {% endif %}
-        </tr>
-      </thead>
-
-      <!-- awal -->
-      <tbody>
-        <tr>
-          <td></td>
-          <td>PENDAPATAN</td>
-          <td></td>
-          {% for d in data %}
-          <td>{{ d.u1 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>PENDAPATAN ASLI DAERAH</td>
-          <td></td>
-          {% for d in data %}
-          <td>{{ d.u2 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>Pendapatan Pajak Daerah</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u3 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Pendapatan Retribusi Daerah</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u4 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Pendapatan Hasil Pengelolaan Kekayaan Daerah yang Dipisahkan</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u5 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Lain-lain Pendapatan Asli Daerah yang Sah</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u6 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>PENDAPATAN TRANSFER</td>
-          <td></td>
-          {% for d in data %}
-          <td>{{ d.u7 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>Transfer Pemerintah Pusat - Dana Perimbangan</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u8 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>Dana Bagi Hasil Pajak</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u9 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>7</td>
-          <td>Dana Bagi Hasil Bukan Pajak (Sumber Daya Alam)</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u10 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>8</td>
-          <td>Dana Alokasi Umum</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u11 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>9</td>
-          <td>Dana Alokasi Khusus</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u12 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>10</td>
-          <td>Transfer Pemerintah Pusat - Lainnya</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u13 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>11</td>
-          <td>Dana Penyesuaian</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u14 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>12</td>
-          <td>Transfer Pemerintah Provinsi</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u15 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>13</td>
-          <td>Pendapatan Bagi Hasil Pajak</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u16 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>14</td>
-          <td>Pendapatan Bagi Hasil Pajak Lainnya</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u17 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>LAIN - LAIN PENDAPATAN YANG SAH</td>
-          <td></td>
-          {% for d in data %}
-          <td>{{ d.u18 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>15</td>
-          <td>Pendapatan Hibah</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u19 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>16</td>
-          <td>Bantuan Keuangan dari Provinsi atau Pemerintah Daerah Lainnya</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u20 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>17</td>
-          <td>Dana Insentif Daerah</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u21 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>BELANJA</td>
-          <td></td>
-          {% for d in data %}
-          <td>{{ d.u22 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>BELANJA OPERASI</td>
-          <td></td>
-          {% for d in data %}
-          <td>{{ d.u23 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>18</td>
-          <td>Belanja Pegawai</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u24 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>19</td>
-          <td>Belanja Barang dan Jasa</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u25 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>20</td>
-          <td>Belanja Bunga</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u26 }}</td>
-          {% endfor %}
-        </tr>
-        <tr></tr>
-        <tr>
-          <td>21</td>
-          <td>Belanja Hibah</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u27 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>22</td>
-          <td>Belanja Bantuan Sosial</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u28 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>23</td>
-          <td>Belanja Bantuan Keuangan</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u29 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>BELANJA MODAL</td>
-          <td></td>
-          {% for d in data %}
-          <td>{{ d.u30 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>24</td>
-          <td>Belanja Tanah</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u31 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>25</td>
-          <td>Belanja Peralatan dan Mesin</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u32 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>26</td>
-          <td>Belanja Bangunan dan Gedung</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u33 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>27</td>
-          <td>Belanja Jalan, Irigasi dan Jaringan</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u34 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>28</td>
-          <td>Belanja Aset Tetap Lainnya</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u35 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>29</td>
-          <td>BELANJA TAK TERDUGA</td>
-          <td></td>
-          {% for d in data %}
-          <td>{{ d.u36 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>Belanja Tak Terduga</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u37 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>Opini BPK terhadap laporan keuangan</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u38 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>30</td>
-          <td>Nilai dan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga konstan</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u39 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>31</td>
-          <td>Nilai dan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga berlaku</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u40 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>32</td>
-          <td>Persentase perkembangan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga berlaku (Hb)</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u41 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>33</td>
-          <td>Persentase perkembangan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga konstan (HK)</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u42 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>34</td>
-          <td>Pertumbuhan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga berlaku (Hb)</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u43 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>35</td>
-          <td>Pertumbuhan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga konstan (Hk)/td></td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u44 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>36</td>
-          <td>Nilai dan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga konstan</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u45 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>37</td>
-          <td>Nilai dan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga berlaku</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u46 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>38</td>
-          <td>Persentase perkembangan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga berlaku (Hb)</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u47 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>39</td>
-          <td>Persentase perkembangan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga konstan (HK)</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u48 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>40</td>
-          <td>Pertumbuhan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga berlaku (Hb)</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u49 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>41</td>
-          <td>Pertumbuhan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga konstan (Hk)</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u50 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>42</td>
-          <td>Perkembangan PDRB Provinsi atas Dasar Harga Konstan</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u51 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>43</td>
-          <td>Perkembangan PDRB Kota atas Dasar Harga Konstan</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u52 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>44</td>
-          <td>Perkembangan PDRB Kabupaten atas Dasar Harga Konstan</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u53 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>45</td>
-          <td>Perkembangan PDRB Provinsi atas Dasar Harga Berlaku</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u54 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>46</td>
-          <td>Perkembangan PDRB Kabupaten atas Dasar Harga Berlaku</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u55 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>47</td>
-          <td>Perkembangan PDRB Kota atas Dasar Harga Berlaku</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u56 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>48</td>
-          <td>Pertumbuhan PDRB</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u57 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>49</td>
-          <td>Laju inflasi</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u58 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>50</td>
-          <td>PDRB per kapita</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u59 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>51</td>
-          <td>Indeks Gini</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u60 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>52</td>
-          <td>Pemerataan pendapatan versi Bank Dunia</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u61 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>53</td>
-          <td>Indeks Ketimpangan Regional</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u62 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>54</td>
-          <td>Pengeluaran konsumsi rumah tangga per kapita</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u63 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>55</td>
-          <td>Persentase pengeluaran konsumsi non pangan perkapita</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u64 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>56</td>
-          <td>Produktivitas total daerah</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u65 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>57</td>
-          <td>Nilai Inflasi rata-rata Provinsi</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u66 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>58</td>
-          <td>Nilai inflasi rata-rata Kabupaten</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u67 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>59</td>
-          <td>nilai Inflasi rata-rata Kota</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u68 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>60</td>
-          <td>Pengeluaran untuk layanan pokok (pendidikan, kesehatan dan perlindungan sosial) sebagai persentase dari total belanja pemerintah</td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td></td>
-          <td>Target Nasional</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u69 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>Capaian Nasional</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u70 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>Target Kota</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u71 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>Capaian Kota</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u72 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>61</td>
-          <td>Jumlah daerah yang melakukan deregulasi/ harmonisasi dan penyesuaian Perda PDRD dalam rangka memberikan kemudahan investasi</td>
-          <td>Daerah</td>
-          {% for d in data %}
-          <td>{{ d.u73 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>62</td>
-          <td>Rasio pinjaman terhadap simpanan di bank umum</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u74 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>a. Jumlah pinjaman di bank umum</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u75 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>b. Dana pihak ketiga di bank umum</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u76 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>63</td>
-          <td>Rasio pinjaman terhadap simpanan di BPR</td>
-          <td>%</td>
-          {% for d in data %}
-          <td>{{ d.u77 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>a. Jumlah pinjaman di BPR</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u78 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td></td>
-          <td>b. Dana pihak ketiga di BPR</td>
-          <td>Rp</td>
-          {% for d in data %}
-          <td>{{ d.u79 }}</td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>64</td>
-          <td>Opini BPK terhadap laporan keuangan</td>
-          <td>
-            <tr>
-              <td></td>
-              <td>Persentase SILPA</td>
-              <td>%</td>
-              {% for d in data %}
-              <td>{{ d.u80 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>a.Total SILPA</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u81 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>b.Total APBD</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u82 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>65</td>
-              <td>Persentase program/kegiatan yang tidak terlaksana</td>
-              <td>%</td>
-              {% for d in data %}
-              <td>{{ d.u83 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>a.Jumlah Program dalam APBD yang tidak dilaksanaka</td>
-              <td>Program</td>
-              {% for d in data %}
-              <td>{{ d.u84 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>b.Total Program dalam APBD</td>
-              <td>Program</td>
-              {% for d in data %}
-              <td>{{ d.u85 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>66</td>
-              <td>Persentase belanja pendidikan (20%)</td>
-              <td>%</td>
-              {% for d in data %}
-              <td>{{ d.u86 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>a.Jumlah Belanja Bidang Urusan Pendidikan</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u87 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>b.Total APBD</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u88 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>67</td>
-              <td>Persentase belanja kesehatan (10%)</td>
-              <td>%</td>
-              {% for d in data %}
-              <td>{{ d.u89 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>a.Jumlah Belanja Bidang Urusan Kesehatan</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u90 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>b.Total APBD</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u91 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>Perbandingan antara belanja langsung dengan APBD</td>
-              <td>%</td>
-              {% for d in data %}
-              <td>{{ d.u92 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>68</td>
-              <td>Perbandingan antara belanja tidak langsung dengan APBD</td>
-              <td>%</td>
-              {% for d in data %}
-              <td>{{ d.u93 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>a.Jumlah Belanja Langsung</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u94 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>b.Jumlah Belanja Tidak Langsung</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u95 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>Perbandingan antara belanja Operasional dengan APBD</td>
-              <td>Unit</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>a.Jumlah Belanja Operasional</td>
-              <td>Unit</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>b.Total APBD</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u96 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>69</td>
-              <td>Bagi hasil Kabupaten/Kota dan Desa</td>
-              <td></td>
-              {% for d in data %}
-              <td>{{ d.u97 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>a.Jumlah Belanja Bagi Hasil Kab/kota/desa</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u98 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>b.Total APBD</td>
-              <td>Rp</td>
-              {% for d in data %}
-              <td>{{ d.u99 }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td></td>
-              <td>Penetapan APBD</td>
-              <td></td>
-              {% for d in data %}
-              <td>{{ d.u100 }}</td>
-              {% endfor %}
-            </tr>
-
-            <!-- akhir -->
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          </tr>
+        </thead>
+    
+        <!-- awal -->
+        <tbody>
+          <tr>
+            <td></td>
+            <td>PENDAPATAN</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u1 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>PENDAPATAN ASLI DAERAH</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u2 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Pendapatan Pajak Daerah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u3 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Pendapatan Retribusi Daerah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u4 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Pendapatan Hasil Pengelolaan Kekayaan Daerah yang Dipisahkan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u5 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Lain-lain Pendapatan Asli Daerah yang Sah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u6 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>PENDAPATAN TRANSFER</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u7 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Transfer Pemerintah Pusat - Dana Perimbangan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u8 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Dana Bagi Hasil Pajak</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u9 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Dana Bagi Hasil Bukan Pajak (Sumber Daya Alam)</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u10 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Dana Alokasi Umum</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u11 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>Dana Alokasi Khusus</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u12 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Transfer Pemerintah Pusat - Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u13 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>Dana Penyesuaian</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u14 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>Transfer Pemerintah Provinsi</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u15 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>Pendapatan Bagi Hasil Pajak</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u16 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>Pendapatan Bagi Hasil Pajak Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u17 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>LAIN - LAIN  PENDAPATAN  YANG SAH</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u18 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Pendapatan Hibah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u19 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>16</td>
+            <td>Bantuan Keuangan dari Provinsi atau Pemerintah Daerah Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u20 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>17</td>
+            <td>Dana Insentif Daerah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u21 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>BELANJA</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u22 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>BELANJA OPERASI</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u23 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>18</td>
+            <td>Belanja Pegawai</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u24 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>19</td>
+            <td>Belanja Barang dan Jasa</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u25 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>Belanja Bunga</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u26 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+          <tr>
+            <td>21</td>
+            <td>Belanja Hibah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u27 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>22</td>
+            <td>Belanja Bantuan Sosial</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u28 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>23</td>
+            <td>Belanja Bantuan Keuangan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u29 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>BELANJA MODAL</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u30 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>24</td>
+            <td>Belanja Tanah</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u31 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>25</td>
+            <td>Belanja Peralatan dan Mesin</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u32 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>26</td>
+            <td>Belanja Bangunan dan Gedung</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u33 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>Belanja Jalan, Irigasi dan Jaringan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u34 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>Belanja Aset Tetap Lainnya</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u35 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>BELANJA TAK TERDUGA</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u36 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Belanja Tak Terduga</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u37 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Opini BPK terhadap laporan keuangan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u38 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>Nilai dan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga konstan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u39 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>31</td>
+            <td>Nilai dan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga berlaku</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u40 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>32</td>
+            <td>Persentase perkembangan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u41 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>33</td>
+            <td>Persentase perkembangan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga konstan (HK)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u42 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Pertumbuhan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u43 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>35</td>
+            <td>Pertumbuhan Kontribusi Sektor Hotel dan Restoran dalam PDRB atas dasar harga konstan (Hk)/td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u44 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>36</td>
+            <td>Nilai dan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga konstan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u45 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>37</td>
+            <td>Nilai dan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga berlaku</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u46 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>38</td>
+            <td>Persentase perkembangan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u47 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>39</td>
+            <td>Persentase perkembangan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga konstan (HK)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u48 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>40</td>
+            <td>Pertumbuhan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga berlaku (Hb)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u49 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>41</td>
+            <td>Pertumbuhan Kontribusi Sektor Keuangan, sewa, & jasa Perusahaan dalam PDRB atas dasar harga konstan (Hk)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u50 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>42</td>
+            <td>Perkembangan PDRB Provinsi atas Dasar Harga Konstan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u51 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>43</td>
+            <td>Perkembangan PDRB Kota atas Dasar Harga Konstan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u52 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>44</td>
+            <td>Perkembangan PDRB Kabupaten atas Dasar Harga Konstan</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u53 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>45</td>
+            <td>Perkembangan PDRB Provinsi atas Dasar Harga Berlaku</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u54 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>46</td>
+            <td>Perkembangan PDRB Kabupaten atas Dasar Harga Berlaku</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u55 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>47</td>
+            <td>Perkembangan PDRB Kota atas Dasar Harga Berlaku</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u56 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>48</td>
+            <td>Pertumbuhan PDRB</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u57 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>49</td>
+            <td>Laju inflasi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u58 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>PDRB per kapita</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u59 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>51</td>
+            <td>Indeks Gini</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u60 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>52</td>
+            <td>Pemerataan pendapatan versi Bank Dunia</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u61 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>53</td>
+            <td>Indeks Ketimpangan Regional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u62 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>54</td>
+            <td>Pengeluaran konsumsi rumah tangga per kapita</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u63 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>55</td>
+            <td>Persentase pengeluaran konsumsi non pangan perkapita</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u64 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>56</td>
+            <td>Produktivitas total daerah</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u65 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>57</td>
+            <td>Nilai Inflasi rata-rata Provinsi</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u66 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>58</td>
+            <td>Nilai inflasi rata-rata Kabupaten</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u67 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>59</td>
+            <td>nilai Inflasi rata-rata Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u68 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>60</td>
+            <td>Pengeluaran untuk layanan pokok (pendidikan, kesehatan dan perlindungan sosial) sebagai persentase dari total belanja pemerintah</td>
+            <td></td>
+          <tr>
+            <td></td>
+            <td>Target Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u69 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Capaian Nasional</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u70 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Target Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u71 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Capaian Kota</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u72 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>61</td>
+            <td>Jumlah daerah yang melakukan deregulasi/ harmonisasi dan penyesuaian Perda PDRD dalam rangka memberikan kemudahan investasi</td>
+            <td>Daerah</td>
+            {% for d in data %}
+            <td>{{ d.u73 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>62</td>
+            <td>Rasio pinjaman terhadap simpanan di bank umum</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u74 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah pinjaman di bank umum</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u75 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Dana pihak ketiga di bank umum</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u76 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>63</td>
+            <td>Rasio pinjaman terhadap simpanan di BPR</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u77 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a. Jumlah pinjaman di BPR</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u78 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b. Dana pihak ketiga di BPR</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u79 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>64</td>
+            <td>Opini BPK terhadap laporan keuangan</td>
+            <td>
+          <tr>
+            <td></td>
+            <td>Persentase SILPA</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u80 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Total SILPA</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u81 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Total APBD</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u82 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>65</td>
+            <td>Persentase program/kegiatan yang tidak terlaksana</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u83 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah Program dalam APBD yang tidak dilaksanaka</td>
+            <td>Program</td>
+            {% for d in data %}
+            <td>{{ d.u84 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Total Program dalam APBD</td>
+            <td>Program</td>
+            {% for d in data %}
+            <td>{{ d.u85 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>66</td>
+            <td>Persentase belanja pendidikan (20%)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u86 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah Belanja Bidang Urusan Pendidikan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u87 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Total APBD</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u88 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>67</td>
+            <td>Persentase belanja kesehatan (10%)</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u89 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah Belanja Bidang Urusan Kesehatan</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u90 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Total APBD</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u91 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perbandingan antara belanja langsung dengan APBD</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u92 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>68</td>
+            <td>Perbandingan antara  belanja tidak langsung dengan APBD</td>
+            <td>%</td>
+            {% for d in data %}
+            <td>{{ d.u93 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah Belanja  Langsung</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u94 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Jumlah Belanja  Tidak Langsung</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u95 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Perbandingan antara  belanja Operasional dengan APBD</td>
+            <td>Unit</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah Belanja Operasional</td>
+            <td>Unit</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Total APBD</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u96 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>69</td>
+            <td>Bagi hasil Kabupaten/Kota dan Desa</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u97 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>a.Jumlah Belanja Bagi Hasil Kab/kota/desa</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u98 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>b.Total APBD</td>
+            <td>Rp</td>
+            {% for d in data %}
+            <td>{{ d.u99 }}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td></td>
+            <td>Penetapan APBD</td>
+            <td></td>
+            {% for d in data %}
+            <td>{{ d.u100 }}</td>
+            {% endfor %}
+          </tr>
+          
+          <!-- akhir -->
+        </tbody>
+      </table>
+    </div>
 
   <!-- akhir tabel -->
 </div>
