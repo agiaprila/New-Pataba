@@ -261,7 +261,7 @@ def dinkes_add():
                               u226=form.u226.data,
                               u227=form.u227.data,
                               u228=form.u228.data,
-                              u229=form.229.data,
+                              u229=form.u229.data,
                               u230=form.u230.data,
                               u231=form.u231.data,
                               U232=form.u232.data,
