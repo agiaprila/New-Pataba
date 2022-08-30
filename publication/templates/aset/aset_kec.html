@@ -44,12 +44,12 @@
               <th>
                 {{ d.tahun }}
                 {% if current_user.role == 'admin' or current_user.officer_of_agency == 28 %}
-                  <span><a href="{{ url_for('dishub_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                  <span><a href="{{ url_for('aset_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
                 {% endif %}
               </th>
             {% endfor %}
             {% if current_user.role == 'admin' or current_user.officer_of_agency == 28 %}
-              <th><a href="{{ url_for('dishub_add') }}" class="btn btn-success">Tambah</a></th>
+              <th><a href="{{ url_for('aset_add') }}" class="btn btn-success">Tambah</a></th>
             {% endif %}
           </tr>
         </thead>

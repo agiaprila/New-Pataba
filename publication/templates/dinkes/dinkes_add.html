@@ -1,0 +1,1122 @@
+{% extends 'base.html' %}
+{% block title %}
+  Edit
+{% endblock %}
+
+{% block content %}
+  
+  <div class="container">
+    <h1>Edit Table Dinkes</h1>
+    <p class="bg-danger text-center text-white">Jika terdapat data kosong, harap diisi dengan angka 0</p>
+
+    <hr>
+
+    <form method="POST" class="edit-form">
+
+      {{ form.hidden_tag() }}
+
+      {{ form.tahun.label() }}
+      {{ form.tahun(class="form-control my-2", autocomplete="off")}}
+
+      <!-- awal -->
+
+      {{ form.u1.label() }}
+      {{ form.u1(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u2.label() }}
+      {{ form.u2(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u3.label() }}
+      {{ form.u3(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u4.label() }}
+      {{ form.u4(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u5.label() }}
+      {{ form.u5(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u6.label() }}
+      {{ form.u6(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u7.label() }}
+      {{ form.u7(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u8.label() }}
+      {{ form.u8(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u9.label() }}
+      {{ form.u9(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u10.label() }}
+      {{ form.u10(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u11.label() }}
+      {{ form.u11(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u12.label() }}
+      {{ form.u12(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u13.label() }}
+      {{ form.u13(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u14.label() }}
+      {{ form.u14(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u15.label() }}
+      {{ form.u15(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u16.label() }}
+      {{ form.u16(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u17.label() }}
+      {{ form.u17(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u18.label() }}
+      {{ form.u18(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u19.label() }}
+      {{ form.u19(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u20.label() }}
+      {{ form.u20(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u21.label() }}
+      {{ form.u21(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u22.label() }}
+      {{ form.u22(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u23.label() }}
+      {{ form.u23(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u24.label() }}
+      {{ form.u24(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u25.label() }}
+      {{ form.u25(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u26.label() }}
+      {{ form.u26(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u27.label() }}
+      {{ form.u27(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u28.label() }}
+      {{ form.u28(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u29.label() }}
+      {{ form.u29(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u30.label() }}
+      {{ form.u30(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u31.label() }}
+      {{ form.u31(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u32.label() }}
+      {{ form.u32(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u33.label() }}
+      {{ form.u33(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u34.label() }}
+      {{ form.u34(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Prevalensi stunting (pendek dan sangat pendek) pada anak di bawah dua tahun/baduta</h4>
+      {{ form.u35.label() }}
+      {{ form.u35(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u36.label() }}
+      {{ form.u36(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u37.label() }}
+      {{ form.u37(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u38.label() }}
+      {{ form.u38(class="form-control my-2", autocomplete="off")}}
+
+      <h4>Prevalensi anemia pada ibu hamil</h4>
+      {{ form.u39.label() }}
+      {{ form.u39(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u40.label() }}
+      {{ form.u40(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u41.label() }}
+      {{ form.u41(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u42.label() }}
+      {{ form.u42(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Insiden Tuberkulosis (ITB) per 100.000 penduduk.</h4>
+      {{ form.u43.label() }}
+      {{ form.u43(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u44.label() }}
+      {{ form.u44(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u45.label() }}
+      {{ form.u45(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u46.label() }}
+      {{ form.u46(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Kejadian Malaria per 1000 orang.</h4>
+      {{ form.u47.label() }}
+      {{ form.u47(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u48.label() }}
+      {{ form.u48(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u49.label() }}
+      {{ form.u49(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u50.label() }}
+      {{ form.u50(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Jumlah kabupaten/kota yang mencapai eliminasi malaria</h4>
+      {{ form.u51.label() }}
+      {{ form.u51(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u52.label() }}
+      {{ form.u52(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u53.label() }}
+      {{ form.u53(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u54.label() }}
+      {{ form.u54(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Jumlah Kabupaten/Kota dengan eliminasi filariasis (berhasil lolos dalam survei penilaian transmisi tahap I)</h4>
+      {{ form.u55.label() }}
+      {{ form.u55(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u56.label() }}
+      {{ form.u56(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u57.label() }}
+      {{ form.u57(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u58.label() }}
+      {{ form.u58(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Persentase kabupaten/kota yang melakukan deteksi dini untuk infeksi Hepatitis B.</h4>
+      {{ form.u59.label() }}
+      {{ form.u59(class="form-control my-2", autocomplete="off")}}
+   
+      {{ form.u60.label() }}
+      {{ form.u60(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u61.label() }}
+      {{ form.u61(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u62.label() }}
+      {{ form.u62(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Jumlah provinsi dengan eliminasi Kusta.</h4>
+      {{ form.u63.label() }}
+      {{ form.u63(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u64.label() }}
+      {{ form.u64(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u65.label() }}
+      {{ form.u65(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u66.label() }}
+      {{ form.u66(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Jumlah provinsi dengan eliminasi Kusta.</h4>
+      {{ form.u67.label() }}
+      {{ form.u67(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u68.label() }}
+      {{ form.u68(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u69.label() }}
+      {{ form.u69(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u70.label() }}
+      {{ form.u70(class="form-control my-2", autocomplete="off")}}
+
+      <h4>Prevalensi obesitas pada penduduk umur ≥18 tahun</h4>
+      {{ form.u71.label() }}
+      {{ form.u71(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u72.label() }}
+      {{ form.u72(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u73.label() }}
+      {{ form.u73(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u74.label() }}
+      {{ form.u74(class="form-control my-2", autocomplete="off")}}
+
+      <h4>Jumlah yang mengakses layanan pasca rehabilitasi.</h4>
+      {{ form.u75.label() }}
+      {{ form.u75(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u76.label() }}
+      {{ form.u76(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u77.label() }}
+      {{ form.u77(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u78.label() }}
+      {{ form.u78(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Jumlah penduduk yang dicakup asuransi kesehatan atau sistem kesehatan masyarakat per 1000 penduduk.</h4>
+      {{ form.u79.label() }}
+      {{ form.u79(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u80.label() }}
+      {{ form.u80(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u81.label() }}
+      {{ form.u81(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u82.label() }}
+      {{ form.u82(class="form-control my-2", autocomplete="off")}}
+
+      <h4>Persentase ketersediaan obat dan vaksin di Puskesmas.</h4>
+      {{ form.u83.label() }}
+      {{ form.u83(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u84.label() }}
+      {{ form.u84(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u85.label() }}
+      {{ form.u85(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u86.label() }}
+      {{ form.u86(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Kepadatan dan distribusi tenaga kesehatan.</h4>
+      {{ form.u87.label() }}
+      {{ form.u87(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u88.label() }}
+      {{ form.u88(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u89.label() }}
+      {{ form.u89(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u90.label() }}
+      {{ form.u90(class="form-control my-2", autocomplete="off")}}
+    
+      {{ form.u91.label() }}
+      {{ form.u91(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u92.label() }}
+      {{ form.u92(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u93.label() }}
+      {{ form.u93(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u94.label() }}
+      {{ form.u94(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u95.label() }}
+      {{ form.u95(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u96.label() }}
+      {{ form.u96(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u97.label() }}
+      {{ form.u97(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u98.label() }}
+      {{ form.u98(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u99.label() }}
+      {{ form.u99(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u100.label() }}
+      {{ form.u100(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u101.label() }}
+      {{ form.u101(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u102.label() }}
+      {{ form.u102(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u103.label() }}
+      {{ form.u103(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u104.label() }}
+      {{ form.u104(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u105.label() }}
+      {{ form.u105(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u106.label() }}
+      {{ form.u106(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u107.label() }}
+      {{ form.u107(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u108.label() }}
+      {{ form.u108(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u109.label() }}
+      {{ form.u109(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u110.label() }}
+      {{ form.u110(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u111.label() }}
+      {{ form.u111(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u112.label() }}
+      {{ form.u112(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u113.label() }}
+      {{ form.u113(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u114.label() }}
+      {{ form.u114(class="form-control my-2", autocomplete="off")}}
+
+      <h4>Angka kematian bayi (AKB) per 1000 kelahiran hidup</h4>
+      {{ form.u115.label() }}
+      {{ form.u115(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u116.label() }}
+      {{ form.u116(class="form-control my-2", autocomplete="off")}}
+
+      <h4>kelangsungan hidup bayi</h4>
+      {{ form.u117.label() }}
+      {{ form.u117(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u118.label() }}
+      {{ form.u118(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u119.label() }}
+      {{ form.u119(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Angka kematian Balita per 1.000 Kelahiran hidup</h4>
+      {{ form.u120.label() }}
+      {{ form.u120(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u121.label() }}
+      {{ form.u121(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Angka kematian Neonatal per 1.000 Kelahiran hidup</h4>
+      {{ form.u122.label() }}
+      {{ form.u122(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u123.label() }}
+      {{ form.u123(class="form-control my-2", autocomplete="off")}}
+      
+      <h4>Angka kematian Ibu per 100.000 Kelahiran hidup</h4>
+      {{ form.u124.label() }}
+      {{ form.u124(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u125.label() }}
+      {{ form.u125(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u126.label() }}
+      {{ form.u126(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u127.label() }}
+      {{ form.u127(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u128.label() }}
+      {{ form.u128(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u129.label() }}
+      {{ form.u129(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u130.label() }}
+      {{ form.u130(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u131.label() }}
+      {{ form.u131(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u132.label() }}
+      {{ form.u132(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u133.label() }}
+      {{ form.u133(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u134.label() }}
+      {{ form.u134(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u135.label() }}
+      {{ form.u135(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u136.label() }}
+      {{ form.u136(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u137.label() }}
+      {{ form.u137(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u138.label() }}
+      {{ form.u138(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u139.label() }}
+      {{ form.u139(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u140.label() }}
+      {{ form.u140(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u141.label() }}
+      {{ form.u141(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u142.label() }}
+      {{ form.u142(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u143.label() }}
+      {{ form.u143(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u144.label() }}
+      {{ form.u144(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u145.label() }}
+      {{ form.u145(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u146.label() }}
+      {{ form.u146(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u147.label() }}
+      {{ form.u147(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u148.label() }}
+      {{ form.u148(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u149.label() }}
+      {{ form.u149(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u150.label() }}
+      {{ form.u150(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u151.label() }}
+      {{ form.u151(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u152.label() }}
+      {{ form.u152(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u153.label() }}
+      {{ form.u153(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u154.label() }}
+      {{ form.u154(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u155.label() }}
+      {{ form.u155(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u156.label() }}
+      {{ form.u156(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u157.label() }}
+      {{ form.u157(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u158.label() }}
+      {{ form.u158(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u159.label() }}
+      {{ form.u159(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u160.label() }}
+      {{ form.u160(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u161.label() }}
+      {{ form.u161(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u162.label() }}
+      {{ form.u162(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u163.label() }}
+      {{ form.u163(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u164.label() }}
+      {{ form.u164(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u165.label() }}
+      {{ form.u165(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u166.label() }}
+      {{ form.u166(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u167.label() }}
+      {{ form.u167(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u168.label() }}
+      {{ form.u168(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u169.label() }}
+      {{ form.u169(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u170.label() }}
+      {{ form.u170(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u171.label() }}
+      {{ form.u171(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u172.label() }}
+      {{ form.u172(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u173.label() }}
+      {{ form.u173(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u174.label() }}
+      {{ form.u174(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u175.label() }}
+      {{ form.u175(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u176.label() }}
+      {{ form.u176(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u177.label() }}
+      {{ form.u177(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u178.label() }}
+      {{ form.u178(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u179.label() }}
+      {{ form.u179(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u180.label() }}
+      {{ form.u180(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u181.label() }}
+      {{ form.u181(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u182.label() }}
+      {{ form.u182(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u183.label() }}
+      {{ form.u183(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u184.label() }}
+      {{ form.u184(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u185.label() }}
+      {{ form.u185(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u186.label() }}
+      {{ form.u186(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u187.label() }}
+      {{ form.u187(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u188.label() }}
+      {{ form.u188(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u189.label() }}
+      {{ form.u189(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u190.label() }}
+      {{ form.u190(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u191.label() }}
+      {{ form.u191(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u192.label() }}
+      {{ form.u192(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u193.label() }}
+      {{ form.u193(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u194.label() }}
+      {{ form.u194(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u195.label() }}
+      {{ form.u195(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u196.label() }}
+      {{ form.u196(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u197.label() }}
+      {{ form.u197(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u198.label() }}
+      {{ form.u198(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u199.label() }}
+      {{ form.u199(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u200.label() }}
+      {{ form.u200(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u201.label() }}
+      {{ form.u201(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u202.label() }}
+      {{ form.u202(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u203.label() }}
+      {{ form.u203(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u204.label() }}
+      {{ form.u204(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u205.label() }}
+      {{ form.u205(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u206.label() }}
+      {{ form.u206(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u207.label() }}
+      {{ form.u207(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u208.label() }}
+      {{ form.u208(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u209.label() }}
+      {{ form.u209(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u210.label() }}
+      {{ form.u210(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u211.label() }}
+      {{ form.u211(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u212.label() }}
+      {{ form.u212(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u213.label() }}
+      {{ form.u213(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u214.label() }}
+      {{ form.u214(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u215.label() }}
+      {{ form.u215(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u216.label() }}
+      {{ form.u216(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u217.label() }}
+      {{ form.u217(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u218.label() }}
+      {{ form.u218(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u219.label() }}
+      {{ form.u219(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u220.label() }}
+      {{ form.u220(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u221.label() }}
+      {{ form.u221(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u222.label() }}
+      {{ form.u222(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u223.label() }}
+      {{ form.u223(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u224.label() }}
+      {{ form.u224(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u225.label() }}
+      {{ form.u225(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u226.label() }}
+      {{ form.u226(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u227.label() }}
+      {{ form.u237(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u228.label() }}
+      {{ form.u228(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u229.label() }}
+      {{ form.u229(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u230.label() }}
+      {{ form.u230(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u231.label() }}
+      {{ form.u231(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u232.label() }}
+      {{ form.u232(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u233.label() }}
+      {{ form.u233(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u234.label() }}
+      {{ form.u234(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u235.label() }}
+      {{ form.u235(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u236.label() }}
+      {{ form.u236(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u237.label() }}
+      {{ form.u237(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u238.label() }}
+      {{ form.u238(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u239.label() }}
+      {{ form.u239(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u240.label() }}
+      {{ form.u240(class="form-control my-2", autocomplete="off")}}
+    
+      {{ form.u241.label() }}
+      {{ form.u241(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u242.label() }}
+      {{ form.u242(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u243.label() }}
+      {{ form.u243(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u244.label() }}
+      {{ form.u244(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u245.label() }}
+      {{ form.u245(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u246.label() }}
+      {{ form.u246(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u247.label() }}
+      {{ form.u247(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u248.label() }}
+      {{ form.u248(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u249.label() }}
+      {{ form.u249(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u250.label() }}
+      {{ form.u250(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u251.label() }}
+      {{ form.u251(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u252.label() }}
+      {{ form.u252(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u253.label() }}
+      {{ form.u253(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u254.label() }}
+      {{ form.u254(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u255.label() }}
+      {{ form.u255(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u256.label() }}
+      {{ form.u256(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u257.label() }}
+      {{ form.u257(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u258.label() }}
+      {{ form.u258(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u259.label() }}
+      {{ form.u259(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u260.label() }}
+      {{ form.u260(class="form-control my-2", autocomplete="off")}}
+  
+      {{ form.u261.label() }}
+      {{ form.u261(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u262.label() }}
+      {{ form.u262(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u263.label() }}
+      {{ form.u263(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u264.label() }}
+      {{ form.u264(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u265.label() }}
+      {{ form.u265(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u266.label() }}
+      {{ form.u266(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u267.label() }}
+      {{ form.u267(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u268.label() }}
+      {{ form.u268(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u269.label() }}
+      {{ form.u269(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u270.label() }}
+      {{ form.u270(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u271.label() }}
+      {{ form.u271(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u272.label() }}
+      {{ form.u272(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u273.label() }}
+      {{ form.u273(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u274.label() }}
+      {{ form.u274(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u275.label() }}
+      {{ form.u275(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u276.label() }}
+      {{ form.u276(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u277.label() }}
+      {{ form.u277(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u278.label() }}
+      {{ form.u278(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u279.label() }}
+      {{ form.u279(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u280.label() }}
+      {{ form.u280(class="form-control my-2", autocomplete="off")}}
+    
+      {{ form.u281.label() }}
+      {{ form.u281(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u282.label() }}
+      {{ form.u282(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u283.label() }}
+      {{ form.u283(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u284.label() }}
+      {{ form.u284(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u285.label() }}
+      {{ form.u285(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u286.label() }}
+      {{ form.u286(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u287.label() }}
+      {{ form.u287(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u288.label() }}
+      {{ form.u288(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u289.label() }}
+      {{ form.u289(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u290.label() }}
+      {{ form.u290(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u291.label() }}
+      {{ form.u291(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u292.label() }}
+      {{ form.u292(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u293.label() }}
+      {{ form.u293(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u294.label() }}
+      {{ form.u294(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u295.label() }}
+      {{ form.u295(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u296.label() }}
+      {{ form.u296(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u297.label() }}
+      {{ form.u297(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u298.label() }}
+      {{ form.u298(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u299.label() }}
+      {{ form.u299(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u300.label() }}
+      {{ form.u300(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u301.label() }}
+      {{ form.u301(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u302.label() }}
+      {{ form.u302(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u303.label() }}
+      {{ form.u303(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u304.label() }}
+      {{ form.u304(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u305.label() }}
+      {{ form.u305(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u306.label() }}
+      {{ form.u306(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u307.label() }}
+      {{ form.u307(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u308.label() }}
+      {{ form.u308(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u309.label() }}
+      {{ form.u309(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u310.label() }}
+      {{ form.u310(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u311.label() }}
+      {{ form.u311(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u312.label() }}
+      {{ form.u312(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u313.label() }}
+      {{ form.u313(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u314.label() }}
+      {{ form.u314(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u315.label() }}
+      {{ form.u315(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u316.label() }}
+      {{ form.u316(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u317.label() }}
+      {{ form.u317(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u318.label() }}
+      {{ form.u318(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u319.label() }}
+      {{ form.u319(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u320.label() }}
+      {{ form.u320(class="form-control my-2", autocomplete="off")}}
+    
+      {{ form.u321.label() }}
+      {{ form.u321(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u322.label() }}
+      {{ form.u322(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u323.label() }}
+      {{ form.u323(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u324.label() }}
+      {{ form.u324(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u325.label() }}
+      {{ form.u325(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u326.label() }}
+      {{ form.u326(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u327.label() }}
+      {{ form.u327(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u328.label() }}
+      {{ form.u328(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u329.label() }}
+      {{ form.u329(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u330.label() }}
+      {{ form.u330(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u331.label() }}
+      {{ form.u331(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u332.label() }}
+      {{ form.u332(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u333.label() }}
+      {{ form.u333(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u334.label() }}
+      {{ form.u334(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u335.label() }}
+      {{ form.u335(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u336.label() }}
+      {{ form.u336(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u337.label() }}
+      {{ form.u337(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u338.label() }}
+      {{ form.u338(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u339.label() }}
+      {{ form.u339(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u340.label() }}
+      {{ form.u340(class="form-control my-2", autocomplete="off")}}
+  
+      {{ form.u341.label() }}
+      {{ form.u341(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u342.label() }}
+      {{ form.u342(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u343.label() }}
+      {{ form.u343(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u344.label() }}
+      {{ form.u344(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u345.label() }}
+      {{ form.u345(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u346.label() }}
+      {{ form.u346(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u347.label() }}
+      {{ form.u347(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u348.label() }}
+      {{ form.u348(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u349.label() }}
+      {{ form.u349(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u350.label() }}
+      {{ form.u350(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u351.label() }}
+      {{ form.u351(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u352.label() }}
+      {{ form.u352(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u353.label() }}
+      {{ form.u353(class="form-control my-2", autocomplete="off")}}
+      
+      {{ form.u354.label() }}
+      {{ form.u354(class="form-control my-2", autocomplete="off")}}
+
+      {{ form.u355.label() }}
+      {{ form.u355(class="form-control my-2", autocomplete="off")}}
+
+      <!-- akhir -->
+      
+      {{ form.district_id.label() }}
+      {{ form.district_id(class="form-control my-2")}}
+
+      <br>
+
+      {{ form.submit(class="btn btn-warning btn-large btn-block")}}
+
+    </form>
+
+  </div>
+
+  <br><br><br><br><br>
+
+{% endblock %}
