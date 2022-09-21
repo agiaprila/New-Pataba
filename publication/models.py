@@ -2416,8 +2416,8 @@ class UMKM(db.Model):
   u582 = db.Column(db.Float())
   u583 = db.Column(db.Float())
   u584 = db.Column(db.Float())
-  u585 = db.Column(db.Float())
-  u586 = db.Column(db.Float())
+  # u585 = db.Column(db.Float())
+  # u586 = db.Column(db.Float())
   # ---
   district_id = db.Column(db.Integer(), nullable=True)
 

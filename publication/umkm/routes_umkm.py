@@ -264,7 +264,7 @@ def umkm_add():
                               u229=form.u229.data,
                               u230=form.u230.data,
                               u231=form.u231.data,
-                              U232=form.u232.data,
+                              u232=form.u232.data,
                               u233=form.u233.data,
                               u234=form.u234.data,
                               u235=form.u235.data,
@@ -617,8 +617,8 @@ def umkm_add():
                               u582=form.u582.data,
                               u583=form.u583.data,
                               u584=form.u584.data,
-                              u585=form.u585.data,
-                              u586=form.u586.data,
+                              # u585=form.u585.data,
+                              # u586=form.u586.data,
                               district_id=form.district_id.data
                             )
       print("tambahkan data selesai")

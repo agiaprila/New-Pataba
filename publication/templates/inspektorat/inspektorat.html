@@ -44,7 +44,7 @@
               <th>
                 {{ d.tahun }}
                 {% if current_user.role == 'admin' or current_user.officer_of_agency == 3 %}
-                  <span><a href="{{ url_for('inspektorat_delete', id=d.id) }}" class="btn btn-danger rounded-circle">x</a></span>
+                  <span><a href="{{ url_for('inspektorat_delete', id=d.id) }}" class="btn btn-danger rounded-circle btn-sm">x</a></span>
                 {% endif %}
               </th>
             {% endfor %}

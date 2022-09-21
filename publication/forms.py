@@ -2716,9 +2716,6 @@ class FormDukcapil(FlaskForm):
   u224 = FloatField('- KTP-El')
   u225 = FloatField('- e-KTP')
   u226 = FloatField('Persentase Kepemilikan Akte Kelahiran')
-
-
-
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
   submit = SubmitField('Tambahkan')

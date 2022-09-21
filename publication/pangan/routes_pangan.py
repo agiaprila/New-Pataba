@@ -264,7 +264,7 @@ def pangan_add():
                               u229=form.u229.data,
                               u230=form.u230.data,
                               u231=form.u231.data,
-                              U232=form.u232.data,
+                              u232=form.u232.data,
                               u233=form.u233.data,
                               u234=form.u234.data,
                               u235=form.u235.data,
