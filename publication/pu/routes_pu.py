@@ -1,5 +1,5 @@
 from publication import app, db
-from publication.models import Districts, PU
+from publication.models import PU2, Districts, PU
 from flask import render_template, flash, redirect, url_for, request
 from publication.forms import FormPU
 from flask_login import current_user, login_required
@@ -8,13 +8,13 @@ from flask_login import current_user, login_required
 # pu (Kota)
 @app.route('/publikasi/pu')
 def pu():
-  data = PU.query.filter_by(district_id=None).order_by(PU.tahun).all()
+  data = PU2.query.filter_by(district_id=None).order_by(PU2.tahun).all()
   return render_template('pu/pu.html', data=data)
 
 # pu (Kecamatan)
 @app.route('/publikasi/pu/<int:district_id>')
 def pu_kec(district_id):
-  data = PU.query.filter_by(district_id=district_id).order_by( PU.tahun).all()
+  data = PU2.query.filter_by(district_id=district_id).order_by(P2U.tahun).all()
   district_name = Districts.query.filter_by(id=district_id).first()
   return render_template('pu/pu_kec.html', data=data, district_id=district_id, district_name=district_name)
 
@@ -29,7 +29,7 @@ def pu_add():
         form.district_id.data = eval(form.district_id.data)
       else:
         form.district_id.data = int(form.district_id.data)
-      rows_to_create = PU(tahun=form.tahun.data,
+      rows_to_create = PU2(tahun=form.tahun.data,
                               u1=form.u1.data,
                               u2=form.u2.data,
                               u3=form.u3.data,
@@ -224,7 +224,7 @@ def pu_add():
 @app.route('/publikasi/pu/delete/<int:id>')
 @login_required
 def pu_delete(id):
-  row_to_delete = PU.query.filter_by(id=id).first()
+  row_to_delete = PU2.query.filter_by(id=id).first()
   if current_user.role == 'admin' or current_user.officer_of_agency == 7 or current_user.officer_of_agency == None:
     db.session.delete(row_to_delete)
     db.session.commit()
