@@ -266,7 +266,7 @@ class FormSetda(FlaskForm):
   u236 = FloatField('Penyediaan Kebutuhan Rumah Tangga Sekretariat Daerah')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormDprd(FlaskForm):
   tahun = IntegerField('Tahun', validators=[DataRequired()])
@@ -318,7 +318,7 @@ class FormDprd(FlaskForm):
   u45 = FloatField('Perempuan')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormInspektorat(FlaskForm):
   # bagian pemerintahan
@@ -346,7 +346,7 @@ class FormInspektorat(FlaskForm):
   u20 = FloatField('Jumlah Pengaduan Masyarakat yang Ditindaklanjuti')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPendidikan(FlaskForm):
   # bagian pemerintahan
@@ -615,7 +615,7 @@ class FormPendidikan(FlaskForm):
   u251 = FloatField('b. Sekolah Menengah Pertama')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormDinkes(FlaskForm):
   # bagian pemerintahan
@@ -655,61 +655,61 @@ class FormDinkes(FlaskForm):
   u32 = FloatField('Jumlah Warga Negara terduga tuberculosis yang mendapatkan layanan kesehatan')
   u33 = FloatField('Pelayanan kesehatan orang dengan risiko terinfeksi virus yang melemahkan daya tahan tubuh manusia (Human Immunodeficiency Virus)')
   u34 = FloatField('Jumlah Warga Negara dengan risiko terinfeksi virus yang melemahkan daya tahan tubuh manusia (Human Immunodeficiency Virus) yang mendapatkan layanan kesehatan')
-  u35 = FloatField('a. Target Nasional')
+  u35 = StringField('a. Target Nasional')
   u36 = FloatField('b. Capaian Nasional')
-  u37= FloatField('c. Target Kota')
+  u37= StringField('c. Target Kota')
   u38 = FloatField('d. Capaian Kota')
-  u39 = FloatField('a. Target Nasional')
+  u39 = StringField('a. Target Nasional')
   u40 = FloatField('b. Capaian Nasional')
-  u41 = FloatField('c. Target Kota')
+  u41 = StringField('c. Target Kota')
   u42 = FloatField('d. Capaian Kota')
-  u43 = FloatField('a. Target Nasional')
+  u43 = StringField('a. Target Nasional')
   u44 = FloatField('b. Capaian Nasional')
-  u45 = FloatField('c. Target Kota')
+  u45 = StringField('c. Target Kota')
   u46 = FloatField('d. Capaian Kota')
-  u47 = FloatField('a. Target Nasional')
+  u47 = StringField('a. Target Nasional')
   u48 = FloatField('b. Capaian Nasional')
-  u49 = FloatField('c. Target Kota')
+  u49 = StringField('c. Target Kota')
   u50 = FloatField('d. Capaian Kota')
-  u51 = FloatField('a. Target Nasional')
+  u51 = StringField('a. Target Nasional')
   u52 = FloatField('b. Capaian Nasional')
-  u53 = FloatField('c. Target Kota')
+  u53 = StringField('c. Target Kota')
   u54 = FloatField('d. Capaian Kota')
-  u55 = FloatField('a. Target Nasional')
+  u55 = StringField('a. Target Nasional')
   u56 = FloatField('b. Capaian Nasional')
-  u57 = FloatField('c. Target Kota')
+  u57 = StringField('c. Target Kota')
   u58 = FloatField('d. Capaian Kota')
-  u59 = FloatField('a. Target Nasional')
+  u59 = StringField('a. Target Nasional')
   u60 = FloatField('b. Capaian Nasional')
-  u61 = FloatField('c. Target Kota')
+  u61 = StringField('c. Target Kota')
   u62 = FloatField('d. Capaian Kota')
-  u63 = FloatField('a. Target Nasional')
+  u63 = StringField('a. Target Nasional')
   u64 = FloatField('b. Capaian Nasional')
-  u65 = FloatField('c. Target Kota')
+  u65 = StringField('c. Target Kota')
   u66 = FloatField('d. Capaian Kota')
-  u67 = FloatField('a. Target Nasional')
+  u67 = StringField('a. Target Nasional')
   u68 = FloatField('b. Capaian Nasional')
-  u69 = FloatField('c. Target Kota')
+  u69 = StringField('c. Target Kota')
   u70 = FloatField('d. Capaian Kota')
-  u71 = FloatField('a. Target Nasional')
+  u71 = StringField('a. Target Nasional')
   u72 = FloatField('b. Capaian Nasional')
-  u73 = FloatField('c. Target Kota')
+  u73 = StringField('c. Target Kota')
   u74 = FloatField('d. Capaian Kota')
-  u75 = FloatField('a. Target Nasional')
+  u75 = StringField('a. Target Nasional')
   u76 = FloatField('b. Capaian Nasional')
-  u77 = FloatField('c. Target Kota')
+  u77 = StringField('c. Target Kota')
   u78 = FloatField('d. Capaian Kota')
-  u79 = FloatField('a. Target Nasional')
+  u79 = StringField('a. Target Nasional')
   u80 = FloatField('b. Capaian Nasional')
-  u81 = FloatField('c. Target Kota')
+  u81 = StringField('c. Target Kota')
   u82 = FloatField('d. Capaian Kota')
-  u83 = FloatField('a. Target Nasional')
+  u83 = StringField('a. Target Nasional')
   u84 = FloatField('b. Capaian Nasional')
-  u85 = FloatField('c. Target Kota')
+  u85 = StringField('c. Target Kota')
   u86 = FloatField('d. Capaian Kota')
-  u87 = FloatField('a. Target Nasional')
+  u87 = StringField('a. Target Nasional')
   u88 = FloatField('b. Capaian Nasional')
-  u89 = FloatField('c. Target Kota')
+  u89 = StringField('c. Target Kota')
   u90 = FloatField('d. Capaian Kota')
   u91 = FloatField('Jumlah Kasus Penyakit')
   u92 = FloatField('Jumlah Rumah Sakit')
@@ -978,7 +978,7 @@ class FormDinkes(FlaskForm):
   u355 = FloatField('b. Konfirmasi Covid-19')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormAnutapura(FlaskForm):
   # bagian pemerintahan
@@ -1013,7 +1013,7 @@ class FormAnutapura(FlaskForm):
   u27 = FloatField('Teknik Medis')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPU(FlaskForm):
   # bagian pemerintahan
@@ -1177,14 +1177,14 @@ class FormPU(FlaskForm):
   u156 = FloatField('Pertumbuhan Kontribusi Sektor Konstruksi dalam PDRB atas dasar harga konstan (Hk)')
   u157 = FloatField('Nilai dan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan')
   u158 = FloatField('Nilai dan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku')
-  u159 = FloatField('Persentase perkembangan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku (Hb)')
-  u160 = FloatField('Persentase perkembangan Kontribusi Sektor AIr Bersih dalam PDRB atas dasar harga konstan (Hk)')
-  u161 = FloatField('Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga')
-  u162 = FloatField('Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan (Hk)')
-  u163 = FloatField('Persentase perkembangan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku (Hb)')
-  u164 = FloatField('Persentase perkembangan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan (Hk)')
-  u165 = FloatField('Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku (HB)')
-  u166 = FloatField('Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan (HK)')
+  u159 = StringField('Persentase perkembangan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku (Hb)')
+  u160 = StringField('Persentase perkembangan Kontribusi Sektor AIr Bersih dalam PDRB atas dasar harga konstan (Hk)')
+  u161 = StringField('Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga')
+  u162 = StringField('Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan (Hk)')
+  u163 = StringField('Persentase perkembangan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku (Hb)')
+  u164 = StringField('Persentase perkembangan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan (Hk)')
+  u165 = StringField('Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga berlaku (HB)')
+  u166 = StringField('Pertumbuhan Kontribusi Sektor Air Bersih dalam PDRB atas dasar harga konstan (HK)')
   u167 = FloatField('Indikator SPM Bidang Pekerjaan Umum')
   u168 = FloatField('Pemenuhan kebutuhan air minum curah lintas Kabupaten/Kota')
   u169 = FloatField('Jumlah Warga Negara yang memperoleh kebutuhan air minum curah lintas Kabupaten/Kota')
@@ -1198,7 +1198,7 @@ class FormPU(FlaskForm):
   u177 = FloatField('Rasio Ruang Terbuka Hijau per Satuan Luas Wilayah ber HPL atau HGB')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPertanahan(FlaskForm):
   # bagian pemerintahan
@@ -1302,7 +1302,7 @@ class FormPertanahan(FlaskForm):
   u96 = FloatField('Rasio Ruang Terbuka Hijau per Satuan Luas Wilayah ber HPL Atau HGB')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPemukiman(FlaskForm):
   # bagian pemerintahan
@@ -1480,7 +1480,7 @@ class FormPemukiman(FlaskForm):
   u170 = FloatField('Kecamatan Tawaeli')
     # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormSatpol(FlaskForm):
   # bagian pemerintahan
@@ -1534,7 +1534,7 @@ class FormSatpol(FlaskForm):
   u46 = FloatField('Jumlah Pemenuhan PPNS di Satpol PP sesuai Rasio')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPemadam(FlaskForm):
   # bagian pemerintahan
@@ -1670,7 +1670,7 @@ class FormPemadam(FlaskForm):
   u128 = FloatField('Desember')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormSosial(FlaskForm):
   # bagian pemerintahan
@@ -1821,7 +1821,7 @@ class FormSosial(FlaskForm):
   u143 = FloatField('b. Swasta')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormUMKM(FlaskForm):
   # bagian pemerintahan
@@ -2414,7 +2414,7 @@ class FormUMKM(FlaskForm):
   u584 = FloatField('Perempuan')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPerdagangan(FlaskForm):
   # bagian pemerintahan
@@ -2484,7 +2484,7 @@ class FormPerdagangan(FlaskForm):
   u62 = FloatField('- Bengkel Motor')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormDukcapil(FlaskForm):
   # bagian pemerintahan
@@ -2718,7 +2718,7 @@ class FormDukcapil(FlaskForm):
   u226 = FloatField('Persentase Kepemilikan Akte Kelahiran')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPangan(FlaskForm):
   # bagian pemerintahan
@@ -3301,7 +3301,7 @@ class FormPangan(FlaskForm):
   u575 = FloatField('UBI JALAR')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormKearsipan(FlaskForm):
   # bagian pemerintahan
@@ -3347,7 +3347,7 @@ class FormKearsipan(FlaskForm):
   u37 = FloatField('7	Taman Baca Masyarakat (TBM)')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormDispora(FlaskForm):
   # bagian pemerintahan
@@ -3386,7 +3386,7 @@ class FormDispora(FlaskForm):
   u31 = FloatField('b. Jumlah seluruh atlit pelajar')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPPPA(FlaskForm):
   # bagian pemerintahan
@@ -3594,7 +3594,7 @@ class FormPPPA(FlaskForm):
   u200 = FloatField('Jumlah kekerasan terhadap anak menurut jenis perkara')
     # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPPKB(FlaskForm):
   # bagian pemerintahan
@@ -3925,7 +3925,7 @@ class FormPPKB(FlaskForm):
   u323 = FloatField('Jumlah Pencapaian Akseptor Baru')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormLingkungan(FlaskForm):
   # bagian pemerintahan
@@ -3996,7 +3996,7 @@ class FormLingkungan(FlaskForm):
   u63 = FloatField('Tempat Pembuangan Limbah Septic tank')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormModal(FlaskForm):
   # bagian pemerintahan
@@ -4028,7 +4028,7 @@ class FormModal(FlaskForm):
   u24 = FloatField('d. Persyarat Dasar')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan') 
+  submit = SubmitField('Simpan') 
 
 class FormPariwisata(FlaskForm):
   # bagian pemerintahan
@@ -4176,7 +4176,7 @@ class FormPariwisata(FlaskForm):
   u140 = FloatField('Desember')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormDishub(FlaskForm):
   # bagian pemerintahan
@@ -4293,7 +4293,7 @@ class FormDishub(FlaskForm):
   u109 = FloatField('- Transit')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormKominfo(FlaskForm):
   # bagian pemerintahan
@@ -4355,7 +4355,7 @@ class FormKominfo(FlaskForm):
   u54 = FloatField('OPD yang menggunakan data statistik dalam melakukan monitoring dan evaluasi pembangunan daerah')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormBappeda(FlaskForm):
   # bagian pemerintahan
@@ -4387,7 +4387,7 @@ class FormBappeda(FlaskForm):
   u24 = FloatField('B. Dokumen RTRW')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormKepegawaian(FlaskForm):
   # bagian pemerintahan
@@ -4666,7 +4666,7 @@ class FormKepegawaian(FlaskForm):
   u271 = FloatField('c. 30 Tahun')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormAset(FlaskForm):
   # bagian pemerintahan
@@ -4765,8 +4765,10 @@ class FormAset(FlaskForm):
   u91 = FloatField('b.Total APBD')
   u92 = FloatField('Perbandingan antara belanja langsung dengan APBD')
   u93 = FloatField('Perbandingan antara  belanja tidak langsung dengan APBD')
-  u94 = FloatField('a.Jumlah Belanja  Langsung')
-  u95 = FloatField('b.Jumlah Belanja  Tidak Langsung')
+  u94 = FloatField('a.Jumlah Belanja Langsung')
+  u95 = FloatField('b.Jumlah Belanja Tidak Langsung')
+  addition1 = FloatField('Perbandingan antara belanja Operasional dengan APBD')
+  addition2 = FloatField('a. Jumlah Belanja Operasional')
   u96 = FloatField('b.Total APBD')
   u97 = FloatField('Bagi hasil Kabupaten/Kota dan Desa')
   u98 = FloatField('a.Jumlah Belanja Bagi Hasil Kab/kota/desa')
@@ -4774,7 +4776,7 @@ class FormAset(FlaskForm):
   u100 = StringField('Penetapan APBD')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPendapatan(FlaskForm):
   # bagian pemerintahan
@@ -4892,7 +4894,7 @@ class FormPendapatan(FlaskForm):
   u110 = FloatField('m. Belanja Modal/Capital Expenditure')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormPenelitian(FlaskForm):
   # bagian pemerintahan
@@ -4940,7 +4942,7 @@ class FormPenelitian(FlaskForm):
   u40 = FloatField('Jumlah Hak Kekayaan Intelektual yang diterbitkan')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormKesatuan(FlaskForm):
   # bagian pemerintahan
@@ -5046,7 +5048,7 @@ class FormKesatuan(FlaskForm):
   u98 = FloatField('Tawaeli	')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormBencana(FlaskForm):
   # bagian pemerintahan
@@ -5142,7 +5144,7 @@ class FormBencana(FlaskForm):
   u88 = FloatField('Persentase korban bencana yang dievakuasi dengan mengunakan sarana prasarana tanggap darurat lengkap')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')
 
 class FormKawasan(FlaskForm):
   # bagian pemerintahan
@@ -5187,4 +5189,4 @@ class FormKawasan(FlaskForm):
   u37 = FloatField('Jumlah Tenaga Kerja')
   # ---
   district_id = SelectField('Kecamatan', choices=[(None, 'Kota Palu'), (1, 'Palu Barat'), (2, 'Palu Selatan'), (3, 'Tatanga'), (4, 'Ulujadi'), (5, 'Mantikulore'), (6, 'Palu Timur'), (7, 'Palu Utara'), (8, 'Tawaili')])
-  submit = SubmitField('Tambahkan')
+  submit = SubmitField('Simpan')

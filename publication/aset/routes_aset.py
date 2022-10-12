@@ -1,5 +1,5 @@
 from publication import app, db
-from publication.models import Districts, Aset
+from publication.models import Aset2, Districts, Aset
 from flask import render_template, flash, redirect, url_for, request
 from publication.forms import FormAset
 from flask_login import current_user, login_required
@@ -8,13 +8,14 @@ from flask_login import current_user, login_required
 # aset (Kota)
 @app.route('/publikasi/aset')
 def aset():
-  data = Aset.query.filter_by(district_id=None).order_by(Aset.tahun).all()
+  data = Aset2.query.filter_by(district_id=None).order_by(Aset2.tahun).all()
+  print("DATA", data)
   return render_template('aset/aset.html', data=data)
 
 # aset (Kecamatan)
 @app.route('/publikasi/aset/<int:district_id>')
 def aset_kec(district_id):
-  data = Aset.query.filter_by(district_id=district_id).order_by(Aset.tahun).all()
+  data = Aset2.query.filter_by(district_id=district_id).order_by(Aset2.tahun).all()
   # id_path = int(str(request.path)[-1])
   district_name = Districts.query.filter_by(id=district_id).first()
   # return render_template('aset/aset_kec.html', data=data, district_id=district_id, id_path=id_path, district_name=district_name)
@@ -32,7 +33,8 @@ def aset_add():
       else:
         form.district_id.data = int(form.district_id.data)
 #      if current_user.role == 'admin' or current_user.officer_of_district == form.district_id.data:
-      rows_to_create = Aset(tahun=form.tahun.data,
+      # print("AAA", form.u951.data)
+      rows_to_create = Aset2(tahun=form.tahun.data,
                               u1=form.u1.data,
                               u2=form.u2.data,
                               u3=form.u3.data,
@@ -128,6 +130,8 @@ def aset_add():
                               u93=form.u93.data,
                               u94=form.u94.data,
                               u95=form.u95.data,
+                              addition1=form.addition1.data,
+                              addition2=form.addition2.data,
                               u96=form.u96.data,
                               u97=form.u97.data,
                               u98=form.u98.data,
@@ -154,7 +158,7 @@ def aset_add():
 @app.route('/publikasi/aset/delete/<int:id>')
 @login_required
 def aset_delete(id):
-  row_to_delete = Aset.query.filter_by(id=id).first()
+  row_to_delete = Aset2.query.filter_by(id=id).first()
   if current_user.role == 'admin' or current_user.officer_of_agency == 28:
 #    if current_user.role == 'admin' or current_user.officer_of_district == row_to_delete.district_id:
     db.session.delete(row_to_delete)

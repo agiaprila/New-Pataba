@@ -1,5 +1,5 @@
 from publication import app, db
-from publication.models import Districts, Dinkes
+from publication.models import Districts, Dinkes2
 from flask import render_template, flash, redirect, url_for, request
 from publication.forms import FormDinkes
 from flask_login import current_user, login_required
@@ -8,13 +8,13 @@ from flask_login import current_user, login_required
 # dinkes (Kota)
 @app.route('/publikasi/dinkes')
 def dinkes():
-  data = Dinkes.query.filter_by(district_id=None).order_by(Dinkes.tahun).all()
+  data = Dinkes2.query.filter_by(district_id=None).order_by(Dinkes2.tahun).all()
   return render_template('dinkes/dinkes.html', data=data)
 
 # dinkes (Kecamatan)
 @app.route('/publikasi/dinkes/<int:district_id>')
 def dinkes_kec(district_id):
-  data = Dinkes.query.filter_by(district_id=district_id).order_by(Dinkes.tahun).all()
+  data = Dinkes2.query.filter_by(district_id=district_id).order_by(Dinkes2.tahun).all()
   # id_path = int(str(request.path)[-1])
   district_name = Districts.query.filter_by(id=district_id).first()
   # return render_template('dinkes/dinkes_kec.html', data=data, district_id=district_id, id_path=id_path, district_name=district_name)
@@ -32,7 +32,7 @@ def dinkes_add():
       else:
         form.district_id.data = int(form.district_id.data)
 #      if current_user.role == 'admin' or current_user.officer_of_district == form.district_id.data:
-      rows_to_create = Dinkes(tahun=form.tahun.data,
+      rows_to_create = Dinkes2(tahun=form.tahun.data,
                               u1=form.u1.data,
                               u2=form.u2.data,
                               u3=form.u3.data,
@@ -409,7 +409,7 @@ def dinkes_add():
 @app.route('/publikasi/dinkes/delete/<int:id>')
 @login_required
 def dinkes_delete(id):
-  row_to_delete = Dinkes.query.filter_by(id=id).first()
+  row_to_delete = Dinkes2.query.filter_by(id=id).first()
   if current_user.role == 'admin' or current_user.officer_of_agency == 5:
 #    if current_user.role == 'admin' or current_user.officer_of_district == row_to_delete.district_id:
     db.session.delete(row_to_delete)

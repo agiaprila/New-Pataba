@@ -829,11 +829,17 @@
             <td></td>
             <td>Perbandingan antara  belanja Operasional dengan APBD</td>
             <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.addition1 }}</td>
+            {% endfor %}
           </tr>
           <tr>
             <td></td>
             <td>a.Jumlah Belanja Operasional</td>
             <td>Unit</td>
+            {% for d in data %}
+            <td>{{ d.addition2 }}</td>
+            {% endfor %}
           </tr>
           <tr>
             <td></td>
